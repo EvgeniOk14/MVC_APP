@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import javax.swing.plaf.PanelUI;
+
 
 
 @Controller
@@ -43,12 +41,13 @@ public class PeopleController
     @GetMapping("people/new")
     public String newPerson(@ModelAttribute("person") Person person)
     {
-//        model.addAttribute("person", new Person());
+        // создание нового человека
         return "people/new";
     }
     @PostMapping("people")
     public String create(@ModelAttribute("person") Person person)
     {
+        // сохранение данных
         personDAO.save(person);
         return "redirect:people";
     }
@@ -56,6 +55,7 @@ public class PeopleController
     @GetMapping("people/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id)
     {
+        // редактировани человека по id
         model.addAttribute("person", personDAO.show(id));
         return "people/edit";
     }
@@ -64,6 +64,7 @@ public class PeopleController
     @PostMapping("people/{id}")
     public String update(@ModelAttribute("person") Person person, @PathVariable("id") int id)
     {
+        // обновление данных о человеке
         personDAO.update(id, person);
         return "redirect:/people";
     }
@@ -71,6 +72,7 @@ public class PeopleController
     @DeleteMapping("people/{id}")
     public String delete(@PathVariable("id") int id)
     {
+        //удаление человека
         personDAO.delete(id);
         return "redirect/people";
     }

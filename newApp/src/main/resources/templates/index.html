@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Spring Boot App</title>
+</head>
+<body>
+<h1>Добро пожаловать в моё приложение!</h1>
+
+<form th:action="@{/showAllUsers}" method="post">
+    <button type="submit">Показать всех пользователей</button>
+</form>
+
+
+<p th:text="${resultMessage}"></p>
+
+<textarea id="textArea1" th:if="${users}" th:readonly="true">
+    <!-- Thymeleaf для итерации по списку пользователей и вывода информации -->
+    <th:block th:each="user : ${users}">
+        <p th:text="${user.toString()}"></p>
+    </th:block>
+</textarea>
+
+<form action="#" th:action="@{/processRequest}" th:object="${myForm}" method="post">
+    <button type="submit">Пока пустой метод</button>
+</form>
+
+<!-- Вывод результата запроса -->
+
+<p th:text="${resultMessage}"></p>
+</body>
+</html>

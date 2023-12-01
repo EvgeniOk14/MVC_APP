@@ -1,11 +1,25 @@
 package com.example.daocrud.models;
 
+import jakarta.validation.constraints.*;
+
 public class Person {
     //region fields
     private int id;
+    @NotEmpty(message = "Поле не должно быть пустым! ")
+    @Size(min = 2, max = 30, message = "имя должно содержать от 2 до 30 символов! ")
     private String name;
+
+    @NotEmpty(message = "Поле не должно быть пустым! ")
     private String surname;
+
+
+    @NotNull(message = "Графу возраст необходмо заполнить! ") // для типа int применяеться @NotNull
+    @Max(value = 300, message = "Возраст не может быть более 300 лет!")
+    @Min(value = 0, message = "возраст должен быть больше 0! ")
     private int age;
+
+    @NotEmpty(message = "Поле не должно быть пустым! ")
+    @Email(message = "почта должна соответствовать требованиям email! ")
     private String email;
 
     //endregion

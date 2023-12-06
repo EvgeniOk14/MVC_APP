@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @Controller
 public class PeopleController
 {
@@ -27,13 +26,15 @@ public class PeopleController
     }
     //endregion
 
-    @GetMapping("/people")
+//    @GetMapping("/people")
+    @GetMapping("/")
     public String index(Model model)
     {
         // получим всех дюдей из DAO и передадим их на отображение в представление
         model.addAttribute("people", personDAO.index());
         return "people/index";
     }
+
 
     /** показать всех людей **/
     @GetMapping("people/{id}")
@@ -44,13 +45,17 @@ public class PeopleController
         return "people/show";
     }
 
+
     /** создать нового человека **/
     @GetMapping("people/new")
     public String newPerson(@ModelAttribute("person") Person person)
     {
         // создание нового человека
         return "people/new";
+
     }
+
+
 
     /** метод создания нового человека и сохранения созданных данных **/
     @PostMapping("people")
@@ -60,15 +65,17 @@ public class PeopleController
             // пришедших с формы данных
             // и если есть ошибки то возврат к созданию нового человека
             return "people/new"; //  возврат к созданию нового человека
-
         // сохранение данных
         personDAO.save(person);
-        return "redirect:people";
+//       return "redirect:people";
+        return "redirect:/";
+
     }
 
 
     /** редактирование человека по GET запросу: people/id/edit **/
-    @GetMapping("people/{id}/edit") // метод помечен как GET запрос, доступный по адресу URL: people/id/edit
+   // @GetMapping("people/{id}/edit") // метод помечен как GET запрос, доступный по адресу URL: people/id/edit
+    @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) // извлекаем id из url адреса @PathVariable
     // и затем этот id  помещаем в аргумент int id в метод edit()
     {
@@ -83,8 +90,10 @@ public class PeopleController
     }
 
 
+
+
     /** метод обновления данных о человеке **/
-    //@PatchMapping("people/{id}")
+
     @PostMapping("people/{id}") // метод доступен по URL адресу: people/id
     public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult, @PathVariable("id") int id)
     {
@@ -92,17 +101,19 @@ public class PeopleController
             return "people/edit";
         // обновление данных о человеке
         personDAO.update(id, person);
-        return "redirect:/people";
+//        return "redirect:/people";
+        return "redirect:/";
     }
 
 
     /** удаление человека **/
-    //@DeleteMapping
-    @DeleteMapping("people/{id}") // метод доступен по URL адресу: people/id
+    @PostMapping("/{id}") // метод доступен по URL адресу: people/id
+    //@DeleteMapping("people/{id}") // метод доступен по URL адресу: people/id
     public String delete(@PathVariable("id") int id)
     {
         //удаление человека
         personDAO.delete(id);
-        return "redirect/people";
+
+        return "redirect:/";
     }
 }

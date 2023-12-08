@@ -2,25 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>3.2.0</version>
         <relativePath/> <!-- lookup parent from repository -->
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot -->
     </parent>
-
     <groupId>com.example</groupId>
-    <artifactId>DaoCrud</artifactId>
+    <artifactId>DaoCrudJdbcTemplate</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>DaoCrud</name>
-    <description>DaoCrud</description>
+    <name>DaoCrudJdbcTemplate</name>
+    <description>DaoCrudJdbcTemplate</description>
     <properties>
         <java.version>21</java.version>
     </properties>
-
     <dependencies>
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot -->
@@ -181,15 +177,13 @@
 
     </dependencies>
 
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <image>
-                        <builder>paketobuildpacks/builder-jammy-base:latest</builder>
-                    </image>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -200,5 +194,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

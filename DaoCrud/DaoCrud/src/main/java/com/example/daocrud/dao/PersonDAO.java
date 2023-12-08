@@ -25,7 +25,6 @@ public class PersonDAO
         {
             e.printStackTrace();
         }
-
         try
         {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -36,10 +35,7 @@ public class PersonDAO
         }
     }
 
-
-    /**
-     * метод возвращает всех людей из БД в представление (форма не используеться!)
-     **/
+    /** метод возвращает всех людей из БД в представление (форма не используеться!) **/
     public List<Person> index()
     {
         List<Person> people = new ArrayList<>();
@@ -96,25 +92,22 @@ public class PersonDAO
             throwables.printStackTrace();
         }
         return person;
-        // return people.stream().filter(person -> person.getId() == id).findAny().orElse(null);
     }
 
     /** метод сохранят всех пользователей (данные приходят с формы!) **/
     public void save(Person person)
     {
-            try
-            {
-                String SQL = "INSERT INTO Person (id, name, surname, age, email) VALUES (?, ?, ?, ?, ?)";
-                PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+        try
+        {
+            String SQL = "INSERT INTO Person (name, surname, age, email) VALUES (?, ?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.setString(1, person.getName());
+            preparedStatement.setString(2, person.getSurname());
+            preparedStatement.setInt(3, person.getAge());
+            preparedStatement.setString(4, person.getEmail());
 
-                preparedStatement.setInt(1, person.getId());  // или любой другой способ генерации ID
-                preparedStatement.setString(2, person.getName());
-                preparedStatement.setString(3, person.getSurname());
-                preparedStatement.setInt(4, person.getAge());
-                preparedStatement.setString(5, person.getEmail());
-
-                preparedStatement.executeUpdate();
-            }
+            preparedStatement.executeUpdate();
+        }
 
         catch (SQLException throwables)
         {
@@ -122,16 +115,9 @@ public class PersonDAO
         }
     }
 
-
     /** метод обновляет всех пользователей **/
     public void update(int id, Person updatedPerson)
     {
-//            Person personToBeUdated = show(id);
-//            personToBeUdated.setName(updatedPerson.getName());
-//            personToBeUdated.setSurname(updatedPerson.getSurname());
-//            personToBeUdated.setAge(updatedPerson.getAge());
-//            personToBeUdated.setEmail(updatedPerson.getEmail());
-
         try
         {
             String SQL = "UPDATE Person SET name=?, surname=?, age=?, email=? WHERE id=?";
@@ -154,18 +140,17 @@ public class PersonDAO
     public void delete(int id)
     {
         PreparedStatement preparedStatement = null;
-//        people.removeIf(person -> person.getId() == id);
-        try {
+        try
+        {
             String SQL = "DELETE FROM Person WHERE id=?";
             preparedStatement = connection.prepareStatement(SQL);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
+        }
+        catch (SQLException throwables)
+        {
             throwables.printStackTrace();
         }
-
     }
-
-
 }

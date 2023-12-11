@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Человек</title>
+       <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+
+    </head>
+
+    <body>
+    <p th:text="${'ID: ' + person.getId()}">VALUE</p>
+    <p th:text="${'Имя: ' + person.getName()}">VALUE</p>
+    <p th:text="${'Фамилия: ' + person.getSurname()}">VALUE</p>
+    <p th:text="${'Возраст: ' + person.getAge()}">VALUE</p>
+    <p th:text="${'email: ' + person.getEmail()}">VALUE</p>
+
+      <!--  <a th:href="@{/{id}/edit (id=${person.getId()})}">Edit</a>  раньше была ссылка на редактирование edit  -->
+
+        <!-- редактирование человека edit -->
+        <form th:method="get" th:action="@{/{id}/edit (id=${person.getId()})}">
+            <button class="edit" type="submit">Edit</button>
+        </form>
+
+
+        <!-- удаление пользователя по id -->
+        <form th:method="delete" th:action="@{/{id}(id=${person.getId()})}">
+           <!-- <input type="submit" value="Delete"/>  можно кнопку описать через input-->
+            <button class="Delete" type="submit">Delete</button>
+        </form>
+
+
+        <!-- переход к полному выводу данных и БД -->
+        <form th:method="get" th:action="@{/}" >
+            <button class="repeat" type="submit">All people</button>
+        </form>
+
+    </body>
+</html>

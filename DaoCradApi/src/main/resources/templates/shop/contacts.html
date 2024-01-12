@@ -1,0 +1,98 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Контакты</title>
+        <link href="../../static/scc/shop.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+    <header class="header">
+
+        <div class="logo">
+            <!-- логотип расположен здесь -->
+            <img src="../../static/img/логотип/logotip.jpg" alt="Логотип">
+
+        </div>
+
+        <div class="store-name">
+            <h1>Магазин спортивной одежды "Спорт-Лидер"</h1>
+        </div>
+
+        <div class="registration">
+            <a th:href="@{shop/registration}">войти</a>
+            <p th:text="${message}"></p>
+        </div>
+
+    </header>
+
+
+    <nav class="navigation">
+        <ul>
+            <li><a href="/">Главная</a></li>
+            <li><a href="/catalog">Каталог</a></li>
+            <li><a href="/contacts">Контакты</a></li>
+            <li><a href="#">Корзина</a></li>
+            <li><a href="#">Доставка</a></li>
+        </ul>
+    </nav>
+
+
+    <h3 class="Наши контакты">Наши контакты</h3>
+
+    <h5>Наши адрес и Контакты:</h5>
+    <p>
+    <ol>
+        <i>
+            <li>Телефон: +7-928-777-777-77-77</li>
+            <li>Адрес: г.Таганрог, ул.Пархоменко 5-2</li>
+            <li>Email: sportweartaganrog@mail.ru</li>
+        </i>
+    </ol>
+    </p>
+
+    <form action="/contacts" method="post" th:action="@{/contacts/getform}" th:object="${messageEntity}">
+        <fieldset>
+            <legend>Напишите нам:</legend>
+            <P>
+                <label for="name">Введите Ваше имя:</label><br>
+                <input type="text" th:field="*{name}" id="name">
+            </p>
+            <br>
+            <p>
+                <label for="email">Введите ваш email:</label><br>
+                <input required type="email" th:field="*{email}" id="email">
+            </P>
+            <br>
+            <p>
+                <label for="item">Введите тему сообщения:</label><br>
+                <input name="theme" type="text" th:field="*{theme}" id="item">
+            </P>
+            <br>
+            <p>
+                <label for="date">Введите дату:</label><br>
+                <input name="messagedata" type="date" th:field="*{messageDate}" id="date">
+            </P>
+            <br>
+            <label for="point">Суть Вашего письма:</label><br>
+            <textarea cols="30" rows="5" th:field="*{messageContent}" maxlength="30" id="point"></textarea>
+
+            <button type="submit">отправить</button>
+        </fieldset>
+    </form>
+
+    <br>
+
+        <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A5395c43501fcb83eedccf55e9ffae9977300dbe3c4fbc820046aa37d1f395238&amp;width=100%25&amp;height=720&amp;lang=ru_RU&amp;scroll=true"></script>
+
+    </body>
+    <footer class="footer">
+
+        <p class="права">&copy; "Все права защищены"</p>
+
+    </footer>
+</html>

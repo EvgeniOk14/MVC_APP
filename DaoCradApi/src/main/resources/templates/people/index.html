@@ -1,4 +1,4 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head>
         <meta charset="UTF-8">
@@ -6,7 +6,7 @@ DOCTYPE html>
     </head>
     <body>
         <div th:each="person : ${people}">
-            <a th:href="@{/people/{id}(id=${person.id})}"  th:text="${person.name + ', ' + person.age}">user</a>
+            <a th:href="@{/people/{id} (id=${person.id})}"  th:text="${person.name + ', ' + person.age}">user</a>
         </div>
             <br>
             <hr/>

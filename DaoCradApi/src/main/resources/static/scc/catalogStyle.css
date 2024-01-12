@@ -1,0 +1,93 @@
+
+html{
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #FFE4B5;
+}
+
+body{
+    /*height: 100vh;
+    width: 100vw;
+    margin: 0;*/
+    background-image: url("../img/фон/fon5.jpg");
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 34%;
+}
+
+.main{
+    background:
+    url("../img/фон/fon.jpg"),
+    url("../img/фон/fon4.jpg"),
+    #00FFFF;
+
+
+
+    background-size:
+    10%,
+    10%;
+
+    background-repeat:
+    repeat-x,
+    repeat-x;
+
+    background-position:
+    left top,
+    left bottom;
+
+    border: 1px solid black;
+ }
+
+ #f{
+    border: 1px dashed red;
+    border-width: 1px 2px 3px 4px;
+ }
+
+h1{
+    font-size: 20px;
+}
+h2{
+    font-size: 20px;
+}
+
+h3[class="Каталог наших товаров по категориям"]{
+    font-family: 'Roboto', sans-serif;
+    color: red;
+    font-size: 20px;
+    border: 1px solid black;
+    font-variant: small-caps;
+    font-style: italic;
+    /*background: #00FFFF;*/
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f0f9ff+0,cbebff+42,a1dbff+70&0.44+1,1+100 */
+    background: -moz-linear-gradient(top,  rgba(240,249,255,0.44) 0%, rgba(239,249,255,0.44) 1%, rgba(203,235,255,0.67) 42%, rgba(161,219,255,0.83) 70%, rgba(161,219,255,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(240,249,255,0.44) 0%,rgba(239,249,255,0.44) 1%,rgba(203,235,255,0.67) 42%,rgba(161,219,255,0.83) 70%,rgba(161,219,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(240,249,255,0.44) 0%,rgba(239,249,255,0.44) 1%,rgba(203,235,255,0.67) 42%,rgba(161,219,255,0.83) 70%,rgba(161,219,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#70f0f9ff', endColorstr='#a1dbff',GradientType=0 ); /* IE6-9 */
+    text-align: justify;
+    text-decoration: underline;
+    text-transform: capitalize;
+}
+
+h1, h2, h3, h4:first-letter{
+    color: #0089ff;
+    font-size: 30px;
+}
+
+
+img{
+    width: 150px;
+    border: 3px solid #0e4f1a8f;
+}
+
+img[alt="фото мужских кросовок"]{
+    border-radius: 20%;
+}
+
+img:hover{
+    border: none;
+}
+
+a:hover{
+    color: blue;
+}
+

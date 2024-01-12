@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../../static/scc/shop.css" rel="stylesheet" type="text/css">
+
+    <script src="../../static/scc/script.js"></script>
+
+    <title>Магазин спортивной одежды "Спорт-Лидер"</title>
+</head>
+
+<body>
+<header class="header">
+
+    <div class="logo">
+        <!-- логотип расположен здесь -->
+        <img src="../../static/img/логотип/logotip.jpg" alt="Логотип">
+
+    </div>
+
+    <div class="store-name">
+        <h1>Магазин спортивной одежды "Спорт-Лидер"</h1>
+    </div>
+
+    <div class="registration">
+       <a th:href="@{shop/registration}">войти</a>
+       <p th:text="${message}"></p>
+    </div>
+
+</header>
+
+
+<nav class="navigation">
+    <ul>
+        <li><a href="/">Главная</a></li>
+        <li><a href="/catalog">Каталог</a></li>
+        <li><a href="/contacts">Контакты</a></li>
+        <li><a href="#">Корзина</a></li>
+        <li><a href="#">Доставка</a></li>
+    </ul>
+</nav>
+
+
+<div class="photo-gallery">
+    <div class="row">
+        <img src="../../static/img/главное%20фото/главное%20фото.jpg" alt="Фото 1" onclick="openModal(this.src)">
+        <img src="../../static/img/фото%20для%20главной%20страницы/21.jpg" alt="Фото 2" onclick="openModal(this.src)">
+        <img src="../../static/img/фото%20для%20главной%20страницы/22.jpg" alt="Фото 3" onclick="openModal(this.src)">
+    </div>
+    <div class="row">
+        <img src="../../static/img/фото%20для%20главной%20страницы/23.jpg" alt="Фото 4" onclick="openModal(this.src)">
+        <img src="../../static/img/фото%20для%20главной%20страницы/24.jpg" alt="Фото 5" onclick="openModal(this.src)">
+        <img src="../../static/img/фото%20для%20главной%20страницы/25.jpg" alt="Фото 6" onclick="openModal(this.src)">
+    </div>
+    <div class="row">
+        <img src="../../static/img/фото%20для%20главной%20страницы/26.jpg" alt="Фото 7" onclick="openModal(this.src)">
+        <img src="../../static/img/фото%20для%20главной%20страницы/27.jpg" alt="Фото 8" onclick="openModal(this.src)">
+        <img src="../../static/img/фото%20для%20главной%20страницы/28.jpg" alt="Фото 9" onclick="openModal(this.src)">
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImg">
+</div>
+
+<!--<img class="Наш магазин"
+     src="img/главное%20фото/главное%20фото.jpg"
+     alt="фото нашего магазина">-->
+
+<h4 class="возможности"><i>Что мы можем Вам предложить:</i></h4>
+
+<p>
+    <i class="lists">
+        <li class="point">В нашем интернет магазине Вы найдёте максимальный выбор товаров всех известных брендов.</li><br>
+        <li class="point"> В разделе "Каталог" более тысячи различных видов одежды для спорта и отдыха. </li><br>
+        <li class="point">В разделе "Контакты" Вы можете связаться с нами любым для Вас удобным способом! </li><br>
+    </i>
+</p>
+
+<p class="пожелание">Приятного просмотра и удачных покупок!</p>
+
+<br>
+<hr>
+</body>
+<footer class="footer">
+
+    <p class="права">&copy; "Все права защищены"</p>
+
+</footer>
+</html>

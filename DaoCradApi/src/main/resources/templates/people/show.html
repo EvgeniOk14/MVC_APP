@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Человек</title>
-       <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+       <link href="/static/css/show.css" rel="stylesheet" type="text/css"/>
 
     </head>
 
@@ -18,20 +18,20 @@
       <!--  <a th:href="@{/{id}/edit (id=${person.getId()})}">Edit</a>  раньше была ссылка на редактирование edit  -->
 
         <!-- редактирование человека edit -->
-        <form th:method="get" th:action="@{/{id}/edit (id=${person.getId()})}">
+        <form th:method="get" th:action="@{/people/{id}/edit (id=${person.getId()})}">
             <button class="edit" type="submit">Edit</button>
         </form>
 
 
         <!-- удаление пользователя по id -->
-        <form th:method="delete" th:action="@{/{id}(id=${person.getId()})}">
+        <form th:method="delete" th:action="@{/people/{id}/delete (id=${person.getId()})}">
            <!-- <input type="submit" value="Delete"/>  можно кнопку описать через input-->
             <button class="Delete" type="submit">Delete</button>
         </form>
 
 
         <!-- переход к полному выводу данных и БД -->
-        <form th:method="get" th:action="@{/}" >
+        <form th:method="get" th:action="@{/people}" >
             <button class="repeat" type="submit">All people</button>
         </form>
 

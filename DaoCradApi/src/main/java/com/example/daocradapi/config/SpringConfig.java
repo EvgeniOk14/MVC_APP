@@ -26,6 +26,7 @@ public class SpringConfig implements WebMvcConfigurer
         this.applicationContext = applicationContext;
     }
 
+    /** задаёт параметры БД для соединения с проектом **/
     @Bean
     public DataSource dataSource()
     {
@@ -36,6 +37,8 @@ public class SpringConfig implements WebMvcConfigurer
         dataSource.setPassword("oew");
         return dataSource;
     }
+
+    /** создаёт соединение с БД **/
     @Bean
     public JdbcTemplate jdbcTemplate()
     {
@@ -46,8 +49,14 @@ public class SpringConfig implements WebMvcConfigurer
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry)
     {
-        registry.addResourceHandler("/static/**")
+        registry.addResourceHandler("/static/**") // добавил для css
                 .addResourceLocations("classpath:/static/");
+
+        registry.addResourceHandler("/fonts/**") // добавил для шриштов
+                .addResourceLocations("classpath:/static/fonts/");
+
+        registry.addResourceHandler("/img/**") // добавил для фотографий
+                .addResourceLocations("classpath:/static/img/");
     }
 
 }

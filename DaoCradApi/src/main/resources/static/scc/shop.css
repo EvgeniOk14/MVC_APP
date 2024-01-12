@@ -1,0 +1,162 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+}
+
+
+
+.logo img {
+    height: 50px; /* Регулируйте размер логотипа по вашему усмотрению */
+    width: 50px;
+}
+
+.navigation {
+    /*background-color: #555;*/
+    background-color: #4b5a45;
+    padding: 10px;
+}
+
+.navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navigation li {
+    margin-right: 20px;
+}
+
+.navigation a {
+    /*text-decoration: none;*/
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: underline; /* Добавляем подчеркивание при наведении */
+}
+.navigation a:hover {
+    color: #ff9700; /* Цвет при наведении */
+}
+
+
+/* Добавлены стили для выравнивания названия магазина по центру */
+.store-name {
+    flex-grow: 1;
+    text-align: center;
+
+}
+
+/* Добавлены стили для равномерного распределения ссылок по центру */
+.navigation {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.navigation li {
+    margin: 0 20px;
+}
+
+.registration a {
+      color: aqua;
+      font-weight: bold;
+      font-size: 12px;
+      list-style: none;
+      padding: 5px;
+}
+/* Эффект при наведении на ссылку */
+.registration a:hover {
+  text-decoration: underline; /* Добавляем подчеркивание при наведении */
+  color: #f9ff00;
+  }
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #333;
+    color: #ff9700;
+}
+
+.Знакомтесь {
+    margin-left: 22px;
+    font-family: 'Arial', sans-serif;
+}
+
+.возможности {
+    margin-left: 30px;
+}
+
+.пожелание{
+    margin-left: 30px;
+}
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    bottom: 0;
+    width: 100%;
+}
+
+
+.photo-gallery {
+    margin: 20px; /* Регулируйте отступ вокруг галереи по вашему усмотрению */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding:10px;
+
+}
+
+.row {
+    display: flex;
+}
+
+img {
+    width: 30%; /* Регулируйте размер фотографий по вашему усмотрению */
+    margin:21px;
+}
+
+/* Стили для модального окна Java Script */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 50px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  max-width: 80%;
+  max-height: 80%;
+}
+
+
+
+.close {
+  color: #fff;
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.point {
+     margin-left: 10px;
+}
+

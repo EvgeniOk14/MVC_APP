@@ -1,0 +1,171 @@
+@font-face {
+    font-family: 'RubikDoodleShadow-Regular', sans-serif;
+    src: url("../fonts/RubikDoodleShadow-Regular.ttf");
+}
+@font-face {
+    font-family: 'arial_bolditalicmt', sans-serif ;
+    src: url("../fonts/arial_bolditalicmt.ttf");
+}
+
+@font-face{
+    font-family: "Dancing Script";
+    src: url("../fonts/DancingScript-VariableFont_wght.ttf");
+}
+
+@font-face{
+    font-family: 'teddy_bear', sans-serif;
+    src: url("../fonts/teddy-bear.ttf");
+}
+
+@font-face{
+    font-family: 'lonely-basket2', sans-serif;
+    src: url("../fonts/lonely-basket2.ttf");
+}
+
+ @font-face{
+     font-family: 'angilla-tattoo-personal-use11', sans-serif;
+     src: url("../fonts/angilla-tattoo-personal-use11.ttf");
+ }
+
+html{
+    font-size: 25px;
+    font-family: 'Roboto', sans-serif;
+    /*background-color: #FFE4B5;*/
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+fieldset {
+  border: none;
+  margin-bottom: 20px;
+}
+
+legend {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #fe5f1e;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #f24701;
+}
+
+a.регистрация {
+  text-align: center; /* Выравнивание текста по центру */
+  display: block; /* Блочное отображение ссылки */
+  text-decoration: none; /* Убираем подчеркивание ссылки */
+  color: #fe5f1e; /* Цвет текста ссылки */
+  font-size: 14px; /* Размер шрифта ссылки */
+}
+
+/* Эффект при наведении на ссылку */
+a.регистрация:hover {
+    text-decoration: underline; /* Добавляем подчеркивание при наведении */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Proxima Nova', Roboto, system-ui, Tahoma, sans-serif;
+}
+
+.header-title {
+    text-align: left;
+    margin-left: 10px;
+}
+
+.registration-form {
+    width: 33%; /* Уменьшаем форму в три раза */
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #f3f3f3;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.registration-form fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.registration-form legend {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.registration-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.registration-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.registration-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #fe5f1e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.registration-form a.registration-link {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #fe5f1e;
+    margin-top: 10px;
+}
+
+.registration-form button:hover {
+    background-color: #f24701;
+}
+
+.registration-form button:active {
+    background-color: #de4101;
+    transform: translateY(1px);
+}
+

@@ -1,0 +1,48 @@
+@font-face {
+    font-family: 'RubikDoodleShadow-Regular', sans-serif;
+    src: url("../fonts/RubikDoodleShadow-Regular.ttf");
+}
+@font-face {
+    font-family: 'arial_bolditalicmt', sans-serif ;
+    src: url("../fonts/arial_bolditalicmt.ttf");
+}
+
+.container
+{
+    display: flex;
+}
+
+.block {
+    background-color: #49143c42;
+    border: 1px solid #6e00ff1f;
+    padding: 10px;
+    width: auto;
+    height: auto;
+    margin-bottom: 0; /* Добавим отступ между блоками */
+}
+.text-catalog{
+    font-family: RubikDoodleShadow-Regular, sans-serif;
+    text-align: center;
+    color: olive;
+    font-style: italic;
+}
+.h-catalog{
+    font-family: 'arial_bolditalicmt', sans-serif;
+    text-align: left;
+    color: black;
+    font-style: italic;
+    text-decoration: underline;
+}
+ .horizont {
+     border-bottom-width: 3px;
+     border-color: #4300ff3d;
+ }
+
+ .a-catalog{
+     color: #4300ff;
+ }
+
+.a-catalog:hover {
+    text-decoration: underline;
+    color: red;
+}

@@ -7,6 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
         <title>Каталог</title>
+
         <link href="../../static/scc/shop.css" rel="stylesheet" type="text/css">
 
         <link href="../../static/scc/shopcatalogblock.css" rel="stylesheet" type="text/css">
@@ -19,63 +20,64 @@
     <body>
 
 
-    <header class="header">
+        <header class="header">
 
-        <div class="logo">
-            <!-- логотип расположен здесь -->
-            <img src="../../static/img/логотип/logotip.jpg" alt="Логотип">
+            <div class="logo">
+                <!-- логотип расположен здесь -->
+                <img src="../../static/img/логотип/logotip.jpg" alt="Логотип">
 
-        </div>
-
-
-        <div class="store-name">
-            <h1>Магазин спортивной одежды "Спорт-Лидер"</h1>
-        </div>
-
-        <div class="registration">
-            <a th:href="@{shop/registration}">войти</a>
-            <p th:text="${message}"></p>
-        </div>
-
-    </header>
+            </div>
 
 
-    <nav class="navigation">
-        <ul>
-            <li><a href="/">Главная</a></li>
-            <li><a href="/catalog">Каталог</a></li>
-            <li><a href="/contacts">Контакты</a></li>
-            <li><a href="#">Корзина</a></li>
-            <li><a href="#">Доставка</a></li>
-        </ul>
-    </nav>
+            <div class="store-name">
+                <h1>Магазин спортивной одежды "Спорт-Лидер"</h1>
+            </div>
+
+            <div class="registration">
+                <a th:href="@{shop/registration}">войти</a>
+                <p th:text="${message}"></p>
+            </div>
+
+        </header>
 
 
-    <div class="block-catalog">
+        <nav class="navigation">
+            <ul>
+                <li><a href="/">Главная</a></li>
+                <li><a href="/catalog">Каталог</a></li>
+                <li><a href="/contacts">Контакты</a></li>
+                <li><a href="#">Корзина</a></li>
+                <li><a href="#">Доставка</a></li>
+            </ul>
+        </nav>
 
-        <div class="container">
 
-            <div class="block">
-                <h2 class="text-catalog">Товары для мужчин:</h2>
+        <div class="block-catalog">
+
+            <div class="container">
+
+                <div class="block">
+
+                    <h2 class="text-catalog">Товары для мужчин:</h2>
 
                     <hr class="horizont">
 
                     <div class="category">
                         <h3 class="h-catalog">Одежда для Мужчин:</h3>
-                            <img class="img-catalog"
+                        <img class="img-catalog"
                                 src="../../static/img/ветрина/ветрина%20спортивные%20костюмы/ветрина%20спортивные%20костюмы%20мужские/ветрина%20спортивные%20костюмы%20мужские.jpg"
                                 alt="Одежда для Мужчин">
-                                <a class="a-catalog" href="men_clothing.html">Подробнее...</a>
+                        <a th:href="@{/AddedHtmlSites/indexSportSuitMan}" class="a-catalog">Подробнее...</a>
                     </div>
 
                     <hr>
 
                     <div class="category">
                         <h3 class="h-catalog">Обувь для Мужчин:</h3>
-                            <img class="img-catalog" src="../../static/img/ветрина/ветрина%20кросовки/ветрина%20кросовки%20мужские/ветрина%20мужские%20кросовки.jpg" alt="Обувь для Мужчин">
-                            <a class="a-catalog" href="men_shoes.html">Подробнее...</a>
+                        <img class="img-catalog" src="../../static/img/ветрина/ветрина%20кросовки/ветрина%20кросовки%20мужские/ветрина%20мужские%20кросовки.jpg" alt="Обувь для Мужчин">
+                        <a th:href="@{/AddedHtmlSites/indexCrossMan}" class="a-catalog">Подробнее...</a>
                     </div>
-            </div>
+                </div>
 
 
 
@@ -87,15 +89,15 @@
                     <div class="category">
                         <h3 class="h-catalog">Одежда для Женщин:</h3>
                         <img class="img-catalog" src="../../static/img/ветрина/ветрина%20спортивные%20костюмы/ветрина%20спортивные%20костюмы%20женские/ветрина%20%20спортивные%20костюмы%20женские.jpg" alt="Одежда для Женщин">
-                        <a class="a-catalog" href="women_clothing.html">Подробнее...</a>
+                        <a th:href="@{/AddedHtmlSites/indexSportSuitWoman}" class="a-catalog">Подробнее...</a>
                     </div>
 
                     <hr>
 
                     <div class="category">
                         <h3 class="h-catalog">Обувь для Женщин:</h3>
-                            <img class="img-catalog" src="../../static/img/ветрина/ветрина%20кросовки/ветрина%20кросовки%20женские/ветрина%20кросовки%20женские.jpg" alt="Обувь для Женщин">
-                            <a class="a-catalog" href="women_shoes.html">Подробнее...</a>
+                        <img class="img-catalog" src="../../static/img/ветрина/ветрина%20кросовки/ветрина%20кросовки%20женские/ветрина%20кросовки%20женские.jpg" alt="Обувь для Женщин">
+                        <a th:href="@{/AddedHtmlSites/indexCrossWoman}" class="a-catalog">Подробнее...</a>
                     </div>
 
             </div>
@@ -104,11 +106,10 @@
 
     </div>
 
+    </body>
 
     <footer class="footer">
-
         <p class="права">&copy; "Все права защищены"</p>
-
     </footer>
-    </body>
+
 </html>

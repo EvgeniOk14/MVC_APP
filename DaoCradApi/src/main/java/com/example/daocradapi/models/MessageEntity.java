@@ -17,7 +17,9 @@ public class MessageEntity
     @Column(name = "person_id", nullable = false)
     private Integer person_id;
 
+    @Column(name = "name")
     private String name;
+    @Column(name = "email")
     private String email;
 
     @Column(name = "theme")
@@ -30,31 +32,33 @@ public class MessageEntity
     private String messageContent;
     //endregion
 
-///**------------------------------------------------------добавил----------------------------------------------------**/
-//    @ManyToOne
-//    @JoinColumn(name = "person_id", referencedColumnName = "id", insertable = false, updatable = false)
-//    private Person person;
-//
-//    // Конструкторы, геттеры и сеттеры...
-//
-//    public Person getPerson() {
-//        return person;
-//    }
-//
-//    public void setPerson(Person person) {
-//        this.person = person;
-//    }
-//    /**----------------------------------------------------------------------------------------------------------------**/
+/**------------------------------------------------------добавил----------------------------------------------------**/
+    //@ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "person_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Person person;
+
+    // Конструкторы, геттеры и сеттеры...
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+    /**----------------------------------------------------------------------------------------------------------------**/
 
 
     //region Constructors
-    public MessageEntity(Integer person_id, String name, String email, String theme, LocalDate messageDate, String messageContent) {
+    public MessageEntity(Integer person_id, String name, String email, String theme, LocalDate messageDate, String messageContent, Person person) {
         this.name = name;
         this.email = email;
         this.theme = theme;
         this.messageDate = messageDate;
         this.messageContent = messageContent;
         this.person_id = person_id;
+        this.person= person;
     }
 
     public MessageEntity()

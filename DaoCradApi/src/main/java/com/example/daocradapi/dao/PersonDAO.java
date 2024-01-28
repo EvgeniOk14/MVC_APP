@@ -1,6 +1,7 @@
 package com.example.daocradapi.dao;
 
 import com.example.daocradapi.JdbcPersonRepository;
+import com.example.daocradapi.models.MessageEntity;
 import com.example.daocradapi.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -122,4 +123,22 @@ public class PersonDAO
             return null;
         }
     }
+
+    public Person getPersonById(Integer id)
+    {
+        String queryString = "SELECT * FROM person2 WHERE id = ?";
+        List<Person> people = jdbcTemplate.query(queryString, new Object[]{id}, new BeanPropertyRowMapper<>(Person.class));
+
+        if (!people.isEmpty())
+        {
+           Person findPerson = people.get(0);
+           return findPerson;
+        }
+        else
+        {
+            return null;
+        }
+
+    }
+
 }

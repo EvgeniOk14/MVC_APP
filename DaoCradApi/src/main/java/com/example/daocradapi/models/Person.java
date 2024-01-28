@@ -3,6 +3,8 @@ package com.example.daocradapi.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.data.relational.core.mapping.Table;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -40,29 +42,34 @@ public class Person
 
     //endregion
 
-///** -------------------------------------------------------добавил--------------------------------------------------**/
-//    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
-//    private List<MessageEntity> messages;
-//
-//    // Конструкторы, геттеры и сеттеры...
-//
-//    public List<MessageEntity> getMessages() {
-//        return messages;
-//    }
-//
-//    public void setMessages(List<MessageEntity> messages) {
-//        this.messages = messages;
-//    }
-//
-///**-----------------------------------------------------------------------------------------------------------------**/
+/** -------------------------------------------------------добавил--------------------------------------------------**/
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    private List<MessageEntity> messages;
+
+    // Конструкторы, геттеры и сеттеры...
+
+    public List<MessageEntity> getMessages()
+    {
+        return messages;
+    }
+
+    public void setMessages(List<MessageEntity> messages) {
+        this.messages = (messages != null) ? messages : new ArrayList<>();
+    }
+
+
+/**-----------------------------------------------------------------------------------------------------------------**/
+
+
     //region constructor
-    public Person(Integer id, String name, String surname, int age, String email)
+    public Person(Integer id, String name, String surname, int age, String email, List<MessageEntity> messages)
     {
         this.id = id;
         this.name = name;
         this.surname =  surname;
         this.age = age;
         this.email = email;
+        this.messages = messages;
     }
 
     public Person()

@@ -20,6 +20,7 @@
     height: auto;
     margin-bottom: 0; /* Добавим отступ между блоками */
 }
+
 .text-catalog{
     font-family: RubikDoodleShadow-Regular, sans-serif;
     text-align: center;

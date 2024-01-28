@@ -1,53 +1,109 @@
 <!doctype html>
-<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport"
             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
         <title>Каталог</title>
-        <link href="../StylesCSS/filestyle.css" rel="Stylesheet" type="text/css">
+
+        <link href="../../static/scc/indexSportSuitWoman.css" rel="stylesheet" type="text/css">
+
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+
+        <title>Магазин спортивной одежды "Спорт-Лидер"</title>
     </head>
 
-<   body>
-        <h1><U>Каталог женских спортивных костюмов</U></h1>
-        <h2>Магазин спортивных товаров</h2>
-        <ul>
-            <li><a href="../index.html" target="_blank">Главная</a></li>
-            <li><a href="../catalog.html" target="_blank">Каталог</a></li>
-            <li><a href="../contacts.html" target="_blank">Контакты</a></li>
-        </ul>
-        <br>
-        <hr>
-        <h3><i><u>Товар 1:</u></i></h3>
-        <img class="спортивный костюм женский бежевый 1"
-            src="../img/спортивные%20костюмы/спортивные%20костюмы%20женские/1%20спортивный%20котюм%20%20Nike%20бежевый.jpeg.jpeg"
-            alt="фото спортивного костюма женского бежевого 1">
-        <h4><i>Спортивный костюм женский бежевый, фирмы: "Nike" 1</i></h4>
-        <a class="спортивный костюм женский бежевый 1" href=""
-           target="_blank">Преход по ссылке - на Товар1</a>
-        <br>
-        <br>
-        <br>
-        <h3><i><u>Товар 2:</u></i></h3>
-        <img class="спортивный костюм женский красный 2"
-            src="../img/спортивные%20костюмы/спортивные%20костюмы%20женские/2%20спортивный%20костюм%20%20Nike%20красный.jpeg.jpeg"
-            alt="фото спортивного костюма женского красного 2" >
-        <h4><i>Спортивный костюм женский красный, фирмы: "Nike" 2</i></h4>
-        <a class="спортивный костюм женский красный 2" href="" target="_blank">Преход по ссылке - на Товар2</a>
-        <br>
-        <br>
-        <br>
-        <h3><i><u>Товар 3:</u></i></h3>
-        <img class="спортивный костюм женский чёрный 3"
-            src="../img/спортивные%20костюмы/спортивные%20костюмы%20женские/3%20спортивный%20костюм%20Nike%20чёрный.jpeg.jpg"
-            alt="фото спортивного костюма женского чёрного 3" >
-        <h4><i>Спортивный костюм женский чёрный, фирмы: "Nike" 3</i></h4>
-        <a class="спортивный костюм женский чёрный 3" href=""
-           target="_blank">Преход по ссылке - на Товар3</a>
-        <hr>
-        <p class="права">&copy; "Все права защищены"</p>
-    </body>
-</html>
+    <body>
 
+
+        <header class="header">
+
+            <div class="logo">
+                <!-- логотип расположен здесь -->
+                <img src="../../static/img/логотип/logotip.jpg" alt="Логотип">
+            </div>
+
+
+            <div class="store-name">
+                <h1>Магазин спортивной одежды "Спорт-Лидер"</h1>
+            </div>
+
+            <div class="registration">
+                <a th:href="@{/shop/registration}">войти</a>
+                <p th:text="${message}"></p>
+            </div>
+
+        </header>
+
+
+        <nav class="navigation">
+            <ul>
+                <li><a href="/">Главная</a></li>
+                <li><a href="/catalog">Каталог</a></li>
+                <li><a href="/contacts">Контакты</a></li>
+                <li><a href="#">Корзина</a></li>
+                <li><a href="#">Доставка</a></li>
+            </ul>
+        </nav>
+
+
+        <div class="container">
+
+            <div class="item">
+                <h3>Товар 1:</h3>
+                <img class="костюмженский1"
+                    src="../img/спортивные%20костюмы/спортивные%20костюмы%20женские/1%20спортивный%20котюм%20%20Nike%20бежевый.jpeg.jpeg"
+                    alt="фото спортивного женского костюма бежевого цвета 1">
+                <h4>Спортивный костюм женский, цвет бежевый, фирмы: "Nike"</h4>
+                <a class="a-catalog"
+                    th:href="@{/AddedHtmlSites/CatalogOfArticle/WomanSuit1}"
+                    target="_blank">Преход по ссылке - на Товар 1</a>
+                <br>
+                <br>
+                <a class="return" th:href="@{/catalog}">Возврат к разделу каталог</a>
+            </div>
+
+            <div class="item">
+                <h3>Товар 2:</h3>
+                <img class="костюмженский2"
+                    src="../img/спортивные%20костюмы/спортивные%20костюмы%20женские/2%20спортивный%20костюм%20%20Nike%20красный.jpeg.jpeg"
+                    alt="фото спортивного женского костюма красного цвета 2">
+                <h4>Спортивный костюм женский, цвет красный, фирмы: "Nike"</h4>
+                <a class="a-catalog"
+                    th:href="@{/AddedHtmlSites/CatalogOfArticle/WomanSuit2}"
+                    target="_blank">Преход по ссылке - на Товар 2
+                </a>
+                <br>
+                <br>
+                <a class="return" th:href="@{/catalog}">Возврат к разделу каталог</a>
+            </div>
+
+            <div class="item">
+                <h3>Товар 3:</h3>
+                <img class="костюмженский3"
+                    src="../img/спортивные%20костюмы/спортивные%20костюмы%20женские/3%20спортивный%20костюм%20Nike%20чёрный.jpeg.jpg"
+                    alt="фото спортивного женского костюма чёрного цвета 3">
+                <h4>Спортивный костюм женский, цвет чёрный, фирмы: "Nike"</h4>
+                <a class="a-catalog"
+                    th:href="@{/AddedHtmlSites/CatalogOfArticle/WomanSuit3}"
+                    target="_blank">Преход по ссылке - на Товар 3
+                </a>
+                <br>
+                <br>
+                <a class="return"
+                    th:href="@{/catalog}">
+                    Возврат к разделу каталог
+                </a>
+            </div>
+
+        </div>
+
+    </body>
+
+    <footer class="footer">
+        <p class="права">&copy; "Все права защищены"</p>
+    </footer>
+
+</html>

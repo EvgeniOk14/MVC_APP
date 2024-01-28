@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link href="../../static/scc/messagesStyleTable.css" rel="stylesheet" type="text/css">
+    <meta charset="UTF-8">
+    <title>Сообщения</title>
+</head>
+<body>
+<h2>Список сообщений</h2>
+
+<!--<div th:each="message : ${MessageEntity}">-->
+<!--    <p th:text="${message.person_id}"></p>-->
+<!--    <p th:text="${message.theme}"></p>-->
+<!--    <p th:text="${message.messageContent}"></p>-->
+<!--    <p th:text="${message.messageDate}"></p>-->
+<!--</div> -->
+<table>
+    <thead>
+    <tr>
+        <th>Порядковый номер сообщения</th>
+        <th>Имя пользователя</th>
+        <th>Email пользователя</th>
+        <th>Номер id из таблицы person</th>
+        <th>Тема</th>
+        <th>Содержание сообщения</th>
+        <th>Дата сообщения</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="message : ${MessageEntity}">
+        <td th:text="${message.getId()}"></td>
+        <td th:text="${message.getPerson()?.getName()}"></td>
+        <td th:text="${message.getPerson()?.getEmail()}"></td>
+        <td th:text="${message.person_id}"></td>
+        <td th:text="${message.theme}"></td>
+        <td th:text="${message.messageContent}"></td>
+        <td th:text="${message.messageDate}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<hr/>
+<a href="/">Перейти на главную страницу</a>
+</body>
+</html>

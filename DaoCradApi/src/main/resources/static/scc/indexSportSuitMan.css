@@ -1,0 +1,156 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin-bottom: 50px; /* Выравнивание с учетом высоты футера */
+}
+
+.logo img {
+    height: 50px; /* Регулируйте размер логотипа по вашему усмотрению */
+    width: 50px;
+}
+
+.navigation {
+    /*background-color: #555;*/
+    background-color: #4b5a45;
+    padding: 10px;
+}
+
+.navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navigation li {
+    margin-right: 20px;
+}
+
+.navigation a {
+    /*text-decoration: none;*/
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: underline; /* Добавляем подчеркивание при наведении */
+}
+.navigation a:hover {
+    color: #ff9700; /* Цвет при наведении */
+}
+
+
+/* Добавлены стили для выравнивания названия магазина по центру */
+.store-name {
+    flex-grow: 1;
+    text-align: center;
+
+}
+
+/* Добавлены стили для равномерного распределения ссылок по центру */
+.navigation {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.navigation li {
+    margin: 0 20px;
+}
+
+.registration a {
+    color: aqua;
+    font-weight: bold;
+    font-size: 12px;
+    list-style: none;
+    padding: 5px;
+}
+/* Эффект при наведении на ссылку */
+.registration a:hover {
+    text-decoration: underline; /* Добавляем подчеркивание при наведении */
+    color: #f9ff00;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #333;
+    color: #ff9700;
+}
+
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    bottom: 0;
+    width: 100%;
+    position: fixed; /* Фиксированная позиция */
+    z-index: 999; /* Позиционируем поверх остальных элементов */
+}
+
+
+
+
+
+.container{
+    display: flex;
+}
+
+.item {
+    text-align: center; /* Выравнивание текста по центру */
+    margin-right: 20px; /* Отступ между блоками (можно регулировать по вашему вкусу) */
+
+}
+
+img {
+    width: 100%; /* Регулируйте размер фотографий по вашему усмотрению */
+    height: auto; // добавил сейчас
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.костюм1{
+    max-width: 80%; /* Настройте ширину по вашему выбору */
+}
+
+/* Увеличиваем высоту второй и третьей фотографии до размера первой */
+.item:not(:first-child) img {
+    height: 78%; /* Занимает 100% высоты блока */
+}
+
+.кросовкимужские1{
+    width: 500px;
+    margin: 30px;
+}
+
+.кросовкимужские2{
+    width: 500px;
+}
+
+.кросовкимужские3{
+    width: 500px;
+}
+
+.костюмженский1 {
+    width: 620px;
+    height: 650px;
+}
+
+.костюмженский2 {
+    width: 620px;
+    height: auto;
+}
+
+.костюмженский3 {
+    width: 620px;
+    height: auto;
+}
+
+

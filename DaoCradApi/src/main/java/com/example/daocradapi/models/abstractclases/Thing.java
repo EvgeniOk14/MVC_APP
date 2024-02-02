@@ -1,28 +1,40 @@
-package com.example.daocradapi.models;
+package com.example.daocradapi.models.abstractclases;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "things")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "thing_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Thing
 {
     //region Fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer thing_id;
+    private Integer thing_id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "thing_gender")
+    private Gender thing_gender;
+
+
     @Column(name = "thing_name")
-    public String thing_name;
+    private String thing_name;
+
     @Column(name = "thing_size")
-    public int thing_size;
+    private int thing_size;
+
     @Column(name = "thing_color")
-    public String thing_color;
+    private String thing_color;
+
     @Column(name = "thing_price")
-    public Double thing_price;
+    private int thing_price;
     //endregion
 
     //region Constructor
-    public Thing(String thing_name, int thing_size, String thing_color, Double thing_price)
+    public Thing(Gender thing_gender, String thing_name, int thing_size, String thing_color, int thing_price)
     {
+        this.thing_gender = thing_gender;
         this.thing_name = thing_name;
         this.thing_size = thing_size;
         this.thing_color = thing_color;
@@ -43,6 +55,16 @@ public abstract class Thing
     public void setThing_id(Integer thing_id)
     {
         this.thing_id = thing_id;
+    }
+
+    public Gender getThing_gender()
+    {
+        return thing_gender;
+    }
+
+    public void setThing_gender(Gender thing_gender)
+    {
+        this.thing_gender = thing_gender;
     }
 
     public String getThing_name()
@@ -75,14 +97,29 @@ public abstract class Thing
         this.thing_color = thing_color;
     }
 
-    public Double getThing_price()
+    public int getThing_price()
     {
         return thing_price;
     }
 
-    public void setThing_price(Double thing_price)
+    public void setThing_price(int thing_price)
     {
         this.thing_price = thing_price;
+    }
+    //endregion
+
+    //region toString
+    @Override
+    public String toString()
+    {
+        return "Thing{" +
+                "thing_id=" + thing_id +
+                ", thing_gender=" + thing_gender +
+                ", thing_name='" + thing_name + '\'' +
+                ", thing_size=" + thing_size +
+                ", thing_color='" + thing_color + '\'' +
+                ", thing_price=" + thing_price +
+                '}';
     }
     //endregion
 }

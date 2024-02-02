@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Things List</title>
+    </head>
+
+    <body>
+
+        <h2>Список вещей</h2>
+
+        <table border="1">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Size</th>
+                    <th>Color</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="thing : ${things}">
+                    <td th:text="${thing.thing_id}"></td>
+                    <td th:text="${thing.thing_name}"></td>
+                    <td th:text="${thing.thing_gender}"></td>
+                    <td th:text="${thing.thing_size}"></td>
+                    <td th:text="${thing.thing_color}"></td>
+                    <td th:text="${thing.thing_price}"></td>
+
+                    <td>
+                        <a th:href="@{/deleteThing/{thing_id} (thing_id=${thing.thing_id})}">Удалить вещь из каталога</a>
+                    </td>
+
+                    <td>
+                        <a th:href="@{/edit/{thing_id} (thing_id=${thing.thing_id})}">Редактировать вещь></a>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <hr>
+        <br>
+        <a th:href="@{/showFormThing}">Добавить новую вещь</a>
+        <br>
+        <br>
+        <hr>
+        <br>
+        <a th:href="@{/}">Возврат на главную страницу магазина</a>
+        <br>
+        <br>
+        <hr>
+
+
+    </body>
+
+</html>

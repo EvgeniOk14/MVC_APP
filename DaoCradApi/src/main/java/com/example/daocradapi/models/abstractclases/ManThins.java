@@ -1,5 +1,6 @@
-package com.example.daocradapi.models;
+package com.example.daocradapi.models.abstractclases;
 
+import com.example.daocradapi.models.abstractclases.Thing;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 

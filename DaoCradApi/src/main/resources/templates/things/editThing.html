@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Добавить новую вещь</title>
+    </head>
+
+    <body>
+
+        <h2>Добавить новую вещь</h2>
+
+           <form th:action="@{'/editThing/' + ${newThing.thing_id} + '/edit'}" th:object="${newThing}" method="post">
+
+               <label for="thing_name">Название вещи
+                   <select th:field="*{thing_name}" id="thing_name">
+                       <option VALUE="ManSuit">ManSuit</option>
+                       <option VALUE="ManCross">ManCross</option>
+                       <option VALUE="WomanSuit">WomanSuit</option>
+                       <option VALUE="WomanCross">WomanCross</option>
+                   </select>
+               </label>
+
+               <label for="thing_gender">Принадлежность вещи к полу
+                   <select th:field="*{thing_gender}" id="thing_gender">
+                       <option  VALUE="MALE">Вещи для Мужчин</option>
+                       <option VALUE="FEMALE">Вещи для женщин</option>
+                   </select>
+               </label>
+
+
+               <label for="thing_size">Размер</label>
+               <input type="text" th:field="*{thing_size}" id="thing_size" placeholder="thing_size">
+
+               <label for="thing_color">Цвет вещи</label>
+               <input type="text" th:field="*{thing_color}" id="thing_color" placeholder="thing_color">
+
+               <label for="thing_price">Цена вещи</label>
+               <input type="text" th:field="*{thing_price}" id="thing_price" placeholder="thing_price">
+
+               <button class="update" type="submit">Обновить вещь!</button>
+
+           </form>
+
+            <a href="/things">Возврат к списку вещей</a>
+
+    </body>
+</html>

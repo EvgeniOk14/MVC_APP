@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Add New Thing</title>
+    </head>
+    <body>
+        <h2>Добавить новую вещь</h2>
+
+            <!-- Form for adding a new thing -->
+
+            <form action="/saveThingsFromForm" th:object="${newthing}" method="post">
+
+
+<!--            <label for="thing_name">Name</label>-->
+<!--            <input type="text" th:field="*{thing_name}" id="thing_name" placeholder="thing_name">-->
+<!--            <br>-->
+                <label for="thing_name">Name:
+                    <select th:field="*{thing_name}" id="thing_name">
+                        <option value="ManSuit">ManSuit</option>
+                        <option value="ManCross">ManCross</option>
+                        <option value="WomanSuit">WomanSuit</option>
+                        <option value="WomanCross">WomanCross</option>
+                    </select>
+                </label>
+                <br>
+
+                <label for="thing_gender">Gender:
+                    <select th:field="*{thing_gender}" id="thing_gender">
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                    </select>
+                </label>
+                <br>
+
+                <label for="thing_size">Size:</label>
+                <input type="text" th:field="*{thing_size}" id="thing_size" placeholder="thing_size">
+                <br>
+
+                <label for="thing_color">Color:</label>
+                <input type="text" th:field="*{thing_color}" id="thing_color" placeholder="thing_color">
+                <br>
+
+                <label for="thing_price">Price:</label>
+                <input type="text" th:field="*{thing_price}" id="thing_price" placeholder="thing_price">
+                <br>
+                <button type="Сохранить вещь">Save</button>
+            </form>
+
+
+
+        <!-- Link back to the things list -->
+        <a href="/things">Возврат к списку вещей</a>
+    </body>
+</html>

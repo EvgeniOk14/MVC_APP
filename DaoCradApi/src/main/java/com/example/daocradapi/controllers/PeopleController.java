@@ -75,7 +75,7 @@ public class PeopleController
     @GetMapping("/people/{id}/edit")
     public String edit(Model model, @PathVariable("id") Integer id) // извлекаем id из url адреса @PathVariable и затем этот id  помещаем в аргумент int id в метод edit()
     {
-        model.addAttribute("person", personDAO.show(id)); // аттрибут имеет ключ: "person", а в качестве значения будет то что вернёться изpersonDAO.show(id) по id
+        model.addAttribute("person", personDAO.show(id)); // аттрибут имеет ключ: "person", а в качестве значения будет то что вернёться из personDAO.show(id) по id
         return "people/edit";
     }
 

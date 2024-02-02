@@ -9,13 +9,12 @@
     </head>
 
     <body>
-    <p th:text="${'ID: ' + person.getId()}">VALUE</p>
-    <p th:text="${'Имя: ' + person.getName()}">VALUE</p>
-    <p th:text="${'Фамилия: ' + person.getSurname()}">VALUE</p>
-    <p th:text="${'Возраст: ' + person.getAge()}">VALUE</p>
-    <p th:text="${'email: ' + person.getEmail()}">VALUE</p>
+        <p th:text="${'ID: ' + person.getId()}">VALUE</p>
+        <p th:text="${'Имя: ' + person.getName()}">VALUE</p>
+        <p th:text="${'Фамилия: ' + person.getSurname()}">VALUE</p>
+        <p th:text="${'Возраст: ' + person.getAge()}">VALUE</p>
+        <p th:text="${'email: ' + person.getEmail()}">VALUE</p>
 
-      <!--  <a th:href="@{/{id}/edit (id=${person.getId()})}">Edit</a>  раньше была ссылка на редактирование edit  -->
 
         <!-- редактирование человека edit -->
         <form th:method="get" th:action="@{/people/{id}/edit (id=${person.getId()})}">

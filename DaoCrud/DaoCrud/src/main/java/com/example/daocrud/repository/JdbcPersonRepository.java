@@ -1,7 +1,8 @@
-package com.example.daocrud;
+package com.example.daocrud.repository;
 
 
 import com.example.daocrud.models.Person;
+import com.example.daocrud.repository.PersonRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

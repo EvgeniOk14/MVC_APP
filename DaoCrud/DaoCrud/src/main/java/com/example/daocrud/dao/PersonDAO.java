@@ -1,6 +1,6 @@
 package com.example.daocrud.dao;
 
-import com.example.daocrud.JdbcPersonRepository;
+import com.example.daocrud.repository.JdbcPersonRepository;
 import com.example.daocrud.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

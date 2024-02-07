@@ -1,6 +1,7 @@
 package com.example.daocrud.controllers;
 
-import com.example.daocrud.JdbcPersonRepository;
+import com.example.daocrud.repository.JdbcPersonRepository;
+import com.example.daocrud.repository.PersonMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ui.Model;
 import com.example.daocrud.dao.PersonDAO;
@@ -30,7 +31,6 @@ public class PeopleController
         this.personDAO = personDAO;
         this.jdbcPersonRepository = jdbcPersonRepository;
         this.jdbcTemplate = jdbcTemplate;
-
     }
     //endregion
 

@@ -1,6 +1,7 @@
 package com.example.daocrud.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.sql.DataSource;
 
 @Configuration
+@ConfigurationPropertiesScan("com.example.daocrud")
 @ComponentScan("com.example.daocrud")
 @EnableWebMvc
 public class SpringConfig implements WebMvcConfigurer

@@ -1,4 +1,4 @@
-package com.example.daocrud;
+package com.example.daocrud.repository;
 
 import com.example.daocrud.models.Person;
 

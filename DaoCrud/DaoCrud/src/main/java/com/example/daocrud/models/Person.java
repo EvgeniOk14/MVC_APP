@@ -1,10 +1,12 @@
 package com.example.daocrud.models;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Entity
+@Table(name = "person")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Person
 {
     //region fields

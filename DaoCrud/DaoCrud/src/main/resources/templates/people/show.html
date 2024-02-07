@@ -1,24 +1,68 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Человек</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>Человек</title>
+    <link href="/static/css/form.css" rel="stylesheet" type="text/css">
 
-        <body>
-                <p th:text="${person.getId() +
-                                                ' Имя: ' + person.getName() +
-                                                ' Фамилия: ' + person.getSurname() +
-                                                ' Возраст: ' + person.getAge() +
-                                                ' email: ' + person.getEmail()}">VALUE</p>
-                <a th:href="@{/{id}/edit(id=${person.getId()})}">Edit</a>
-                <br>
-                <br>
-                <!-- <form th:method="delete" th:action="@{/people/{id}(id=${person.getId()})}"> -->
-            <form th:method="delete"
-                  th:action="@{/{id}(id=${person.getId()})}">
-                <input type="submit" value="Delete"/>
-            </form>
-        </body>
+</head>
+
+<body>
+<!--<p th:text="${'ID: ' + person.getId()}">VALUE</p>-->
+<!--<p th:text="${'Имя: ' + person.getName()}">VALUE</p>-->
+<!--<p th:text="${'Фамилия: ' + person.getSurname()}">VALUE</p>-->
+<!--<p th:text="${'Возраст: ' + person.getAge()}">VALUE</p>-->
+<!--<p th:text="${'email: ' + person.getEmail()}">VALUE</p>-->
+<div class="container">
+    <table class="styled-table">
+        <tbody>
+        <tr>
+            <td>ID:</td>
+            <td th:text="${person.getId()}">VALUE</td>
+        </tr>
+        <tr>
+            <td>Имя:</td>
+            <td th:text="${person.getName()}">VALUE</td>
+        </tr>
+        <tr>
+            <td>Фамилия:</td>
+            <td th:text="${person.getSurname()}">VALUE</td>
+        </tr>
+        <tr>
+            <td>Возраст:</td>
+            <td th:text="${person.getAge()}">VALUE</td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td th:text="${person.getEmail()}">VALUE</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+<br>
+<!-- редактирование человека edit -->
+<form class="три_кнопки" th:method="get" th:action="@{/people/{id}/edit (id=${person.getId()})}">
+    <button class="edit" type="submit">Edit</button>
+</form>
+
+
+<!-- удаление пользователя по id -->
+<form class="три_кнопки" th:method="delete" th:action="@{/people/{id}/delete (id=${person.getId()})}">
+    <!-- <input type="submit" value="Delete"/>  можно кнопку описать через input-->
+    <button class="Delete" type="submit">Delete</button>
+</form>
+
+
+<!-- переход к полному выводу данных и БД -->
+<form class="три_кнопки" th:method="get" th:action="@{/people/refuse}">
+    <button class="repeat" type="submit">All people</button>
+</form>
+
+</body>
 </html>
+
+
+
+

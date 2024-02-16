@@ -20,14 +20,17 @@ import javax.sql.DataSource;
 @EnableWebMvc
 public class SpringConfig implements WebMvcConfigurer
 {
+    //region Fields
     private final ApplicationContext applicationContext;
+    //endregion
 
-
+    //region Constructor
     @Autowired
     public SpringConfig(ApplicationContext applicationContext)
     {
         this.applicationContext = applicationContext;
     }
+    //endregion
 
     /** задаёт параметры БД для соединения с проектом **/
     @Bean
@@ -52,15 +55,11 @@ public class SpringConfig implements WebMvcConfigurer
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry)
     {
-        registry.addResourceHandler("/static/**") // добавил для css
-                .addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/"); // добавил для css
 
-        registry.addResourceHandler("/fonts/**") // добавил для шриштов
-                .addResourceLocations("classpath:/static/fonts/");
+        registry.addResourceHandler("/fonts/**").addResourceLocations("classpath:/static/fonts/"); // добавил для шриштов
 
-        registry.addResourceHandler("/img/**") // добавил для фотографий
-                .addResourceLocations("classpath:/static/img/");
+        registry.addResourceHandler("/img/**").addResourceLocations("classpath:/static/img/"); // добавил для фотографий
     }
-
 }
 

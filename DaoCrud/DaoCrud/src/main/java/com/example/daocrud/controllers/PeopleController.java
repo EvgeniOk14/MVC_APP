@@ -34,7 +34,7 @@ public class PeopleController
 
 
     /** показ всех людей из Базы Данных! (Выполнение запроса: "SELECT * FROM person") **/
-    @GetMapping("/")
+    @GetMapping("people/index")
     public String index(Model model) // получим всех дюдей из DAO и передадим их на отображение в представление
     {
         LOGGER.info("Handling index request");
@@ -42,18 +42,19 @@ public class PeopleController
         return "people/index";
     }
 
+
     /** показать человека из БД по заданному id! (Выполнение запроса: "SELECT * FROM person WHERE id=?") **/
     @GetMapping("people/{id}")
     public String Show(@PathVariable("id") Integer id, Model model) // получим одного человека по id из DAO и передадим его на отображение в представление
     {
         LOGGER.info("Handling show request for person with id: " + id);
         model.addAttribute("person", personDAO.show(id));
-        return "people/show";
+        return "/people/show";
     }
 
 
     /** создать нового человека из БД (представление: "new.html", выводит поля для ввода данных) **/
-    @GetMapping("people/new")
+    @GetMapping("/people/new")
     public String newPerson(@ModelAttribute("person") Person person)
     {
         LOGGER.info("Handling new person request");
@@ -69,7 +70,7 @@ public class PeopleController
         if (bindingResult.hasErrors()) // проверка валидности пришедших с формы данных и если есть ошибки то возврат к созданию нового человека
             return "people/new"; //  возврат к созданию нового человека
         personDAO.save(person);  // сохранение данных
-        return "redirect:/";
+        return "redirect:/people/index";
     }
 
 
@@ -79,7 +80,7 @@ public class PeopleController
     {
         LOGGER.info("Handling edit request for person with id: " + id);
         model.addAttribute("person", personDAO.show(id)); // аттрибут имеет ключ: "person", а в качестве значения будет то что вернёться из personDAO.show(id) по id
-        return "people/edit";
+        return "/people/edit";
     }
 
     /** метод обновления данных о человеке **/
@@ -88,10 +89,10 @@ public class PeopleController
     {
         LOGGER.info("Handling update request for person with id: " + id);
         if (bindingResult.hasErrors())
-            return "people/edit";
+            return "/people/edit";
 
         personDAO.update(id, person); // обновление данных о человеке
-        return "redirect:/";
+        return "redirect:/people/index";
     }
 
 
@@ -101,7 +102,7 @@ public class PeopleController
     {
         LOGGER.info("Handling delete request for person with id: " + id);
         personDAO.delete(id);
-        return "redirect:/";
+        return "redirect:/people/index";
     }
 
 
@@ -110,7 +111,7 @@ public class PeopleController
     public String refuse()
     {
         LOGGER.info("Handling refuse request");
-        return "redirect:/";
+        return "redirect:/people/index";
     }
 
 }

@@ -1,17 +1,19 @@
 package com.example.daocradapi.dao;
 
 import com.example.daocradapi.JdbcPersonRepository;
-import com.example.daocradapi.models.MessageEntity;
 import com.example.daocradapi.models.Person;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Repository
 @Component
 public class PersonDAO
@@ -19,21 +21,54 @@ public class PersonDAO
     //region Fields
     private final JdbcTemplate jdbcTemplate;
     private final JdbcPersonRepository jdbcPersonRepository;
+
+    @PersistenceContext
+    private final EntityManager entityManager;
     //endregion
 
     //region Constructor
     @Autowired
-    public PersonDAO(JdbcTemplate jdbcTemplate, JdbcPersonRepository jdbcPersonRepository)
+    public PersonDAO(JdbcTemplate jdbcTemplate, JdbcPersonRepository jdbcPersonRepository, EntityManager entityManager)
     {
         this.jdbcTemplate = jdbcTemplate;
         this.jdbcPersonRepository = jdbcPersonRepository;
+        this.entityManager = entityManager;
     }
     //endregion
 
+    /** сохраняем пользователя **/
+    @Transactional
+    public void savePerson(Person person)
+    {
+        entityManager.merge(person);
+    }
+
+    /** сохраняем пользователю карту **/
+    @Transactional
+    public void savePersonByCart(Person person)
+    {
+        entityManager.merge(person.getCart());
+    }
+
+    @Transactional
+    public Person isUserRegistered(String email)
+    {
+        // Проверяем наличие пользователя в базе данных по его адресу электронной почты
+        Person currentPerson = searchPersonByEmail1(email);
+        if(currentPerson!=null)
+        {
+            return currentPerson; // Возвращает person если пользователь найден, и false в противном случае
+        }
+        else
+        {
+            return null;
+        }
+    }
 
     /** ------------------------------------блок People-------------------------------------------------------------**/
 
      /** метод возвращает всех людей из БД в представление (форма не используеться!) можно переименовать в getAllPeople() **/
+     @Transactional
     public List<Person> index()
     {
         String SQL = "SELECT * FROM person2";
@@ -41,6 +76,7 @@ public class PersonDAO
     }
 
     /** метод show(int id) выводит всех пользователей с указанным id **/
+    @Transactional
     public Person show(Integer id)
     {
         String SQL = "SELECT * FROM person2 WHERE id=?";
@@ -48,6 +84,7 @@ public class PersonDAO
     }
 
     /** метод сохранят всех пользователей (данные приходят с формы!) **/
+    @Transactional
     public void save(Person person)
     {
         String SQL = "INSERT INTO person2 (name, surname, age, email) VALUES (?, ?, ?, ?)";
@@ -55,6 +92,7 @@ public class PersonDAO
     }
 
     /** метод обновляет всех пользователей **/
+    @Transactional
     public void update(Integer id, Person updatedPerson)
     {
         String SQL = "UPDATE person2 SET name=?, surname=?, age=?, email=? WHERE id=?";
@@ -65,6 +103,7 @@ public class PersonDAO
     /**
      * метод удаляет пользователя по  его id
      **/
+    @Transactional
     public void delete(Integer id)
     {
         String SQL = "DELETE FROM person2 WHERE id=?";
@@ -74,7 +113,7 @@ public class PersonDAO
 
 
     /**----------------------------------------блок message--------------------------------------------------------**/
-
+    @Transactional
     public boolean searchBySername(String surname, String name)
     {
         String queryString = "SELECT * FROM person2 WHERE surname = ? AND name = ?";
@@ -93,6 +132,7 @@ public class PersonDAO
     }
 
     /** нахождение человека по его почте! **/
+    @Transactional
     public Person searchPersonByEmail1(String email)
     {
         String queryString = "SELECT * FROM person2 WHERE email = ?";
@@ -101,16 +141,16 @@ public class PersonDAO
         if (!people.isEmpty())
         {
             System.out.println("Пользователь с почтой: " + email + " найден! Это: " +  people.get(0));
+            return people.get(0);
         }
         else
         {
             System.out.println("Пользователь с почтой: " + email + " не найден!");
+            return null;
         }
-
-        return people.get(0);
     }
 
-
+    @Transactional
     public Person getPersonByEmail(String email)
     {
         String queryString = "SELECT * FROM person2 WHERE email = ?";
@@ -123,7 +163,7 @@ public class PersonDAO
             return null;
         }
     }
-
+    @Transactional
     public Person getPersonById(Integer id)
     {
         String queryString = "SELECT * FROM person2 WHERE id = ?";

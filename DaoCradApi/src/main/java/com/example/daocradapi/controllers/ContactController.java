@@ -53,7 +53,7 @@ public class ContactController
         /** поиск пользователя в БД person2 с email введённым в форму на странице Контакты **/
         try
         {
-            // поиск поля person_id  т.е. анешнего ключа, свзязанного полем id  таблице person2
+            // поиск поля person_id  т.е. внешнего ключа, свзязанного с полем id  таблице person2
             Integer person_Id = jdbcTemplate.queryForObject("SELECT id FROM person2 WHERE email = ?", new Object[]{messageEntity.getEmail()}, Integer.class);
             System.out.println("Found personId: " + person_Id); // Вывести personId в консоль для отладки
 

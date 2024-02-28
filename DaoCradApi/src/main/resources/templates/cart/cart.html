@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Корзина</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/../../static/scc/cart.css}" />
+    </head>
+
+    <body>
+
+    <h1>Корзина</h1>
+    <div th:if="${currentUser != null}">
+        <h1>Welcome, <span th:text="${currentUser.name}"></span>!</h1>
+        <form th:action="@{/addThing}" method="post">
+            <!-- Поле для выбора товара из выпадающего списка товаров -->
+            <select name="selectedThingId">
+                <option th:each="thing : ${things}" th:value="${thing.thing_id}">
+                    <span th:text="${'id товара-' + thing.thing_id + '; название товара-' + thing.thing_name + '; цвет товара-' + thing.thing_color + ';  размер товара-' + thing.thing_size + '; цена товара-' + thing.thing_price + 'рублей'}"></span>
+                </option>
+            </select>
+            <!-- скрытое поле с идентификатором текущего пользователя -->
+<!--            <input type="hidden" name="currentUser" th:value="${currentUser.id}" style="color: red;" />-->
+            <input type="hidden" th:name="currentUser" th:value="${currentUser.id}"/>
+            <!-- кнопка отправки товара в корзину из выпадающего списка -->
+            <button type="submit">Добавить выбранный товар</button>
+        </form>
+
+
+    <h2>Список добавленных товаров в корзину:</h2>
+        <form th:action="@{/removeThing}" method="post">
+            <ul>
+                <li th:each="thing : ${things}" th:value="thing.thing_id">
+                    <span th:text="${'id товара-' + thing.thing_id + '; название товара-' + thing.thing_name + '; цвет товара-' + thing.thing_color + ';  размер товара-' + thing.thing_size + '; цена товара-' + thing.thing_price + 'рублей'}"></span>
+
+
+                    <input type="hidden" th:name="thing_id" th:value="${thing.thing_id}"/>
+                    <button type="submit">Удалить товар из корзины:</button>
+
+                </li>
+            </ul>
+        </form>
+         Информация о корзине
+        <p>Общее количество товаров: <span th:text="${totalItems}"></span></p>
+        <p>Общая стоимость: <span th:text="${totalCost}"></span></p>
+    </div>
+
+    <!-- Если пользователь не зарегистрирован, показываем сообщение или предложение зарегистрироваться -->
+    <div th:if="${currentUser == null}">
+        <p>Пожалуйста, <a th:href="@{/shop/registration}">зарегистрируйтесь</a>, чтобы начать покупки.</p>
+    </div>
+
+    </body>
+</html>

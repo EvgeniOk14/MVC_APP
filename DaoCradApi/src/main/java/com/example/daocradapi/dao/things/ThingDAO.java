@@ -14,8 +14,10 @@ import java.util.List;
 @Component
 public class ThingDAO
 {
+    //region Fields
     @PersistenceContext
     private EntityManager entityManager;
+    //endregion
 
 
     /** сохоанение вещи в каталоге (БД) **/
@@ -33,6 +35,7 @@ public class ThingDAO
         TypedQuery<Thing> query = entityManager.createQuery("SELECT t FROM Thing t", Thing.class);
         return query.getResultList();
     }
+
 
     /** удаление вещи из каталога (БД) **/
     @Transactional
@@ -58,10 +61,12 @@ public class ThingDAO
             existingThing.setThing_color(updatedThing.getThing_color());
             existingThing.setThing_price(updatedThing.getThing_price());
         }
+        entityManager.merge(existingThing); // добавил
     }
     /** получение вещи из каталога (БД) по её thing_id **/
     @Transactional
-    public NewThing getThingById(Integer id) {
+    public NewThing getThingById(Integer id)
+    {
         return entityManager.find(NewThing.class, id);
     }
 

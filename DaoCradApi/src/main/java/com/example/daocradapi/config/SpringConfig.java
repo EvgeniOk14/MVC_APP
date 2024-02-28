@@ -60,5 +60,6 @@ public class SpringConfig implements WebMvcConfigurer
                 .addResourceLocations("classpath:/static/img/");
     }
 
+
 }
 

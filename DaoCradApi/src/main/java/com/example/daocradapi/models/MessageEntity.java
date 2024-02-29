@@ -7,12 +7,10 @@ import java.time.LocalDate;
 @Entity
 public class MessageEntity
 {
-
     //region Fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
 
     @Column(name = "person_id", nullable = false)
     private Integer person_id;
@@ -30,25 +28,11 @@ public class MessageEntity
 
     @Column(name = "messageContent")
     private String messageContent;
-    //endregion
 
-/**------------------------------------------------------добавил----------------------------------------------------**/
-    //@ManyToOne
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Person person;
-
-    // Конструкторы, геттеры и сеттеры...
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-    /**----------------------------------------------------------------------------------------------------------------**/
-
+    //endregion
 
     //region Constructors
     public MessageEntity(Integer person_id, String name, String email, String theme, LocalDate messageDate, String messageContent, Person person) {
@@ -63,18 +47,19 @@ public class MessageEntity
 
     public MessageEntity()
     {
-
+        //default constructor
     }
     //endregion
 
 
     //region Getters & Settres
-
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 
@@ -128,13 +113,24 @@ public class MessageEntity
         this.messageContent = messageContent;
     }
 
-    public Integer getPerson_id() {
+    public Integer getPerson_id()
+    {
         return person_id;
     }
 
-    public void setPerson_id(Integer person_id) {
+    public void setPerson_id(Integer person_id)
+    {
         this.person_id = person_id;
     }
 
+    public Person getPerson()
+    {
+        return person;
+    }
+
+    public void setPerson(Person person)
+    {
+        this.person = person;
+    }
     //endregion
 }

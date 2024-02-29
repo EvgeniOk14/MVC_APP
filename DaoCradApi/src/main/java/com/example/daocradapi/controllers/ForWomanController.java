@@ -22,7 +22,6 @@ public class ForWomanController
         //endregion
 
         //region Constructor
-        @Autowired
         public ForWomanController(PersonDAO personDAO, JdbcPersonRepository jdbcPersonRepository, JdbcTemplate jdbcTemplate,  MessageEntityDAO messageEntityDAO)
         {
             this.personDAO = personDAO;
@@ -32,21 +31,21 @@ public class ForWomanController
         }
         //endregion
     
-    /**отображает женские спортивные костюмы**/
+    /**--------------------отображает страницу со всеми женскими спортивными костюмами-------------------------------**/
     @GetMapping("/AddedHtmlSites/indexSportSuitWoman")
     public String clotheForWoman()
     {
         return "shop/AddedHtmlSites/indexSportSuitWoman";
     }
 
-    /**отображает женские кросовки**/
+    /**---------------------отображает страницу со всеми женскими кросовками-----------------------------------------**/
     @GetMapping("/AddedHtmlSites/indexCrossWoman")
     public String crossForWoman()
     {
         return "shop/AddedHtmlSites/indexCrossWoman";
     }
 
-    /**----------------------------блок спортивные костюмы мужские------------------------------------------------ **/
+    /**---------------------блок спортивные костюмы женские по одному товару на странице-----------------------------**/
     @GetMapping("/AddedHtmlSites/CatalogOfArticle/WomanSuit1")
     public String SuitForWoman1()
     {
@@ -65,9 +64,7 @@ public class ForWomanController
         return "shop/AddedHtmlSites/CatalogOfArticle/WomanSuit3";
     }
 
-
-
-    /**----------------------------------- отображает женские кросовки ------------------------------------------------------**/
+    /**---------------------блок женские кросовки по одному товару на странице---------------------------------------**/
     @GetMapping("/AddedHtmlSites/CatalogOfArticle/WomanCross1")
     public String CrossForWoman1()
     {
@@ -83,8 +80,6 @@ public class ForWomanController
     {
         return "shop/AddedHtmlSites/CatalogOfArticle/WomanCross3";
     }
-
-
 }
 
 

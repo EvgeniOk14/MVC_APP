@@ -1,6 +1,5 @@
 package com.example.daocradapi.dao.cart;
 
-import com.example.daocradapi.models.Person;
 import com.example.daocradapi.models.cart.Cart;
 import com.example.daocradapi.models.products.NewThing;
 import jakarta.persistence.EntityManager;
@@ -10,6 +9,7 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Component
@@ -21,13 +21,12 @@ public class CartDAO
     private EntityManager entityManager;
     //endregion
 
-    /** сохраняем корзину**/
+    /** сохраняем корзину **/
     @Transactional
     public void saveCard(Cart cart)
     {
-        entityManager.merge(cart);
+        entityManager.persist(cart);
     }
-
 
     /** метод находит корзину пользователя  **/
     @Transactional
@@ -45,16 +44,17 @@ public class CartDAO
     }
 
 
-
     /** метод сохраняет или обновляет корзину пользователя **/
     @Transactional
-    public void saveOrUpdateCart(Cart cart) {
+    public void saveOrUpdateCart(Cart cart)
+    {
         entityManager.merge(cart);
     }
 
     /** Показ всего списка вещей из корзины **/
     @Transactional
-    public List<NewThing> getAllThingsFromCart() {
+    public List<NewThing> getAllThingsFromCart()
+    {
         TypedQuery<NewThing> query = entityManager.createQuery(
                 "SELECT newThing FROM Cart cart " +
                         "JOIN cart.listOfnewThings newThing", NewThing.class);
@@ -66,9 +66,6 @@ public class CartDAO
     @Transactional
     public void addThingToCart(Cart cart, NewThing existingThing)
     {
-
-        //NewThing existingThing = entityManager.find(NewThing.class, thingId); // Находим вещь в таблице things по thingId
-
         if (existingThing != null)
         {
             NewThing newThing = new NewThing();
@@ -83,8 +80,6 @@ public class CartDAO
             entityManager.merge(cart); // Обновляем корзину в базе данных
         }
     }
-
-
 
     /** получить товар из корзины по его id **/
     @Transactional

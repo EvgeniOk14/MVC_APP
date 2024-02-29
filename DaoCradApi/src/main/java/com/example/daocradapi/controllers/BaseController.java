@@ -3,7 +3,6 @@ package com.example.daocradapi.controllers;
 import com.example.daocradapi.JdbcPersonRepository;
 import com.example.daocradapi.dao.MessageEntityDAO;
 import com.example.daocradapi.dao.PersonDAO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import java.util.logging.Logger;
@@ -21,7 +20,6 @@ public abstract class BaseController
         //endregion
 
         //region Constructor
-        @Autowired
         public BaseController(PersonDAO personDAO, JdbcPersonRepository jdbcPersonRepository, JdbcTemplate jdbcTemplate,  MessageEntityDAO messageEntityDAO)
         {
             this.personDAO = personDAO;

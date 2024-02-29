@@ -32,22 +32,21 @@ public class ForManController
         }
         //endregion
 
-    /**отображает мужские спортивные костюмы**/
+    /**--------------------------отображает страницу со всеми мужскими спортивными костюмами-------------------------**/
     @GetMapping("/AddedHtmlSites/indexSportSuitMan")
     public String clotheForMan()
     {
         return "shop/AddedHtmlSites/indexSportSuitMan";
     }
 
-    /**отображает мужские кросовки**/
+    /**-------------------------отображает страницу со всеми мужскими кросовками-------------------------------------**/
     @GetMapping("/AddedHtmlSites/indexCrossMan")
     public String crossForMan()
     {
         return "shop/AddedHtmlSites/indexCrossMan";
     }
 
-
-    /**----------------------------блок спортивные костюмы мужские------------------------------------------------ **/
+    /**----------------------------блок спортивные костюмы мужские по одному товару на странице--------------------- **/
     @GetMapping("/AddedHtmlSites/CatalogOfArticle/ManSuit1")
     public String SuitForMan1()
     {
@@ -66,7 +65,7 @@ public class ForManController
         return "shop/AddedHtmlSites/CatalogOfArticle/ManSuit3";
     }
 
-    /**----------------------------------- кросовки мужские------------------------------------------------------**/
+    /**----------------------------блок кросовки мужские по одному товару на странице--------------------------------**/
     @GetMapping("/AddedHtmlSites/CatalogOfArticle/ManCross1")
     public String CrossForMan1()
     {
@@ -82,5 +81,4 @@ public class ForManController
     {
         return "shop/AddedHtmlSites/CatalogOfArticle/ManCross3";
     }
-
 }

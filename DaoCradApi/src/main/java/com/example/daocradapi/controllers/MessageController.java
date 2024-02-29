@@ -5,7 +5,6 @@ import com.example.daocradapi.dao.MessageEntityDAO;
 import com.example.daocradapi.dao.PersonDAO;
 import com.example.daocradapi.models.MessageEntity;
 import com.example.daocradapi.models.Person;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 import java.util.logging.Logger;
-
-/**-----------------------------------------------блок Messages-----------------------------------------------------------------**/
 
 @Controller
 @RequestMapping("/people")
@@ -30,7 +27,6 @@ public class MessageController
     //endregion
 
     //region Constructor
-    @Autowired
     public MessageController(PersonDAO personDAO, JdbcPersonRepository jdbcPersonRepository, JdbcTemplate jdbcTemplate,  MessageEntityDAO messageEntityDAO)
     {
         this.personDAO = personDAO;
@@ -41,17 +37,16 @@ public class MessageController
     //endregion
 
     /** метод показа сообщения message **/
-    //@GetMapping("/people/{personId}/messages")
     @GetMapping("/{personId}/messages")
-    public String showMessages(@PathVariable Integer personId, Model model) {
+    public String showMessages(@PathVariable Integer personId, Model model)
+    {
         List<MessageEntity> messages = messageEntityDAO.getMessagesByPersonId(personId);
         model.addAttribute("messages", messages);
         return "people/messages";
     }
 
     /** показ страницы с сообщениями **/
-    //@GetMapping("/people/messages")
-    @GetMapping("/messages") // показ сообщений из таблицы essages с данными из таблицы person2
+    @GetMapping("/messages") // показ сообщений из таблицы messages с данными из таблицы person2
     public String showMessagesPage(Model model)
     {
         List<MessageEntity> messages = messageEntityDAO.getAllMessages();
@@ -62,19 +57,7 @@ public class MessageController
             Person person = personDAO.getPersonById(message.getPerson_id());
             message.setPerson(person);
         }
-
         model.addAttribute("MessageEntity", messages);
         return "people/messages";
     }
-
 }
-
-
-
-//    /** показ страницы с сообщениями **/
-//    @GetMapping("/people/messages") // без данных из таблицы person2
-//    public String showMessagesPage(Model model)
-//    {
-//        model.addAttribute("MessageEntity", messageEntityDAO.getAllMessages());
-//        return "people/messages";
-//    }

@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.logging.Logger;
 
-/**------------------------------------блок выявления общих ошибок---------------------------------------------------------------**/
-
 @Controller
 public class GlobalExceptionHandlerController
 {
@@ -25,7 +23,6 @@ public class GlobalExceptionHandlerController
     //endregion
 
     //region Constructor
-    @Autowired
     public GlobalExceptionHandlerController(PersonDAO personDAO, JdbcPersonRepository jdbcPersonRepository, JdbcTemplate jdbcTemplate,  MessageEntityDAO messageEntityDAO)
     {
         this.personDAO = personDAO;
@@ -38,11 +35,11 @@ public class GlobalExceptionHandlerController
     @ControllerAdvice
     public class  GlobalExceptionHandler
     {
-
         private static final Logger LOGGER = Logger.getLogger(com.example.daocradapi.controllers.GlobalExceptionHandlerController.class.getName());
 
         @ExceptionHandler(Exception.class)
-        public String handleException(Exception e, Model model) {
+        public String handleException(Exception e, Model model)
+        {
             e.printStackTrace();
             LOGGER.warning("An exception occurred: " + e.getMessage());
             model.addAttribute("error", "An error occurred. Please try again later.");

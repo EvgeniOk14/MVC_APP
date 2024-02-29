@@ -15,13 +15,12 @@ import java.util.List;
 @Controller
 public class ThingController
 {
-    //rtegion Fields
+    //region Fields
     @Autowired // внедрение поля спрингом (вместо конструктора)
     private ThingDAO thingDAO;
     //endregion
 
-
-    /** Показ всего списка вещуй из каталога (БД) **/
+    /** Показ всего списка вещей из каталога (БД) **/
     @GetMapping("/things")
     public String getAllThigs(Model model)
     {
@@ -40,14 +39,11 @@ public class ThingController
 
     /** добавление новой вещи в каталог (БД)  **/
     @PostMapping("/saveThingsFromForm")
-    public String saveThing(@ModelAttribute("newthing") NewThing newThing) {
-        // Логика сохранения новой вещи в сервисе или DAO
-        thingDAO.saveThing(newThing);
-
-        // Перенаправление пользователя куда-то после сохранения
-        return "redirect:/things";
+    public String saveThing(@ModelAttribute("newthing") NewThing newThing)
+    {
+        thingDAO.saveThing(newThing); // сохранения новой вещи
+        return "redirect:/things"; // Перенаправление пользователя на список вещей после сохранения
     }
-
 
     /** метод удаление вещи из каталога (БД) **/
     @GetMapping("/deleteThing/{thing_id}")
@@ -72,6 +68,4 @@ public class ThingController
         thingDAO.editThing(thing_id, newThing);
         return "redirect:/things";
     }
-
-
 }

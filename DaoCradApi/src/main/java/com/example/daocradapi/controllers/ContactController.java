@@ -5,7 +5,6 @@ import com.example.daocradapi.dao.MessageEntityDAO;
 import com.example.daocradapi.dao.PersonDAO;
 import com.example.daocradapi.models.MessageEntity;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -14,8 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.util.logging.Logger;
-
-/** ------------------------- блок бработки данных из формы на странице Контакты --------------------------------------------- **/
 
 @Controller
 public class ContactController
@@ -29,7 +26,6 @@ public class ContactController
     //endregion
 
     //region Constructor
-    @Autowired
     public ContactController(PersonDAO personDAO, JdbcPersonRepository jdbcPersonRepository, JdbcTemplate jdbcTemplate,  MessageEntityDAO messageEntityDAO)
     {
         this.personDAO = personDAO;
@@ -39,21 +35,20 @@ public class ContactController
     }
     //endregion
 
-
     /** метод для обработки данных из формы: **/
     @PostMapping("/contacts/getform")
     public String processContactForm(@ModelAttribute("messageEntity") @Valid MessageEntity messageEntity, BindingResult bindingResult, Model model)
     {
-        /** проверка на ошибку ввода, т.е. валидации **/
+        // проверка на ошибку ввода, т.е. валидации
         if (bindingResult.hasErrors())
         {
             model.addAttribute("message", "Произошла ошибка валидации!");
             return "shop/contacts";
         }
-        /** поиск пользователя в БД person2 с email введённым в форму на странице Контакты **/
+        // поиск пользователя в БД person2 с email введённым в форму на странице Контакты
         try
         {
-            // поиск поля person_id  т.е. внешнего ключа, свзязанного с полем id  таблице person2
+            // поиск поля person_id т.е. внешнего ключа, свзязанного с полем id в таблице person2
             Integer person_Id = jdbcTemplate.queryForObject("SELECT id FROM person2 WHERE email = ?", new Object[]{messageEntity.getEmail()}, Integer.class);
             System.out.println("Found personId: " + person_Id); // Вывести personId в консоль для отладки
 
@@ -64,7 +59,7 @@ public class ContactController
         }
         catch (EmptyResultDataAccessException e)
         {
-            // Пользователеь с таким email не найден, соответственно возврат к страницу Регистрация (представление: registration.html)
+            // Пользователеь с таким email не найден, соответственно возврат к странице Регистрация (представление: registration.html)
             return "redirect:/shop/registration"; // возврат на страницу Регистрация (представление: registration.html)
         }
     }

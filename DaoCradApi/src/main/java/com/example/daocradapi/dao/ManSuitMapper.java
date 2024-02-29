@@ -1,6 +1,5 @@
 package com.example.daocradapi.dao;
 
-import com.example.daocradapi.models.abstractclases.ClothingType;
 import com.example.daocradapi.models.abstractclases.Gender;
 import com.example.daocradapi.models.abstractclases.Thing;
 import com.example.daocradapi.models.products.ManSuit;

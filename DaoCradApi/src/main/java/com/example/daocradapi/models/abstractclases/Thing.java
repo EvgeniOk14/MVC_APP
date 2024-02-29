@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "things")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//@DiscriminatorColumn(name = "thing_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Thing
 {
     //region Fields

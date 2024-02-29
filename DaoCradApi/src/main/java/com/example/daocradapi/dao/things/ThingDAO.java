@@ -36,7 +36,6 @@ public class ThingDAO
         return query.getResultList();
     }
 
-
     /** удаление вещи из каталога (БД) **/
     @Transactional
     public void deleteThing(Integer id)
@@ -63,12 +62,12 @@ public class ThingDAO
         }
         entityManager.merge(existingThing); // добавил
     }
+
     /** получение вещи из каталога (БД) по её thing_id **/
     @Transactional
     public NewThing getThingById(Integer id)
     {
         return entityManager.find(NewThing.class, id);
     }
-
 }
 

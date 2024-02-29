@@ -1,11 +1,9 @@
 package com.example.daocradapi.models;
 
-
 import com.example.daocradapi.models.cart.Cart;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.data.relational.core.mapping.Table;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +22,15 @@ public class Person
     @NotEmpty(message = "Поле не должно быть пустым! ")
     @Size(min = 2, max = 30, message = "имя должно содержать от 2 до 30 символов! ")
     //@Pattern(regexp = "^[A-ZА-Я][a-zа-я]+$", message = "Имя должно начинаться с заглавной буквы!") для первой заглавной буквы
-    //@Pattern(regexp = "^[a-zA-Z]+$", message = "Имя должно содержать только буквы!")
-    @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Имя должно содержать только буквы!")
+    //@Pattern(regexp = "^[a-zA-Z]+$", message = "Имя должно содержать только буквы, только латинские буквы!")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Имя должно содержать только буквы, как русские, так и латинские!")
     private String name;
 
     @Column(name = "surname")
     @NotEmpty(message = "Поле не должно быть пустым! ")
     @Size(min = 2, max = 30, message = "имя должно содержать от 2 до 30 символов! ")
     //@Pattern(regexp = "^[a-zA-Z]+$", message = "Имя должно содержать только буквы!")
-    @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Имя должно содержать только буквы!")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Имя должно содержать только буквы как русские, так и латинские!")
     private String surname;
 
     @Column(name = "age")
@@ -51,10 +49,8 @@ public class Person
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<MessageEntity> messages;
 
-    @OneToOne()
-    @PrimaryKeyJoinColumn
-//    @OneToOne
-//    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    //@PrimaryKeyJoinColumn
+    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
     private Cart cart;
     //endregion
 
@@ -137,6 +133,22 @@ public class Person
     public void setMessages(List<MessageEntity> messages)
     {
         this.messages = (messages != null) ? messages : new ArrayList<>();
+    }
+    //endregion
+
+    //region toString()
+    @Override
+    public String toString()
+    {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", messages=" + messages +
+                ", cart=" + cart +
+                '}';
     }
     //endregion
 }

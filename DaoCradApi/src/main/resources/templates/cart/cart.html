@@ -11,7 +11,7 @@
 
     <h1>Корзина</h1>
     <div th:if="${currentUser != null}">
-        <h1>Welcome, <span th:text="${currentUser.name}"></span>!</h1>
+        <h1>Welcome,  <span th:text="${currentUser.name}"></span>! - id = <span th:text="${currentUserId}"></span></h1>
         <form th:action="@{/addThing}" method="post">
             <!-- Поле для выбора товара из выпадающего списка товаров -->
             <select name="selectedThingId">
@@ -19,9 +19,10 @@
                     <span th:text="${'id товара-' + thing.thing_id + '; название товара-' + thing.thing_name + '; цвет товара-' + thing.thing_color + ';  размер товара-' + thing.thing_size + '; цена товара-' + thing.thing_price + 'рублей'}"></span>
                 </option>
             </select>
+
             <!-- скрытое поле с идентификатором текущего пользователя -->
-<!--            <input type="hidden" name="currentUser" th:value="${currentUser.id}" style="color: red;" />-->
-            <input type="hidden" th:name="currentUser" th:value="${currentUser.id}"/>
+            <input type="hidden" name="currentUser" th:value="${currentUser.id}"/>
+
             <!-- кнопка отправки товара в корзину из выпадающего списка -->
             <button type="submit">Добавить выбранный товар</button>
         </form>
@@ -45,7 +46,7 @@
         <p>Общая стоимость: <span th:text="${totalCost}"></span></p>
     </div>
 
-    <!-- Если пользователь не зарегистрирован, показываем сообщение или предложение зарегистрироваться -->
+     Если пользователь не зарегистрирован, показываем сообщение или предложение зарегистрироваться
     <div th:if="${currentUser == null}">
         <p>Пожалуйста, <a th:href="@{/shop/registration}">зарегистрируйтесь</a>, чтобы начать покупки.</p>
     </div>

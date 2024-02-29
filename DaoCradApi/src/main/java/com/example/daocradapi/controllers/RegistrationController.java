@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.util.logging.Logger;
 
-/** ------------------------------------блок Registraition ------------------------------------------------------------------- **/
-
 @Controller
 public class RegistrationController
 {
@@ -28,7 +26,6 @@ public class RegistrationController
     //endregion
 
     //region Constructor
-    @Autowired
     public RegistrationController(PersonDAO personDAO, JdbcPersonRepository jdbcPersonRepository, JdbcTemplate jdbcTemplate,  MessageEntityDAO messageEntityDAO)
     {
         this.personDAO = personDAO;
@@ -44,18 +41,17 @@ public class RegistrationController
      *  этот метод выполняется, создает новый объект Person,
      *  добавляет его в модель и возвращает имя представления,
      *  которое будет отображено пользователю (в данном случае, "shop/registration") **/
-
     @GetMapping("shop/registration")
-    public String showRegistrationForm(Model model) {
+    public String showRegistrationForm(Model model)
+    {
         model.addAttribute("person", new Person());
-        return "shop/registration";
+        return "shop/registration"; //переход на форму с регистрацией пользователя
     }
 
     /** регистрация пользователей сайта магазина (метод 2):
      * считывание данных с формы (registration.html путь в форме: "@{/registration/error}" )
      * и сохранение пользователя магазина в базе данных,
      *  а также валидация введённых данных  **/
-
     @PostMapping("/registration/error")
     public String processRegistration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
                                       Model model)
@@ -64,7 +60,7 @@ public class RegistrationController
         {
             LOGGER.warning("Validation errors occurred: " + bindingResult.getAllErrors());
             model.addAttribute("message", "     Произошла ошибка валидации!");
-            return "shop/registration"; // изменения добавил shop в путь для того чтобы валидация работала!
+            return "shop/registration"; // переход на форму с регистрацией пользователя
         }
         // Проверка наличия почты в БД
         if (jdbcPersonRepository.findPersonByEmail(person.getEmail())!=null)
@@ -73,7 +69,6 @@ public class RegistrationController
             return "shop/registration"; // возвращаем страницу с формой, чтобы пользователь мог внести коррективы.
         }
         personDAO.save(person);
-        return "redirect:/";
+        return "redirect:/"; // возвращает на главную страницу магазина
     }
-
 }

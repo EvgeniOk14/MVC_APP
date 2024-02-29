@@ -1,10 +1,8 @@
 package com.example.daocradapi.dao;
 
-import com.example.daocradapi.models.abstractclases.ClothingType;
 import com.example.daocradapi.models.abstractclases.Gender;
 import com.example.daocradapi.models.products.WomanSuit;
 import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

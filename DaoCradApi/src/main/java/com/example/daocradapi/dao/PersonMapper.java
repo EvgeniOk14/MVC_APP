@@ -10,18 +10,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-
 @Repository
 @Component
 public class PersonMapper implements RowMapper<Person>
 {
-   // private JdbcTemplate jdbcTemplate;
-
-
     @Override
     public Person mapRow(ResultSet resultSet, int rowNum) throws SQLException
     {
-
         Person person = new Person();
         person.setId(resultSet.getInt("id"));
         person.setName(resultSet.getString("name"));
@@ -29,12 +24,14 @@ public class PersonMapper implements RowMapper<Person>
         person.setAge(resultSet.getInt("age"));
         person.setEmail(resultSet.getString("email"));
 
-        // Получаем сообщения для данного человека
+        // Получаем список сообщений для данного человека
         List<MessageEntity> messages = getMessagesForPerson(person.getId());
+        //записываем новое сообщение в список для данного человека
         person.setMessages(messages);
 
         return person;
     }
+    /** получить список сообщений пользователя по его id **/
     private List<MessageEntity> getMessagesForPerson(Integer personId)
     {
         String sql = "SELECT * FROM messages WHERE person_id = ?";

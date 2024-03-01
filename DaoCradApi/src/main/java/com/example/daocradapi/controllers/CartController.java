@@ -9,6 +9,7 @@ import com.example.daocradapi.models.cart.Cart;
 import com.example.daocradapi.models.products.NewThing;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.codehaus.groovy.transform.SourceURIASTTransformation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -64,8 +65,6 @@ public class CartController
     public String getCart(Model model, @ModelAttribute("currentUser") Integer id)
     {
         Person currentUser = personDAO.getPersonById(id);
-        System.out.println(currentUser);
-
         if (currentUser != null)
         {
             Cart userCart = cartDAO.getCartByUserId(id); // Получаем корзину текущего пользователя
@@ -73,24 +72,14 @@ public class CartController
             {
                 userCart = new Cart();            // Если корзина еще не существует, создаем новую корзину
                 userCart.setPerson(currentUser); // Связываем корзину с текущим пользователем
-                currentUser.setCart(userCart);
-
-                System.out.println("BEFORE: " + currentUser.getId());
-
+                currentUser.setCart(userCart);   // устанавливаем корзину текущему пользователю
                 cartDAO.saveCard(userCart);     // Сохраняем созданную корзину в базе данных
-
-
-                System.out.println("AFTER: " + currentUser.getId());
             }
-
             model.addAttribute("userCart", userCart); // Передаем корзину в модель для отображения на странице корзины
-
             List<Thing> things = thingDAO.getAllThigs();       //Получение списка всех товаров
             model.addAttribute("things", things); // Добавление списка товаров в модель
-
             model.addAttribute("currentUser", currentUser); // передаём в модель текущего пользователя
             model.addAttribute("currentUserId", currentUser.getId()); // Передаем идентификатор текущего пользователя в модель
-
         }
         else
         {
@@ -102,42 +91,43 @@ public class CartController
 
     /** метод добавления товара в корзину **/
     @PostMapping("/addThing")
-    public String addThing(@RequestParam("selectedThingId") Integer selectedThingId, @RequestParam("currentUser") Integer id)
+    public String addThing(Model model, @RequestParam("selectedThingId") Integer selectedThingId, @RequestParam("currentUser") Integer id)
     {
         if (id != null)
         {
             Person currentUser = personDAO.getPersonById(id); // получаем текущего пользователя
-
             Cart cart = cartDAO.getCartByUserId(id); // Получаем корзину текущего пользователя
-            System.out.println("карта текущего пользователя до сохранения:" + cart);
-
             if (cart == null)
             {
                 cart = new Cart();
                 cart.setPerson(currentUser); // устанавливаем корзине текущего пользователя
                 currentUser.setCart(cart); // устанавливаем текущему пользователю корзину
-
-                // временно!!! проверяем вывод в консоль
-                System.out.println("вывод пользователя и его id");
-                System.out.println("id текущего пользователя: " + id);
-                System.out.println("id текущего пользователя: " + currentUser.getId());
-                System.out.println("текущий пользователь: " + currentUser);
-
                 cartDAO.saveCard(cart); // Сохранение корзины
             }
-            NewThing selectedThing = thingDAO.getThingById(selectedThingId); // Получаем выбранный товар по его id
+            else
+            {
+                cart.setPerson(currentUser);
+            }
 
-            //временно!!! проверяем вывод в консоль
-            System.out.println("выбранная пользователем вещь: " + selectedThingId);
+            NewThing selectedThing = thingDAO.getThingById(selectedThingId); // Получаем выбранный товар по его id
 
             if (cart.getListOfnewThings() == null)
             {
-                cart.setListOfnewThings(new ArrayList<>());
+               cart.setListOfnewThings(new ArrayList<>());
             }
 
             cartDAO.addThingToCart(cart, selectedThing); //Добавляем выбранный товар в корзину и сохраняем изменения в корзине
-            System.out.println("карта текущего пользователя после сохранения:" + cart);
 
+            model.addAttribute("userCart", cart); // Передаем корзину в модель для отображения на странице корзины
+
+            List<Thing> things = thingDAO.getAllThigs();       //Получение списка всех товаров
+            model.addAttribute("things", things); // Добавление списка товаров в модель
+
+            model.addAttribute("selectedThing", selectedThing);
+            model.addAttribute("currentUser", currentUser); // передаём в модель текущего пользователя
+            model.addAttribute("currentUserId", currentUser.getId()); // Передаем идентификатор текущего польз
+            List<NewThing> listOfThingsOfCurrentUser = cart.getListOfnewThings();
+            model.addAttribute("listOfThingsOfCurrentUser", listOfThingsOfCurrentUser);
             return "redirect:/cart"; // Перенаправляем на страницу корзины
         }
         else

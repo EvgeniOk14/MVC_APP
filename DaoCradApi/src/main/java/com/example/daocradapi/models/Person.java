@@ -135,21 +135,5 @@ public class Person
         this.messages = (messages != null) ? messages : new ArrayList<>();
     }
     //endregion
-
-    //region toString()
-    @Override
-    public String toString()
-    {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", age=" + age +
-                ", email='" + email + '\'' +
-                ", messages=" + messages +
-                ", cart=" + cart +
-                '}';
-    }
-    //endregion
 }
 

@@ -106,21 +106,6 @@ public abstract class Thing
         this.thing_price = thing_price;
     }
     //endregion
-
-    //region toString
-    @Override
-    public String toString()
-    {
-        return "Thing{" +
-                "thing_id=" + thing_id +
-                ", thing_gender=" + thing_gender +
-                ", thing_name='" + thing_name + '\'' +
-                ", thing_size=" + thing_size +
-                ", thing_color='" + thing_color + '\'' +
-                ", thing_price=" + thing_price +
-                '}';
-    }
-    //endregion
 }
 
 

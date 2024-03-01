@@ -1,15 +1,16 @@
 package com.example.daocradapi.dao.cart;
 
+import com.example.daocradapi.dao.PersonDAO;
+import com.example.daocradapi.models.Person;
 import com.example.daocradapi.models.cart.Cart;
 import com.example.daocradapi.models.products.NewThing;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -19,6 +20,9 @@ public class CartDAO
     //region Fields
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    private PersonDAO personDAO;
     //endregion
 
     /** сохраняем корзину **/
@@ -98,6 +102,27 @@ public class CartDAO
             entityManager.remove(removalItem);
         }
     }
+
+
+    @Transactional
+    public void deleteCartThingFromCartFromCurrentUser(Integer thing_id, Integer currentUserId)
+    {
+        Person currentUser = personDAO.getPersonById(currentUserId);
+        Cart currentUserCart = currentUser.getCart();
+        List<NewThing> listOfThingsOfCurrentUser = currentUserCart.getListOfnewThings();
+
+        Iterator<NewThing> iterator = listOfThingsOfCurrentUser.iterator();
+        while (iterator.hasNext())
+        {
+            NewThing thing = iterator.next();
+            if (thing.getThing_id() == thing_id)
+            {
+                iterator.remove();
+                break;
+            }
+        }
+    }
+
 
     /** метод редактирование вещи в корзине **/
     @Transactional

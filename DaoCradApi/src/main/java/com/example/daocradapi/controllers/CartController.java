@@ -74,6 +74,9 @@ public class CartController
                 currentUser.setCart(userCart);   // устанавливаем корзину текущему пользователю
                 cartDAO.saveCard(userCart);     // Сохраняем созданную корзину в базе данных
             }
+            List<NewThing> listOfThingsOfCurrentUser = userCart.getListOfnewThings(); // Получаем список всех товаров из корзины текущего пользователя
+            model.addAttribute("listOfThingsOfCurrentUser", listOfThingsOfCurrentUser); // передаём список всех товаров из корзины  в модель, для передачи их на представление корзины
+
             model.addAttribute("userCart", userCart); // Передаем корзину в модель для отображения на странице корзины
             List<Thing> things = thingDAO.getAllThigs();       //Получение списка всех товаров
             model.addAttribute("things", things); // Добавление списка товаров в модель
@@ -112,7 +115,7 @@ public class CartController
 
             if (cart.getListOfnewThings() == null)
             {
-               cart.setListOfnewThings(new ArrayList<>());
+                cart.setListOfnewThings(new ArrayList<>());
             }
 
             cartDAO.addThingToCart(cart, selectedThing); //Добавляем выбранный товар в корзину и сохраняем изменения в корзине
@@ -143,10 +146,10 @@ public class CartController
         try
         {
             // Получить текущего пользователя
-           // Person currentUser = ... ; // Получить текущего пользователя, нужно реализовать эту логику
+            // Person currentUser = ... ; // Получить текущего пользователя, нужно реализовать эту логику
 
             // Найти корзину текущего пользователя
-           // Cart userCart = cartDAO.getCartByUserId(currentUser.getId());
+            // Cart userCart = cartDAO.getCartByUserId(currentUser.getId());
 
             // Удалить товар из корзины пользователя по его идентификатору
             cartDAO.deleteCartThingFromCart(thing_id);

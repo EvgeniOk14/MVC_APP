@@ -9,7 +9,6 @@ import com.example.daocradapi.models.cart.Cart;
 import com.example.daocradapi.models.products.NewThing;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.codehaus.groovy.transform.SourceURIASTTransformation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -128,7 +127,7 @@ public class CartController
             model.addAttribute("currentUserId", currentUser.getId()); // Передаем идентификатор текущего польз
             List<NewThing> listOfThingsOfCurrentUser = cart.getListOfnewThings();
             model.addAttribute("listOfThingsOfCurrentUser", listOfThingsOfCurrentUser);
-            return "redirect:/cart"; // Перенаправляем на страницу корзины
+            return "cart/cart"; // Перенаправляем на страницу корзины
         }
         else
         {
@@ -136,7 +135,6 @@ public class CartController
             return "redirect:/shop/registration";
         }
     }
-
 
     /** удаление вещи из корзины по её id **/
     @PostMapping("/removeThing")

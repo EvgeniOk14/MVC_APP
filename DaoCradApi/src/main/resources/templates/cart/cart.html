@@ -31,7 +31,7 @@
     <h2>Список добавленных товаров в корзину:</h2>
         <form th:action="@{/removeThing}" method="post">
             <ul>
-                <li th:each="thing : ${things}" th:value="thing.thing_id">
+                <li th:each="thing : ${listOfThingsOfCurrentUser}" th:value="thing.thing_id">
                     <span th:text="${'id товара-' + thing.thing_id + '; название товара-' + thing.thing_name + '; цвет товара-' + thing.thing_color + ';  размер товара-' + thing.thing_size + '; цена товара-' + thing.thing_price + 'рублей'}"></span>
 
 

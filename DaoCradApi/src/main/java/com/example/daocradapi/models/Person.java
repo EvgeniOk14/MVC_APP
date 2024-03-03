@@ -50,6 +50,7 @@ public class Person
     private List<MessageEntity> messages;
 
     //@PrimaryKeyJoinColumn
+
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
     private Cart cart;
     //endregion
@@ -135,5 +136,18 @@ public class Person
         this.messages = (messages != null) ? messages : new ArrayList<>();
     }
     //endregion
+
+//    @Override
+//    public String toString() {
+//        return "Person{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", surname='" + surname + '\'' +
+//                ", age=" + age +
+//                ", email='" + email + '\'' +
+//                ", messages=" + messages +
+//                ", cart=" + cart +
+//                '}';
+//    }
 }
 

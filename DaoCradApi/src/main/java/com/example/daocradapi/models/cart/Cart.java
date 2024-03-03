@@ -3,7 +3,10 @@ package com.example.daocradapi.models.cart;
 import com.example.daocradapi.models.Person;
 import com.example.daocradapi.models.products.NewThing;
 import jakarta.persistence.*;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "table_carts")
@@ -26,6 +29,7 @@ public class Cart
             inverseJoinColumns = @JoinColumn(name = "thing_id"))
     private List<NewThing> listOfnewThings;
     //endregion
+
 
 
     //region Constructors
@@ -84,6 +88,15 @@ public class Cart
         return listOfnewThings.stream().mapToInt(NewThing::getThing_price).sum();
     }
     //endregion
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "id=" + id +
+                ", person=" + person +
+                ", listOfnewThings=" + listOfnewThings +
+                '}';
+    }
 }
 
 

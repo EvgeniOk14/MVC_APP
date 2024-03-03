@@ -1,7 +1,6 @@
 package com.example.daocradapi.dao.cart;
 
 import com.example.daocradapi.dao.PersonDAO;
-import com.example.daocradapi.models.Person;
 import com.example.daocradapi.models.cart.Cart;
 import com.example.daocradapi.models.products.NewThing;
 import jakarta.persistence.*;
@@ -9,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -47,13 +44,6 @@ public class CartDAO
         }
     }
 
-
-    /** метод сохраняет или обновляет корзину пользователя **/
-    @Transactional
-    public void saveOrUpdateCart(Cart cart)
-    {
-        entityManager.merge(cart);
-    }
 
     /** Показ всего списка вещей из корзины **/
     @Transactional
@@ -92,37 +82,51 @@ public class CartDAO
         return entityManager.find(NewThing.class, id);
     }
 
-    /** удалить товар из корзины по его id **/
+    /** Метод для удаления вещи из корзины по её id **/
     @Transactional
-    public void deleteCartThingFromCart(Integer id)
+    public void removeThingFromCart(int thing_id, int cart_id)
     {
-        NewThing removalItem = getCartThingById(id);
-        if (removalItem != null)
-        {
-            entityManager.remove(removalItem);
-        }
+        String sql = "DELETE FROM table_list_of_things_in_one_cart WHERE cart_id = " + cart_id + " AND thing_id = " + thing_id;
+        entityManager.createNativeQuery(sql).executeUpdate();
+
     }
 
-
-    @Transactional
-    public void deleteCartThingFromCartFromCurrentUser(Integer thing_id, Integer currentUserId)
+    /** суммирование общей стоимости в корзине текущего пользователя **/
+    public double calculateTotalCost(Integer currentUserId)
     {
-        Person currentUser = personDAO.getPersonById(currentUserId);
-        Cart currentUserCart = currentUser.getCart();
-        List<NewThing> listOfThingsOfCurrentUser = currentUserCart.getListOfnewThings();
-
-        Iterator<NewThing> iterator = listOfThingsOfCurrentUser.iterator();
-        while (iterator.hasNext())
+        Cart cart = getCartByUserId(currentUserId);
+        double totalCost = 0.0;
+        if (cart != null)
         {
-            NewThing thing = iterator.next();
-            if (thing.getThing_id() == thing_id)
+            for (NewThing thing : cart.getListOfnewThings())
             {
-                iterator.remove();
-                break;
+                totalCost += thing.getThing_price();
             }
         }
+        return totalCost;
     }
 
+    /** суммирование общей стоимости в корзине текущего пользователя способ через Stream Api  **/
+    public double calcSumTotalCost(List<NewThing> listOfThingsOfCurrentUser)
+    {
+        double totalCost = listOfThingsOfCurrentUser.stream().mapToInt(NewThing::getThing_price).sum();
+        return totalCost;
+    }
+
+
+    /** Получение общего количества товаров во всех корзинах всех зарегистрированных пользователей **/
+    @Transactional
+    public int getTotalSumOfNewThingsInAllCarts()
+    {
+        TypedQuery<Cart> query = entityManager.createQuery(
+                "SELECT cart FROM Cart cart JOIN FETCH cart.listOfnewThings newThing", Cart.class);
+
+        List<Cart> carts = query.getResultList();
+        int totalSum = carts.stream()
+                .mapToInt(cart -> cart.getSumThingInCart())
+                .sum();
+        return totalSum;
+    }
 
     /** метод редактирование вещи в корзине **/
     @Transactional
@@ -144,73 +148,6 @@ public class CartDAO
             entityManager.merge(existingCartThing);
         }
     }
-
-    /** Получение общей суммы покупок во всех корзинах всех зарегистрированных пользователей **/
-    @Transactional
-    public int getTotalCostInAllCarts()
-    {
-        TypedQuery<Cart> query = entityManager.createQuery(
-                "SELECT cart FROM Cart cart JOIN FETCH cart.listOfnewThings newThing", Cart.class);
-
-        List<Cart> carts = query.getResultList();
-
-        int totalCost = carts.stream()
-                .mapToInt(cart -> cart.getTotalCost())
-                .sum();
-
-        return totalCost;
-    }
-
-    /** Получение общей суммы покупок в одной конкретной корзине
-     *  конкретного зарегистрированного пользователя по заданному id **/
-    @Transactional
-    public int getTotalCostInOneCart(Integer id)
-    {
-        TypedQuery<Cart> query = entityManager.createQuery(
-                "SELECT cart FROM Cart cart JOIN FETCH cart.listOfnewThings newThing WHERE cart.id = :id", Cart.class);
-        query.setParameter("id", id);
-
-        Cart cart = query.getSingleResult();
-
-        if (cart != null)
-        {
-            return cart.getTotalCost();
-        }
-        return 0;
-    }
-
-    /** Получение общего количества товаров во всех корзинах всех зарегистрированных пользователей **/
-    @Transactional
-    public int getTotalSumOfNewThingsInAllCarts()
-    {
-        TypedQuery<Cart> query = entityManager.createQuery(
-                "SELECT cart FROM Cart cart JOIN FETCH cart.listOfnewThings newThing", Cart.class);
-
-        List<Cart> carts = query.getResultList();
-        int totalSum = carts.stream()
-                .mapToInt(cart -> cart.getSumThingInCart())
-                .sum();
-        return totalSum;
-    }
-
-
-    /** Получение общего количества товаров в одной конкретной корзине
-     *  конкретного зарегистрированного пользователя по его id **/
-    @Transactional
-    public int getTotalSumOfNewThingsInOneCart(Integer id)
-    {
-        TypedQuery<Cart> query = entityManager.createQuery(
-                "SELECT cart FROM Cart cart JOIN FETCH cart.listOfnewThings newThing WHERE cart.id = :id", Cart.class);
-        query.setParameter("id", id);
-
-        Cart cart = query.getSingleResult();
-
-        if (cart != null)
-        {
-            return cart.getSumThingInCart();
-        }
-        return 0;
-    }
 }
 
 
@@ -219,63 +156,8 @@ public class CartDAO
 
 
 
-//    @Transactional
-//    public Integer saveCard(Cart cart)
-//    {
-//        entityManager.persist(cart);
-//        return cart.getId();
-//    }
 
 
 
-//    @Transactional
-//    public Cart getCartByUserId(Integer userId) {
-//        try {
-//            Person person = entityManager.find(Person.class, userId); // Получаем объект Person из базы данных по его идентификатору
-//            if (person != null)
-//            {
-//                Cart cart = entityManager.createQuery("SELECT c FROM Cart c WHERE c.person = :person", Cart.class)
-//                        .setParameter("person", person)
-//                        .getSingleResult();
-//                cart.setPerson(person); // Устанавливаем ассоциацию с объектом Person
-//                return cart;
-//            }
-//            else
-//            {
-//                return null; // Возвращаем null, если пользователь не найден
-//            }
-//        }
-//        catch (NoResultException e)
-//        {
-//            return null; // Возвращаем null, если корзина не найдена
-//        }
-//    }
 
 
-
-//    @Transactional
-//    public Cart getCart(Person currentUser)
-//    {
-//        if (currentUser != null && currentUser.getId() != null)
-//        {
-//            try {
-//                // Ищем корзину по текущему пользователю
-//                return entityManager.createQuery(
-//                                "SELECT c FROM Cart c WHERE c.person = :currentUser", Cart.class)
-//                        .setParameter("currentUser", currentUser)
-//                        .getSingleResult();
-//            }
-//            catch (NoResultException e)
-//            {
-//                // Если корзина не найдена, создаем новую и связываем с текущим пользователем
-//                Cart newCart = new Cart();
-//                newCart.setPerson(currentUser);
-//                saveCard(newCart); // Сохраняем созданную корзину
-//                return newCart;
-//            }
-//        }
-//        else
-//        {
-//            throw new IllegalArgumentException("Текущий пользователь не может быть null");
-//        }
-//    }

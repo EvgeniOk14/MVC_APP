@@ -96,7 +96,7 @@ public class CartDAO
     {
         Cart cart = getCartByUserId(currentUserId);
         double totalCost = 0.0;
-        if (cart != null)
+        if (cart != null && cart.getListOfnewThings() != null)
         {
             for (NewThing thing : cart.getListOfnewThings())
             {

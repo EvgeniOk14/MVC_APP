@@ -103,8 +103,8 @@ body {
     padding: 10px;
     bottom: 0;
     width: 100%;
+    position: fixed;
 }
-
 
 .photo-gallery {
     margin: 20px; /* Регулируйте отступ вокруг галереи по вашему усмотрению */
@@ -164,4 +164,7 @@ img {
 .point {
      margin-left: 10px;
 }
+
+
+
 

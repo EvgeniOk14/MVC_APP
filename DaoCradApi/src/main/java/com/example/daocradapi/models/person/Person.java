@@ -5,7 +5,6 @@ import com.example.daocradapi.models.cart.Cart;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.data.relational.core.mapping.Table;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +12,6 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Person
 {
-
     //region fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,105 +48,174 @@ public class Person
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<MessageEntity> messages;
 
-    //@PrimaryKeyJoinColumn
-
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
     private Cart cart;
     //endregion
 
+    //region Constructors
 
-    //region constructor
     public Person(Integer id, String name, String surname, int age, String email, List<MessageEntity> messages, Cart cart)
     {
         this.id = id;
         this.name = name;
-        this.surname =  surname;
+        this.surname = surname;
         this.age = age;
         this.email = email;
         this.messages = messages;
         this.cart = cart;
     }
-
     public Person()
     {
-        //default constructor
+        // default Constructor
     }
     //endregion
 
+    //region Getters && Setters
 
-    //region Getter Setter
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
-    public void setId(Integer id)
-    {
+
+    public void setId(Integer id) {
         this.id = id;
     }
-    public String getName()
-    {
+
+    public String getName() {
         return name;
     }
-    public void setName(String name)
-    {
+
+    public void setName(String name) {
         this.name = name;
     }
-    public String getSurname()
-    {
+
+    public String getSurname() {
         return surname;
     }
-    public void setSurname(String surname)
-    {
+
+    public void setSurname(String surname) {
         this.surname = surname;
     }
-    public int getAge()
-    {
+
+    public int getAge() {
         return age;
     }
-    public void setAge(int age)
-    {
+
+    public void setAge(int age) {
         this.age = age;
     }
-    public String getEmail()
-    {
+
+    public String getEmail() {
         return email;
     }
-    public void setEmail(String email)
-    {
+
+    public void setEmail(String email) {
         this.email = email;
     }
-    public Cart getCart()
-    {
-        return cart;
-    }
 
-    public void setCart(Cart cart)
-    {
-        this.cart = cart;
-    }
-
-    public List<MessageEntity> getMessages()
-    {
+    public List<MessageEntity> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<MessageEntity> messages)
-    {
-        this.messages = (messages != null) ? messages : new ArrayList<>();
+    public void setMessages(List<MessageEntity> messages) {
+        this.messages = messages;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
     //endregion
-
-//    @Override
-//    public String toString() {
-//        return "Person{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", surname='" + surname + '\'' +
-//                ", age=" + age +
-//                ", email='" + email + '\'' +
-//                ", messages=" + messages +
-//                ", cart=" + cart +
-//                '}';
-//    }
 }
+
+
+
+
+
+
+
+//    //region constructor
+//    public Person(Integer id, String name, String surname, int age, String email, List<MessageEntity> messages, Cart cart)
+//    {
+//        this.id = id;
+//        this.name = name;
+//        this.surname =  surname;
+//        this.age = age;
+//        this.email = email;
+//        this.messages = messages;
+//        this.cart = cart;
+//    }
+//
+//    public Person()
+//    {
+//        //default constructor
+//    }
+//    //endregion
+
+
+//    //region Getter Setter
+//    public Integer getId()
+//    {
+//        return id;
+//    }
+//    public void setId(Integer id)
+//    {
+//        this.id = id;
+//    }
+//    public String getName()
+//    {
+//        return name;
+//    }
+//    public void setName(String name)
+//    {
+//        this.name = name;
+//    }
+//    public String getSurname()
+//    {
+//        return surname;
+//    }
+//    public void setSurname(String surname)
+//    {
+//        this.surname = surname;
+//    }
+//    public int getAge()
+//    {
+//        return age;
+//    }
+//    public void setAge(int age)
+//    {
+//        this.age = age;
+//    }
+//    public String getEmail()
+//    {
+//        return email;
+//    }
+//    public void setEmail(String email)
+//    {
+//        this.email = email;
+//    }
+//    public Cart getCart()
+//    {
+//        return cart;
+//    }
+//
+//    public void setCart(Cart cart)
+//    {
+//        this.cart = cart;
+//    }
+//
+//    public List<MessageEntity> getMessages()
+//    {
+//        return messages;
+//    }
+//
+//    public void setMessages(List<MessageEntity> messages)
+//    {
+//        this.messages = (messages != null) ? messages : new ArrayList<>();
+//    }
+//    //endregion
+//
+
 

@@ -2,8 +2,8 @@ package com.example.daocradapi.dao.cart;
 
 import com.example.daocradapi.dao.person.PersonDAO;
 import com.example.daocradapi.dao.things.ThingDAO;
-import com.example.daocradapi.models.abstractclases.Thing;
 import com.example.daocradapi.models.cart.Cart;
+import com.example.daocradapi.models.cartItem.CartItem;
 import com.example.daocradapi.models.products.NewThing;
 import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,35 +50,30 @@ public class CartDAO
         }
     }
 
-
-    /** Показ всего списка вещей из корзины **/
+    /** Показ всего списка вещей cartItems из корзины Cart **/
     @Transactional
-    public List<NewThing> getAllThingsFromCart()
+    public List<CartItem> getAllThingsFromCart()
     {
-        TypedQuery<NewThing> query = entityManager.createQuery(
-                "SELECT newThing FROM Cart cart " +
-                        "JOIN cart.listOfnewThings newThing", NewThing.class);
+        TypedQuery<CartItem> query = entityManager.createQuery(
+                "SELECT cartItem FROM Cart cart JOIN cart.cartItems cartItem", CartItem.class);
         return query.getResultList();
     }
 
-
     /** добавление новой вещи в корзину **/
     @Transactional
-    public void addThingToCart(Cart cart, NewThing selectedThing)
+    public void addCartItemToCart(Cart cart, NewThing selectedThing)
     {
         boolean flag = true;
-        if(cart.getListOfnewThings() != null) // если товар уже есть в корзине, тодобавляем к товару количество товара = +1
+        if(cart.getListOfCartItems() != null) // если товар уже есть в корзине, тодобавляем к товару количество товара = +1
         {
-            System.out.println("это список вещей в корзине: " + cart.getListOfnewThings());
             if (selectedThing != null && selectedThing.getQuantity() > 0)
             {
-                for (NewThing thing : cart.getListOfnewThings())
+                for (CartItem cartItem : cart.getListOfCartItems())
                 {
-                    if (thing.getThing_id() == (selectedThing.getThing_id()))
+                    //if (cartItem.getCartItem_id() == (selectedThing.getThing_id()))
+                    if ((cartItem.getThing().getThing_id()).equals(selectedThing.getThing_id()));
                     {
-                        System.out.println("ДО!!!  quantity до увеличения на 1: "  + thing.getQuantity());
-                        // Если товар уже есть в корзине, увеличиваем его количество
-                        thing.setQuantity(thing.getQuantity() + 1);
+                        cartItem.setCartItem_quantity(cartItem.getCartItem_quantity() + 1);
                         flag = false;
                         break;
                     }
@@ -87,15 +82,15 @@ public class CartDAO
             if(flag)
             {
                 // Если товара нет в корзине, добавляем его с количеством 1
-                NewThing newThing = new NewThing();
-                newThing.setThing_id(selectedThing.getThing_id());
-                newThing.setThing_name(selectedThing.getThing_name());
-                newThing.setThing_gender(selectedThing.getThing_gender());
-                newThing.setThing_size(selectedThing.getThing_size());
-                newThing.setThing_color(selectedThing.getThing_color());
-                newThing.setThing_price(selectedThing.getThing_price());
-                newThing.setQuantity(1);
-                cart.getListOfnewThings().add(newThing);
+                CartItem cartItem = new CartItem();
+                cartItem.setCartItem_id(selectedThing.getThing_id());
+                cartItem.setCartItem_name(selectedThing.getThing_name());
+                cartItem.setCartItem_gender(selectedThing.getThing_gender());
+                cartItem.setCartItem_size(selectedThing.getThing_size());
+                cartItem.setCartItem_color(selectedThing.getThing_color());
+                cartItem.setCartItem_price(selectedThing.getThing_price());
+                cartItem.setCartItem_quantity(1);
+                cart.getListOfCartItems().add(cartItem);
             }
         }
         entityManager.merge(cart); // Обновляем корзину в базе данных
@@ -103,9 +98,9 @@ public class CartDAO
 
     /** получить товар из корзины по его id **/
     @Transactional
-    public NewThing getCartThingById(Integer id)
+    public CartItem getCartItemFromCartById(Integer id)
     {
-        return entityManager.find(NewThing.class, id);
+        return entityManager.find(CartItem.class, id);
     }
 
     /** получить корзину по её id **/
@@ -115,13 +110,181 @@ public class CartDAO
         return entityManager.find(Cart.class, cartId);
     }
 
-    /** Метод для удаления вещи из корзины по её id **/
+    /** Данный метод удалят товар из таблицы cart_items, по id вещи (thing_id) и id корзины пользователя (cart_id) **/
     @Transactional
-    public void removeThingFromCart(int thing_id, int cart_id)
+    public void removeCartItemFromCart(int thing_id, int cart_id)
     {
-        String sql = "DELETE FROM table_list_of_things_in_one_cart WHERE cart_id = " + cart_id + " AND thing_id = " + thing_id;
-        entityManager.createNativeQuery(sql).executeUpdate();
+        entityManager.createQuery(
+                        "DELETE FROM CartItem cartItem WHERE cartItem.cart.id = :cartId AND cartItem.thing.thing_id = :thingId")
+                .setParameter("cartId", cart_id)
+                .setParameter("thingId", thing_id)
+                .executeUpdate();
     }
+
+    /** Данный метод удаляет товар по условию:
+     * 1) удаляет количество товара, если количество товара больше 1
+     * 2) удаляет сам товар, если количество товара равно 1 (т.е. товар последний)
+     * 3) показывает предупреждение: "Данный товар отсутствует в Вашей корзине!", если количество товара меньше 1 (т.е. товар отсутствует в корзине)
+     * **/
+    @Transactional
+    public void removeCartItemFromCartIf(int thing_id, int cart_id)
+    {
+        // Поиск CartItem по thing_id и cart_id
+        CartItem cartItem = entityManager.createQuery(
+                        "SELECT ci FROM CartItem ci WHERE ci.cart.id = :cartId AND ci.thing.thing_id = :thingId", CartItem.class)
+                .setParameter("cartId", cart_id)
+                .setParameter("thingId", thing_id)
+                .getSingleResult();
+
+        // Если нашли CartItem
+        if (cartItem != null)  // если найденный товар не равен нулю, то:
+        {
+            if (cartItem.getCartItem_quantity() > 1) // Если количество товара в корзине больше 1, то:
+            {
+                cartItem.setCartItem_quantity(cartItem.getCartItem_quantity() - 1); // уменьшаем его на 1
+            }
+            if (cartItem.getCartItem_quantity() == 1) // Если количество товара равно 1 (последний товар в корзине), то:
+            {
+                removeCartItemFromCart(thing_id, cart_id); // удаляем сам товар CartItem
+                //entityManager.remove(cartItem); <--- можно также использовать такой метод удаления товара
+            }
+        }
+        else
+        {
+            throw new RuntimeException("Данный товар отсутствует в Вашей корзине!"); // Если товар не найден, выбрасываем исключение
+        }
+    }
+
+        /** суммирование общей стоимости в корзине текущего пользователя **/
+        public double calculateTotalPrice(Integer currentUserId)
+        {
+            double totalPrice = 0.0;
+
+            Cart cart = getCartByUserId(currentUserId);
+            if (cart != null && cart.getListOfCartItems() != null)
+            {
+                List<CartItem> listOfCartItemsOfCurrentUser = cart.getListOfCartItems();
+
+                for (CartItem item : listOfCartItemsOfCurrentUser)
+                {
+                    int thingQuantity = item.getCartItem_quantity();
+                    double thingPrice = item.getCartItem_price();
+                    totalPrice += thingPrice * thingQuantity;
+                }
+                return totalPrice;
+            }
+            return totalPrice;
+        }
+
+    /** расчёт общего количества товаров в корзине текущего пользователя **/
+    public int calculateTotalQuantity(Integer currentUserId)
+    {
+        int totalQuantity = 0;
+        Cart cart = getCartByUserId(currentUserId);
+        if (cart != null && cart.getListOfCartItems() != null)
+        {
+            List<CartItem> listOfCartItemsOfCurrentUser = cart.getListOfCartItems();
+
+            for (CartItem item : listOfCartItemsOfCurrentUser)
+            {
+                int thingQuantity = item.getCartItem_quantity();
+                totalQuantity = totalQuantity + thingQuantity;
+            }
+            return totalQuantity;
+        }
+        return totalQuantity;
+    }
+
+
+    /** суммирование общей стоимости в корзине текущего пользователя способ через Stream Api  **/
+    public double calcSumTotalCost(List<CartItem> listOfThingsOfCurrentUser)
+    {
+        double totalCost = listOfThingsOfCurrentUser.stream().mapToInt(CartItem::getCartItem_price).sum();
+        return totalCost;
+    }
+
+    /** метод редактирование вещи в корзине **/
+    @Transactional
+    public void editCartThing(Integer id, NewThing editThing)
+    {
+        if(id != null && editThing != null)
+        {
+            NewThing existingCartThing = thingDAO.getThingById(id);
+
+            if(editThing != null)
+            {
+                existingCartThing.setThing_id(editThing.getThing_id());
+                existingCartThing.setThing_gender(editThing.getThing_gender());
+                existingCartThing.setThing_name(editThing.getThing_name());
+                existingCartThing.setThing_size(editThing.getThing_size());
+                existingCartThing.setThing_color(editThing.getThing_color());
+                existingCartThing.setThing_price(editThing.getThing_price());
+            }
+            entityManager.merge(existingCartThing);
+        }
+    }
+}
+
+
+
+
+// /** было: **/
+//    /** получить товар из корзины по его id **/
+//    @Transactional
+//    public NewThing getCartThingById(Integer id)
+//    {
+//        return entityManager.find(NewThing.class, id);
+//    }
+
+//    /** добавление новой вещи в корзину **/
+//    @Transactional
+//    public void addThingToCart(Cart cart, NewThing selectedThing)
+//    {
+//        boolean flag = true;
+//        if(cart.getListOfnewThings() != null) // если товар уже есть в корзине, тодобавляем к товару количество товара = +1
+//        {
+//            System.out.println("это список вещей в корзине: " + cart.getListOfnewThings());
+//            if (selectedThing != null && selectedThing.getQuantity() > 0)
+//            {
+//                for (NewThing thing : cart.getListOfnewThings())
+//                {
+//                    if (thing.getThing_id() == (selectedThing.getThing_id()))
+//                    {
+//                        System.out.println("ДО!!!  quantity до увеличения на 1: "  + thing.getQuantity());
+//                        // Если товар уже есть в корзине, увеличиваем его количество
+//                        thing.setQuantity(thing.getQuantity() + 1);
+//                        flag = false;
+//                        break;
+//                    }
+//                }
+//            }
+//            if(flag)
+//            {
+//                // Если товара нет в корзине, добавляем его с количеством 1
+//                NewThing newThing = new NewThing();
+//                newThing.setThing_id(selectedThing.getThing_id());
+//                newThing.setThing_name(selectedThing.getThing_name());
+//                newThing.setThing_gender(selectedThing.getThing_gender());
+//                newThing.setThing_size(selectedThing.getThing_size());
+//                newThing.setThing_color(selectedThing.getThing_color());
+//                newThing.setThing_price(selectedThing.getThing_price());
+//                newThing.setQuantity(1);
+//                cart.getListOfnewThings().add(newThing);
+//            }
+//        }
+//        entityManager.merge(cart); // Обновляем корзину в базе данных
+//    }
+
+
+
+
+//    /** Метод для удаления вещи из корзины по её id **/
+//    @Transactional
+//    public void removeThingFromCart1(int thing_id, int cart_id)
+//    {
+//        String sql = "DELETE FROM table_list_of_things_in_one_cart WHERE cart_id = " + cart_id + " AND thing_id = " + thing_id;
+//        entityManager.createNativeQuery(sql).executeUpdate();
+//    }
 
 //    /** альтернативный метод удаления вещи по её количеству **/
 //    @Transactional
@@ -143,96 +306,6 @@ public class CartDAO
 //            throw new RuntimeException("товар закончился!");
 //        }
 //    }
-
-
-        /** суммирование общей стоимости в корзине текущего пользователя **/
-        public double calculateTotalPrice(Integer currentUserId)
-        {
-            double totalPrice = 0.0;
-
-            Cart cart = getCartByUserId(currentUserId);
-            if (cart != null && cart.getListOfnewThings() != null)
-            {
-                List<NewThing> listOfThingsOfCurrentUser = cart.getListOfnewThings();
-
-                for (Thing thing : listOfThingsOfCurrentUser)
-                {
-                    int thingQuantity = thing.getQuantity();
-                    double thingPrice = thing.getThing_price();
-                    totalPrice += thingPrice * thingQuantity;
-                }
-                return totalPrice;
-            }
-            return totalPrice;
-        }
-
-    /** расчёт общего количества товаров в корзине текущего пользователя **/
-    public int calculateTotalQuantity(Integer currentUserId)
-    {
-        int totalQuantity = 0;
-        Cart cart = getCartByUserId(currentUserId);
-        if (cart != null && cart.getListOfnewThings() != null)
-        {
-            List<NewThing> listOfThingsOfCurrentUser = cart.getListOfnewThings();
-
-            for (Thing thing : listOfThingsOfCurrentUser)
-            {
-                int thingQuantity = thing.getQuantity();
-                totalQuantity = totalQuantity + thingQuantity;
-            }
-            return totalQuantity;
-        }
-        return totalQuantity;
-    }
-
-
-    /** суммирование общей стоимости в корзине текущего пользователя способ через Stream Api  **/
-    public double calcSumTotalCost(List<NewThing> listOfThingsOfCurrentUser)
-    {
-        double totalCost = listOfThingsOfCurrentUser.stream().mapToInt(NewThing::getThing_price).sum();
-        return totalCost;
-    }
-
-
-    /** Получение общего количества товаров во всех корзинах всех зарегистрированных пользователей **/
-    @Transactional
-    public int getTotalSumOfNewThingsInAllCarts()
-    {
-        TypedQuery<Cart> query = entityManager.createQuery(
-                "SELECT cart FROM Cart cart JOIN FETCH cart.listOfnewThings newThing", Cart.class);
-
-        List<Cart> carts = query.getResultList();
-        int totalSum = carts.stream()
-                .mapToInt(cart -> cart.getSumThingInCart())
-                .sum();
-        return totalSum;
-    }
-
-    /** метод редактирование вещи в корзине **/
-    @Transactional
-    public void editCartThing(Integer id, NewThing editThing)
-    {
-        if(id != null && editThing != null)
-        {
-            NewThing existingCartThing = getCartThingById(id);
-
-            if(editThing != null)
-            {
-                existingCartThing.setThing_id(editThing.getThing_id());
-                existingCartThing.setThing_gender(editThing.getThing_gender());
-                existingCartThing.setThing_name(editThing.getThing_name());
-                existingCartThing.setThing_size(editThing.getThing_size());
-                existingCartThing.setThing_color(editThing.getThing_color());
-                existingCartThing.setThing_price(editThing.getThing_price());
-            }
-            entityManager.merge(existingCartThing);
-        }
-    }
-}
-
-
-
-
 
 
 

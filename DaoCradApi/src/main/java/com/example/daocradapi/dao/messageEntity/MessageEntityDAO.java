@@ -1,8 +1,9 @@
-package com.example.daocradapi.dao;
+package com.example.daocradapi.dao.messageEntity;
 
-import com.example.daocradapi.JdbcPersonRepository;
-import com.example.daocradapi.models.MessageEntity;
-import com.example.daocradapi.models.Person;
+import com.example.daocradapi.dao.person.PersonDAO;
+import com.example.daocradapi.repositories.JdbcPersonRepository;
+import com.example.daocradapi.models.messageEntity.MessageEntity;
+import com.example.daocradapi.models.person.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

@@ -1,6 +1,6 @@
 package com.example.daocradapi.dao.cart;
 
-import com.example.daocradapi.dao.PersonDAO;
+import com.example.daocradapi.dao.person.PersonDAO;
 import com.example.daocradapi.dao.things.ThingDAO;
 import com.example.daocradapi.models.abstractclases.Thing;
 import com.example.daocradapi.models.cart.Cart;

@@ -1,6 +1,6 @@
-package com.example.daocradapi;
+package com.example.daocradapi.repositories;
 
-import com.example.daocradapi.models.Person;
+import com.example.daocradapi.models.person.Person;
 
 import java.util.List;
 

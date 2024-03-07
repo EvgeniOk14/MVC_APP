@@ -1,5 +1,6 @@
-package com.example.daocradapi.models;
+package com.example.daocradapi.models.person;
 
+import com.example.daocradapi.models.messageEntity.MessageEntity;
 import com.example.daocradapi.models.cart.Cart;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;

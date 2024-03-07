@@ -1,9 +1,9 @@
 package com.example.daocradapi.controllers;
 
-import com.example.daocradapi.dao.PersonDAO;
+import com.example.daocradapi.dao.person.PersonDAO;
 import com.example.daocradapi.dao.cart.CartDAO;
 import com.example.daocradapi.dao.things.ThingDAO;
-import com.example.daocradapi.models.Person;
+import com.example.daocradapi.models.person.Person;
 import com.example.daocradapi.models.abstractclases.Thing;
 import com.example.daocradapi.models.cart.Cart;
 import com.example.daocradapi.models.products.NewThing;

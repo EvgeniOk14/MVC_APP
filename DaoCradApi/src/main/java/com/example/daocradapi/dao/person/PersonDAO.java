@@ -1,7 +1,7 @@
-package com.example.daocradapi.dao;
+package com.example.daocradapi.dao.person;
 
-import com.example.daocradapi.JdbcPersonRepository;
-import com.example.daocradapi.models.Person;
+import com.example.daocradapi.repositories.JdbcPersonRepository;
+import com.example.daocradapi.models.person.Person;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.dao.EmptyResultDataAccessException;

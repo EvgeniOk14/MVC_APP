@@ -1,7 +1,7 @@
 package com.example.daocradapi.dao.cart;
 
-import com.example.daocradapi.dao.PersonMapper;
-import com.example.daocradapi.models.Person;
+import com.example.daocradapi.dao.person.PersonMapper;
+import com.example.daocradapi.models.person.Person;
 import com.example.daocradapi.models.cart.Cart;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;

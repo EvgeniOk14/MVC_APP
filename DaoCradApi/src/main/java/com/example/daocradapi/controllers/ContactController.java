@@ -1,9 +1,9 @@
 package com.example.daocradapi.controllers;
 
-import com.example.daocradapi.JdbcPersonRepository;
-import com.example.daocradapi.dao.MessageEntityDAO;
-import com.example.daocradapi.dao.PersonDAO;
-import com.example.daocradapi.models.MessageEntity;
+import com.example.daocradapi.repositories.JdbcPersonRepository;
+import com.example.daocradapi.dao.messageEntity.MessageEntityDAO;
+import com.example.daocradapi.dao.person.PersonDAO;
+import com.example.daocradapi.models.messageEntity.MessageEntity;
 import jakarta.validation.Valid;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

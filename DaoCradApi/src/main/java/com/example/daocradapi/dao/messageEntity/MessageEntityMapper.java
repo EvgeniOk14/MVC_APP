@@ -1,7 +1,8 @@
-package com.example.daocradapi.dao;
+package com.example.daocradapi.dao.messageEntity;
 
-import com.example.daocradapi.models.MessageEntity;
-import com.example.daocradapi.models.Person;
+import com.example.daocradapi.dao.person.PersonMapper;
+import com.example.daocradapi.models.messageEntity.MessageEntity;
+import com.example.daocradapi.models.person.Person;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;

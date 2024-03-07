@@ -1,6 +1,6 @@
 package com.example.daocradapi.models.cart;
 
-import com.example.daocradapi.models.Person;
+import com.example.daocradapi.models.person.Person;
 import com.example.daocradapi.models.products.NewThing;
 import jakarta.persistence.*;
 import java.util.List;

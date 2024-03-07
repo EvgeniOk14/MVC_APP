@@ -1,5 +1,6 @@
-package com.example.daocradapi.models;
+package com.example.daocradapi.models.messageEntity;
 
+import com.example.daocradapi.models.person.Person;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 

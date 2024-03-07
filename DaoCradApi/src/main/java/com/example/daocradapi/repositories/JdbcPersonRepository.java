@@ -1,6 +1,7 @@
-package com.example.daocradapi;
+package com.example.daocradapi.repositories;
 
-import com.example.daocradapi.models.Person;
+import com.example.daocradapi.models.person.Person;
+import com.example.daocradapi.repositories.PersonRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

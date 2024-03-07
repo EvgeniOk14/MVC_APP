@@ -59,8 +59,9 @@ public class ThingDAO
             existingThing.setThing_size(updatedThing.getThing_size());
             existingThing.setThing_color(updatedThing.getThing_color());
             existingThing.setThing_price(updatedThing.getThing_price());
+            existingThing.setQuantity(updatedThing.getQuantity());
         }
-        entityManager.merge(existingThing); // добавил
+        entityManager.merge(existingThing);
     }
 
     /** получение вещи из каталога (БД) по её thing_id **/

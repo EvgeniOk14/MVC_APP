@@ -21,6 +21,7 @@
                     <th>Size</th>
                     <th>Color</th>
                     <th>Price</th>
+                    <th>Quantity</th>
                 </tr>
             </thead>
 
@@ -32,6 +33,7 @@
                     <td th:text="${thing.thing_size}"></td>
                     <td th:text="${thing.thing_color}"></td>
                     <td th:text="${thing.thing_price}"></td>
+                    <td th:text="${thing.quantity}"></td>
 
                     <td>
                         <a th:href="@{/deleteThing/{thing_id} (thing_id=${thing.thing_id})}">Удалить вещь из каталога</a>

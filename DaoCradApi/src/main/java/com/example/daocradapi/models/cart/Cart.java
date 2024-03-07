@@ -3,10 +3,7 @@ package com.example.daocradapi.models.cart;
 import com.example.daocradapi.models.Person;
 import com.example.daocradapi.models.products.NewThing;
 import jakarta.persistence.*;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Table(name = "table_carts")
@@ -24,12 +21,12 @@ public class Cart
 
     @ManyToMany
     @JoinTable(
-            name = "table_listOfThingsInOneCart",
-            joinColumns = @JoinColumn(name = "cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "thing_id"))
+                name = "table_listOfThingsInOneCart",
+                joinColumns = @JoinColumn(name = "cart_id"),
+                inverseJoinColumns = @JoinColumn(name = "thing_id")
+              )
     private List<NewThing> listOfnewThings;
     //endregion
-
 
 
     //region Constructors
@@ -90,7 +87,8 @@ public class Cart
     //endregion
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Cart{" +
                 "id=" + id +
                 ", person=" + person +
@@ -103,17 +101,3 @@ public class Cart
 
 
 
-//    другой способ получения общей суммы товаров в корзине
-//    public int getSumThingInCart() {
-//        int sumThingIntoCart = 0;
-//        for (NewThing newThing : items)
-//        { sumThingIntoCart += 1; }
-//        return sumThingIntoCart;   }
-
-//     другой способ получения обзей стоимости всех товаров в корзине
-//    public int getTotalCost()
-//    {
-//        int totalCost = 0;
-//        for (NewThing newThing : listOfnewThings)    {
-//            totalCost += newThing.getThing_price();}
-//        return totalCost;                            }

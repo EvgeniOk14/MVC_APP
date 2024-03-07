@@ -1,14 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--    <head>-->
-<!--        <meta charset="UTF-8">-->
-<!--        <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--        <link href="../../static/scc/shop.css" rel="stylesheet" type="text/css">-->
-<!--        <title>Корзина</title>-->
-<!--        <link rel="stylesheet" type="text/css" th:href="@{/../../static/scc/cart.css}" />-->
-<!--    </head>-->
-
-<!--    <body>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head>
@@ -59,11 +48,12 @@
             <h1 class="h1-cart-settins">Ваша Корзина:</h1>
             <div class="div-cart-settins" th:if="${currentUser != null}">
                 <h1 class="h1-cart-settins">Добро пожаловать, <span th:text="${currentUser.name}"></span> <span th:text="${currentUser.surname}"></span>! Ваш персональный id = <span th:text="${currentUserId}"></span></h1>
+
                 <form class="form-cart-settins" th:action="@{/addThing}" method="post">
                     <!-- Поле для выбора товара из выпадающего списка товаров -->
                     <select class="select-cart-settins" name="selectedThingId">
                         <option class="option-cart-settins" th:each="thing : ${things}" th:value="${thing.thing_id}">
-                            <span class="span-cart-settins" th:text="${'id товара-' + thing.thing_id + '; название товара-' + thing.thing_name + '; цвет товара-' + thing.thing_color + ';  размер товара-' + thing.thing_size + '; цена товара-' + thing.thing_price + 'рублей'}"></span>
+                            <span class="span-cart-settins" th:text="${'id товара-' + thing.thing_id + '; название товара-' + thing.thing_name + '; цвет товара-' + thing.thing_color + ';  размер товара-' + thing.thing_size + '; цена товара-' + thing.thing_price + 'рублей' + '; количество товара-' + thing.quantity}"></span>
                         </option>
                     </select>
 
@@ -78,7 +68,7 @@
                 <form class="form-cart-settins" th:action="@{/removeThing}" method="post">
                     <ul class="ul-cart-settins">
                         <li class="li-cart-settins" th:each="thing : ${listOfThingsOfCurrentUser}" th:value="thing.thing_id">
-                            <span class="span-cart-settins" th:text="${'id товара-' + thing.thing_id + '; название товара-' + thing.thing_name + '; цвет товара-' + thing.thing_color + ';  размер товара-' + thing.thing_size + '; цена товара-' + thing.thing_price + 'рублей'}"></span>
+                            <span class="span-cart-settins" th:text="${'id товара-' + thing.thing_id + '; название товара-' + thing.thing_name + '; цвет товара-' + thing.thing_color + ';  размер товара-' + thing.thing_size + '; цена товара-' + thing.thing_price + 'рублей' + '; количество товара-' + thing.quantity}"></span>
 
                             <input class="input-cart-settins" type="hidden" name="thing_id" th:value="${thing.thing_id}"/>
 
@@ -91,8 +81,10 @@
                 </form>
 
                     <h3 class="h3-cart-settins">Информация о корзине:</h3>
-                    <p class="p-cart-settins">Общее количество товаров в корзине в штуках: <span th:text="${listOfThingsOfCurrentUser.size()}"> шт</span></p>
-                    <p class="p-cart-settins">Общая стоимость товаров в корзине в рублях: <span th:text="${totalCost}"></span> рублей</p>
+<!--                    <p class="p-cart-settins">Общее количество товаров в корзине в штуках: <span th:text="${listOfThingsOfCurrentUser.size()}"> шт</span></p>-->
+                    <p class="p-cart-settins">Общее количество товаров в корзине в штуках: <span th:text="${totalQuantity}">0</span> шт</p>
+<!--                    <p class="p-cart-settins">Общая стоимость товаров в корзине в рублях: <span th:text="${totalCost}"></span> рублей</p>-->
+                    <p class="p-cart-settins">Общая стоимость товаров в корзине в рублях: <span th:text="${totalPrice}"></span> рублей</p>
                     <br>
                     <a class="a-cart-settins" href="/">Возврат к странице: "Главная"</a>
                     <br>
@@ -106,7 +98,7 @@
                     <a class="a-cart-settins" href="#">Возврат к странице: "Доставка"</a>
                     <br>
                     <br>
-            </div>
+            </option>
 
             <!--Если пользователь не зарегистрирован, показываем сообщение или предложение зарегистрироваться-->
             <div class="div-cart-settins" th:if="${currentUser == null}">

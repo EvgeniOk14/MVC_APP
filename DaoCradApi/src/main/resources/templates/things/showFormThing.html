@@ -6,16 +6,13 @@
         <title>Add New Thing</title>
     </head>
     <body>
+
         <h2>Добавить новую вещь</h2>
 
             <!-- Form for adding a new thing -->
 
             <form action="/saveThingsFromForm" th:object="${newthing}" method="post">
 
-
-<!--            <label for="thing_name">Name</label>-->
-<!--            <input type="text" th:field="*{thing_name}" id="thing_name" placeholder="thing_name">-->
-<!--            <br>-->
                 <label for="thing_name">Name:
                     <select th:field="*{thing_name}" id="thing_name">
                         <option value="ManSuit">ManSuit</option>
@@ -45,6 +42,11 @@
                 <label for="thing_price">Price:</label>
                 <input type="text" th:field="*{thing_price}" id="thing_price" placeholder="thing_price">
                 <br>
+
+                <label for="quantity">Quantity</label>
+                <input type="text" th:field="*{quantity}" id="quantity" placeholder="=quantity">
+                <br>
+
                 <button type="Сохранить вещь">Save</button>
             </form>
 

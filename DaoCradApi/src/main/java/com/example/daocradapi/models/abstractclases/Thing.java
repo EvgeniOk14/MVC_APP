@@ -28,16 +28,20 @@ public abstract class Thing
 
     @Column(name = "thing_price")
     private int thing_price;
+
+    @Column(name = "quantity")
+    private int quantity = 1;
     //endregion
 
     //region Constructor
-    public Thing(Gender thing_gender, String thing_name, int thing_size, String thing_color, int thing_price)
+    public Thing(Gender thing_gender, String thing_name, int thing_size, String thing_color, int thing_price, int quantity)
     {
         this.thing_gender = thing_gender;
         this.thing_name = thing_name;
         this.thing_size = thing_size;
         this.thing_color = thing_color;
         this.thing_price = thing_price;
+        this.quantity = quantity;
     }
     public Thing()
     {
@@ -105,7 +109,29 @@ public abstract class Thing
     {
         this.thing_price = thing_price;
     }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     //endregion
+
+    @Override
+    public String toString() {
+        return "Thing{" +
+                "thing_id=" + thing_id +
+                ", thing_gender=" + thing_gender +
+                ", thing_name='" + thing_name + '\'' +
+                ", thing_size=" + thing_size +
+                ", thing_color='" + thing_color + '\'' +
+                ", thing_price=" + thing_price +
+                ", quantity=" + quantity +
+                '}';
+    }
 }
 
 

@@ -6,5 +6,6 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "things")
-public class NewThing extends Thing {
+public class NewThing extends Thing
+{
 }

@@ -86,11 +86,13 @@ public class CartController
             List<NewThing> listOfThingsOfCurrentUser = userCart.getListOfnewThings(); // Получаем список всех товаров из корзины текущего пользователя
             List<Thing> things = thingDAO.getAllThigs(); //Получение списка всех товаров магазина
 
-            double totalCost = cartDAO.calculateTotalCost(currentUserId); // расчёт общей стоимости товаров в корзине текущего пользователя
-
+            /** считаем общую стоимость товаров в корзине текущего пользователя **/
+            double totalPrice = cartDAO.calculateTotalPrice(currentUserId); // расчёт общей стоимости товаров в корзине текущего пользователя
+            /** считаем общее количество товаров Quantity в корзине текущего пользователя **/
+            int totalQuantity = cartDAO.calculateTotalQuantity(currentUserId);
 
             /** метод добавление параметров в модель (смотри самы крайний метод в этом классе контроллера updateCartInfo): **/
-            updateCartInfo(model, listOfThingsOfCurrentUser, userCart, things,  currentUser, currentUserId,  totalCost);
+            updateCartInfo(model, listOfThingsOfCurrentUser, userCart, things,  currentUser, currentUserId, totalPrice, totalQuantity);
         }
         else
         {
@@ -111,38 +113,47 @@ public class CartController
             Person currentUser = personDAO.getPersonById(currentUserId); // получаем текущего пользователя
             Cart userCart = cartDAO.getCartByUserId(currentUserId); // Получаем корзину текущего пользователя
 
-            if (userCart == null) // проверяем есть ли корзина у текущего пользователя
+            if (userCart == null) // проверяем есть ли корзина у текущего пользователя, если нет, то:
             {
                 userCart = new Cart();            // создаём новую корзину
                 userCart.setPerson(currentUser); // устанавливаем корзине текущего пользователя
                 currentUser.setCart(userCart);  // устанавливаем текущему пользователю корзину
                 cartDAO.saveCard(userCart);    // Сохранение корзины
             }
-            else
+            else // если да, то:
             {
                 userCart.setPerson(currentUser);   // устанавливаем корзине текущего пользователя
                 currentUser.setCart(userCart);    // устанавливаем текущему пользователю корзину
                 cartDAO.saveCard(userCart);      // Сохранение корзины
             }
 
-            NewThing selectedThing = thingDAO.getThingById(selectedThingId); // Получаем выбранный товар по его id
+            /** Получаем выбранный товар по его id **/
+            NewThing selectedThing = thingDAO.getThingById(selectedThingId);
 
             if (userCart.getListOfnewThings() == null) // проверяем, если в корзине текущего пользователя отсутствуют товары
             {
                 userCart.setListOfnewThings(new ArrayList<>()); // создаём новый список товаров в корзине текущего пользователя
             }
 
-            cartDAO.addThingToCart(userCart, selectedThing); //Добавляем выбранный товар в корзину и сохраняем изменения в корзине
+            /** Добавляем выбранный товар в корзину и сохраняем изменения в корзине **/
+            cartDAO.addThingToCart(userCart, selectedThing);
 
-            List<Thing> things = thingDAO.getAllThigs();       //Получение списка всех товаров
-            List<NewThing> listOfThingsOfCurrentUser = userCart.getListOfnewThings(); // получение списка товаров в корзине текущего пользователя
+            /** Получение списка всех товаров **/
+            List<Thing> things = thingDAO.getAllThigs();
 
-            double totalCost = cartDAO.calculateTotalCost(currentUserId); // расчёт общей стоимости товаров в корзине текущего пользователя
+            List<NewThing> listOfThingsOfCurrentUser = userCart.getListOfnewThings();  // получение списка товаров в корзине текущего пользователя
 
-            /** метод добавление параметров в модель (смотри самы крайний метод в этом классе контроллера updateCartInfo): **/
-            updateCartInfo(model, listOfThingsOfCurrentUser, userCart, things,  currentUser, currentUserId,  totalCost);
+            /** считаем общую стоимость товаров в корзине текущего пользователя **/
+            double totalPrice = cartDAO.calculateTotalPrice(currentUserId);         // расчёт общей стоимости товаров в корзине текущего пользователя
 
-            model.addAttribute("selectedThing", selectedThing); // передаём в модель выбранную вещь
+            /** считаем общее количество товаров Quantity в корзине текущего пользователя **/
+            int totalQuantity = cartDAO.calculateTotalQuantity(currentUserId);
+
+            /** метод добавление параметров в модель (смотри самый крайний метод в этом классе контроллера updateCartInfo): **/
+            updateCartInfo(model, listOfThingsOfCurrentUser, userCart, things,  currentUser, currentUserId,  totalPrice, totalQuantity);
+
+            /** передаём в модель выбранную вещь **/
+            model.addAttribute("selectedThing", selectedThing);
 
             return "cart/cart"; // Перенаправляем на страницу корзины
         }
@@ -173,10 +184,13 @@ public class CartController
 
                     List<NewThing> listOfThingsOfCurrentUser = userCart.getListOfnewThings(); // получение списка всех товаров в карзине текущего пользователя
 
-                    double totalCost = cartDAO.calculateTotalCost(currentUserId); // расчёт общей стоимости товаров в корзине текущего пользователя
+                    /** считаем общую стоимость товаров в корзине текущего пользователя **/
+                    double totalPrice = cartDAO.calculateTotalPrice(currentUserId); // расчёт общей стоимости товаров в корзине текущего пользователя
+                    /** считаем общее количество товаров Quantity в корзине текущего пользователя **/
+                    int totalQuantity = cartDAO.calculateTotalQuantity(currentUserId);
 
                     /** метод добавление параметров в модель (смотри самы крайний метод в этом классе контроллера updateCartInfo): **/
-                    updateCartInfo(model, listOfThingsOfCurrentUser, userCart, things,  currentUser, currentUserId,  totalCost);
+                    updateCartInfo(model, listOfThingsOfCurrentUser, userCart, things,  currentUser, currentUserId,  totalPrice, totalQuantity);
 
                     return "cart/cart"; // переходим на представление корзина
                 }
@@ -193,6 +207,48 @@ public class CartController
         }
     }
 
+    /** метод updateCartInfo, добавления параметров в модель, обновление информации **/
+    private void updateCartInfo(Model model, List<NewThing> listOfThingsOfCurrentUser,
+                                Cart userCart, List<Thing> things, Person currentUser,
+                                Integer currentUserId, double totalPrice, int totalQuantity)
+    {
+        /** добавление параметров в модель: **/
+        model.addAttribute("listOfThingsOfCurrentUser", listOfThingsOfCurrentUser); // передаём список всех товаров из корзины текущего пользователя в модель, для передачи их на представление корзины
+        model.addAttribute("userCart", userCart); // Передаем корзину в модель для отображения на странице корзины
+        model.addAttribute("things", things); // Добавление списка товаров в модель
+        model.addAttribute("currentUser", currentUser); // передаём в модель текущего пользователя
+        model.addAttribute("currentUserId", currentUserId); // Передаем идентификатор текущего пользователя в модель
+        model.addAttribute("totalPrice", totalPrice); // добавление общей стоимости товаров в корзину текущего пользователя
+        model.addAttribute("totalQuantity", totalQuantity); // добавление общего количества товаров в корзину текущего пользователя
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//            int totalQuantity = 0;
+//            double totalPrice = 0.0;
+//            for (Thing thing : listOfThingsOfCurrentUser)
+//            {
+//                int thingQuantity = thing.getQuantity();
+//                totalQuantity = totalQuantity + thingQuantity;
+//                double thingPrice = thing.getThing_price();
+//                totalPrice += thingPrice * thingQuantity;
+//            }
+
+
 //    /** добавление вещей в магазин **/
 //    @GetMapping("/add-product")
 //    public String showAddProductForm(Model model)
@@ -203,17 +259,4 @@ public class CartController
 //        return "add-product-form";
 //    }
 
-    /** метод updateCartInfo, добавления параметров в модель, обновление информации **/
-    private void updateCartInfo(Model model, List<NewThing> listOfThingsOfCurrentUser,
-                                Cart userCart, List<Thing> things, Person currentUser,
-                                Integer currentUserId, double totalCost)
-    {
-        /** добавление параметров в модель: **/
-        model.addAttribute("listOfThingsOfCurrentUser", listOfThingsOfCurrentUser); // передаём список всех товаров из корзины текущего пользователя в модель, для передачи их на представление корзины
-        model.addAttribute("userCart", userCart); // Передаем корзину в модель для отображения на странице корзины
-        model.addAttribute("things", things); // Добавление списка товаров в модель
-        model.addAttribute("currentUser", currentUser); // передаём в модель текущего пользователя
-        model.addAttribute("currentUserId", currentUserId); // Передаем идентификатор текущего пользователя в модель
-        model.addAttribute("totalCost", totalCost); // добавление общей стоимости товаров в корзину текущего пользователя
-    }
-}
+

@@ -128,6 +128,17 @@ public class Person
         this.cart = cart;
     }
     //endregion
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
 
 

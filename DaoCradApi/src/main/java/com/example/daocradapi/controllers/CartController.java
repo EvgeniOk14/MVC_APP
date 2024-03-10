@@ -89,7 +89,6 @@ public class CartController
 
             List<CartItem> listOfCartItemsOfCurrentUser = userCart.getListOfCartItems(); // Получаем список всех товаров из корзины текущего пользователя
             List<Thing> things = thingDAO.getAllThigs(); //Получение списка всех товаров магазина
-
             /** считаем общую стоимость товаров в корзине текущего пользователя **/
             double totalPrice = cartDAO.calculateTotalPrice(currentUserId); // расчёт общей стоимости товаров в корзине текущего пользователя
             /** считаем общее количество товаров Quantity в корзине текущего пользователя **/
@@ -97,6 +96,7 @@ public class CartController
 
             /** метод добавление параметров в модель (смотри самы крайний метод в этом классе контроллера updateCartInfo): **/
             updateCartInfo(model, listOfCartItemsOfCurrentUser, userCart, things,  currentUser, currentUserId, totalPrice, totalQuantity);
+            System.out.println("передаём currentUserId: " + currentUserId);
         }
         else
         {
@@ -112,32 +112,40 @@ public class CartController
                            @RequestParam("currentUserId") Integer currentUserId,
                            Model model)
     {
-        if (currentUserId != null) // проверяем id текущего пользователя, равно ли оно null?
-        {
-            Person currentUser = personDAO.getPersonById(currentUserId); // получаем текущего пользователя
-            Cart userCart = cartDAO.getCartByUserId(currentUserId); // Получаем корзину текущего пользователя
+        System.out.println("---------------начало метода addThing проверка передачи данных----------------------------");
+        System.out.println("принимаем currentUserId в метод addThing: " + currentUserId);
+        System.out.println("принимаем идентификатор вещи selectedThingId: " + selectedThingId);
+        System.out.println("----------------------------------------------------------------------------------------------");
 
-            if (userCart == null) // проверяем есть ли корзина у текущего пользователя, если нет, то:
-            {
-                userCart = new Cart();            // создаём новую корзину
-                userCart.setPerson(currentUser); // устанавливаем корзине текущего пользователя
-                currentUser.setCart(userCart);  // устанавливаем текущему пользователю корзину
-                cartDAO.saveCard(userCart);    // Сохранение корзины
-            }
-            else // если да, то:
-            {
-                userCart.setPerson(currentUser);   // устанавливаем корзине текущего пользователя
-                currentUser.setCart(userCart);    // устанавливаем текущему пользователю корзину
-                cartDAO.saveCard(userCart);      // Сохранение корзины
-            }
+        if (currentUserId != null)                                         // проверяем id текущего пользователя, равно ли оно null?
+        {
+            Person currentUser = personDAO.getPersonById(currentUserId);  // получаем текущего пользователя
+
+                Cart userCart = cartDAO.getCartByUserId(currentUserId); // Получаем корзину текущего пользователя
+
+                if(userCart == null)
+                {
+                    Cart newUserCart = new Cart();                       // создаём новую корзину текущему пользователю serCart
+                    newUserCart.setPerson(currentUser);                 // устанавливаем корзине текущего пользователя
+                    userCart.setListOfCartItems(new ArrayList<>());    // устанавливаем корзине список вещей текущего пользователя
+                    currentUser.setCart(newUserCart);                 // устанавливаем текущему пользователю корзину
+                    cartDAO.saveCard(newUserCart);                   // Сохранение корзины
+                }
+                else
+                {
+                    List<CartItem> listOfCartItemsOfCurrentUser = userCart.getListOfCartItems(); // получаем список вещей в корзине текущего пользователя
+                    userCart.setPerson(currentUser);                                            // устанавливаем корзине текущего пользователя
+                    userCart.setListOfCartItems(listOfCartItemsOfCurrentUser);                 // устанавливаем корзине список вещей текущего пользователя
+                    currentUser.setCart(userCart);                                            // устанавливаем текущему пользователю корзину
+                    cartDAO.saveCard(userCart);                                              // Сохранение корзины
+                }
 
             /** Получаем выбранный товар по его id **/
             NewThing selectedThing = thingDAO.getThingById(selectedThingId);
+            System.out.println("это выбранная вещь для добавления в корзину: " + selectedThing);
 
-            if (userCart.getListOfCartItems() == null) // проверяем, если в корзине текущего пользователя отсутствуют товары
-            {
-                userCart.setListOfCartItems(new ArrayList<>()); // создаём новый список товаров в корзине текущего пользователя
-            }
+            List<CartItem> listOfCartItemsOfCurrentUser = userCart.getListOfCartItems(); // получаем список вещей в корзине текущего пользователя
+            System.out.println("проверка перед добавлением товара listOfCartItemsOfCurrentUser: " + listOfCartItemsOfCurrentUser);
 
             /** Добавляем выбранный товар selectedTing в корзину Cart и сохраняем изменения в корзине **/
             cartDAO.addCartItemToCart(userCart, selectedThing);
@@ -145,7 +153,6 @@ public class CartController
             /** Получение списка всех товаров из магазина **/
             List<Thing> things = thingDAO.getAllThigs();
 
-            List<CartItem> listOfCartItemsOfCurrentUser = userCart.getListOfCartItems();  // получение списка товаров в корзине текущего пользователя
 
             /** считаем общую стоимость товаров в корзине текущего пользователя **/
             double totalPrice = cartDAO.calculateTotalPrice(currentUserId);         // расчёт общей стоимости товаров в корзине текущего пользователя
@@ -154,6 +161,7 @@ public class CartController
             int totalQuantity = cartDAO.calculateTotalQuantity(currentUserId);
 
             /** метод добавление параметров в модель (смотри самый крайний метод в этом классе контроллера updateCartInfo): **/
+
             updateCartInfo(model, listOfCartItemsOfCurrentUser, userCart, things,  currentUser, currentUserId,  totalPrice, totalQuantity);
 
             /** передаём в модель выбранную вещь **/

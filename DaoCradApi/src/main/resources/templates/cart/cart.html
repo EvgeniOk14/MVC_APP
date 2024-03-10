@@ -11,12 +11,10 @@
         <title>Корзина</title>
 
         <link rel="icon" type="image/x-icon" href="/favicon.ico">
-
     </head>
 
     <body>
         <header class="header">
-
             <div class="logo">
                 <!-- логотип расположен здесь -->
                 <img src="../../static/img/логотип/logotip.jpg" alt="Логотип">
@@ -30,9 +28,7 @@
                 <a th:href="@{shop/registration}">войти</a>
                 <p th:text="${message}"></p>
             </div>
-
         </header>
-
 
         <nav class="navigation">
             <ul>
@@ -44,11 +40,13 @@
             </ul>
         </nav>
 
+        <!--                       Раздел Корзина:                               -->
         <div class="div-cart-settins">
             <h1 class="h1-cart-settins">Ваша Корзина:</h1>
             <div class="div-cart-settins" th:if="${currentUser != null}">
                 <h1 class="h1-cart-settins">Добро пожаловать, <span th:text="${currentUser.name}"></span> <span th:text="${currentUser.surname}"></span>! Ваш персональный id = <span th:text="${currentUserId}"></span></h1>
 
+                <!--                       Раздел Корзины Добавить товар в корзину:                               -->
                 <form class="form-cart-settins" th:action="@{/addThing}" method="post">
                     <!-- Поле для выбора товара из выпадающего списка товаров -->
                     <select class="select-cart-settins" name="selectedThingId">
@@ -64,26 +62,37 @@
                     <button class="button-cart-settins" type="submit">Добавить выбранный товар</button>
                 </form>
 
+                <!--                       Раздел Корзины: Удалить товар из корзины:                               -->
                 <h2 class="h2-cart-settins">Список добавленных товаров в корзину:</h2>
-                <form class="form-cart-settins" th:action="@{/removeThing}" method="post">
-                    <ul class="ul-cart-settins">
-                        <li class="li-cart-settins" th:each="thing : ${listOfThingsOfCurrentUser}" th:value="thing.thing_id">
-                            <span class="span-cart-settins" th:text="${'id товара-' + thing.thing_id + '; название товара-' + thing.thing_name + '; цвет товара-' + thing.thing_color + ';  размер товара-' + thing.thing_size + '; цена товара-' + thing.thing_price + 'рублей' + '; количество товара-' + thing.quantity}"></span>
+                <ul class="ul-cart-settins">
+                    <th:block th:each="cartItem : ${listOfCartItemsOfCurrentUser}">
+                        <form class="form-cart-settins" th:action="@{/removeThing}" method="post">
+                            <li class="li-cart-settins" th:value="cartItem.cartItem_id">
+                                <span class="span-cart-settins"
+                                                th:text="${'id товара-' + cartItem.cartItem_id +
+                                                           '; thing_id номер вещи на складе: -' + cartItem.thing.thing_id +
+                                                            '; название товара-' + cartItem.thing.thing_name +
+                                                            '; цвет товара-' + cartItem.thing.thing_color +
+                                                            ';  размер товара-' + cartItem.thing.thing_size +
+                                                            '; цена товара-' + cartItem.thing.thing_price +'рублей' +
+                                                            '; количество товара-' + cartItem.getCartItem_quantity()
+                                                         }">
+                                </span>
 
-                            <input class="input-cart-settins" type="hidden" name="thing_id" th:value="${thing.thing_id}"/>
+                                <input class="input-cart-settins" type="hidden" name="thing_id" th:value="${cartItem.thing.thing_id}"/>
 
-                            <input class="input-cart-settins" type="hidden" name="currentUserId" th:value="${currentUserId}"/>
+                                <input class="input-cart-settins" type="hidden" name="currentUserId" th:value="${currentUserId}"/>
 
-                            <button class="button-cart-settins" type="submit">Удалить товар из корзины:</button>
+                                <button class="button-cart-settins" type="submit">Удалить товар из корзины:</button>
 
-                        </li>
-                    </ul>
-                </form>
+                            </li>
+                        </form>
+                    </th:block>
+                </ul>
 
-                    <h3 class="h3-cart-settins">Информация о корзине:</h3>
-<!--                    <p class="p-cart-settins">Общее количество товаров в корзине в штуках: <span th:text="${listOfThingsOfCurrentUser.size()}"> шт</span></p>-->
+                <!--                       Раздел Корзины: Информация о корзине (Количество и Стоимость)                      -->
+                <h3 class="h3-cart-settins">Информация о корзине:</h3>
                     <p class="p-cart-settins">Общее количество товаров в корзине в штуках: <span th:text="${totalQuantity}">0</span> шт</p>
-<!--                    <p class="p-cart-settins">Общая стоимость товаров в корзине в рублях: <span th:text="${totalCost}"></span> рублей</p>-->
                     <p class="p-cart-settins">Общая стоимость товаров в корзине в рублях: <span th:text="${totalPrice}"></span> рублей</p>
                     <br>
                     <a class="a-cart-settins" href="/">Возврат к странице: "Главная"</a>
@@ -98,7 +107,6 @@
                     <a class="a-cart-settins" href="#">Возврат к странице: "Доставка"</a>
                     <br>
                     <br>
-            </option>
 
             <!--Если пользователь не зарегистрирован, показываем сообщение или предложение зарегистрироваться-->
             <div class="div-cart-settins" th:if="${currentUser == null}">
@@ -114,3 +122,41 @@
         <p class="права">&copy; "Все права защищены"</p>
     </footer>
 </html>
+
+
+
+
+
+
+
+
+
+
+<!--                <h2 class="h2-cart-settins">Список добавленных товаров в корзину:</h2>-->
+<!--                <form class="form-cart-settins" th:action="@{/removeThing}" method="post">-->
+<!--                    <ul class="ul-cart-settins">-->
+<!--                        <li class="li-cart-settins" th:each="cartItem : ${listOfCartItemsOfCurrentUser}" th:value="cartItem.cartItem_id">-->
+<!--                            <span class="span-cart-settins"-->
+<!--                                  th:text="${'id товара-' + cartItem.cartItem_id +-->
+<!--                                             '; thing_id номер вещи на складе: -' + cartItem.thing.thing_id +-->
+<!--                                             '; название товара-' + cartItem.thing.thing_name +-->
+<!--                                             '; цвет товара-' + cartItem.thing.thing_color +-->
+<!--                                             ';  размер товара-' + cartItem.thing.thing_size +-->
+<!--                                             '; цена товара-' + cartItem.thing.thing_price +'рублей' +-->
+<!--                                             '; количество товара-' + cartItem.getCartItem_quantity()-->
+<!--                                             }">-->
+<!--                            </span>-->
+
+<!--                            <input class="input-cart-settins" type="hidden" name="thing_id" th:value="${cartItem.thing.thing_id}"/>-->
+
+<!--                            <input class="input-cart-settins" type="hidden" name="currentUserId" th:value="${currentUserId}"/>-->
+
+<!--                            <span>-->
+<!--                                <button class="button-cart-settins" type="submit">Удалить товар из корзины:</button>-->
+<!--                            </span>-->
+
+<!--                        </li>-->
+
+<!--                    </ul>-->
+
+<!--                </form>-->

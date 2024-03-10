@@ -30,7 +30,7 @@ public abstract class Thing
     private int thing_price;
 
     @Column(name = "quantity")
-    private int quantity = 1;
+    private int quantity;
     //endregion
 
     //region Constructor

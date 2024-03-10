@@ -1,5 +1,6 @@
 package com.example.daocradapi.dao.person;
 
+import com.example.daocradapi.models.cart.Cart;
 import com.example.daocradapi.repositories.JdbcPersonRepository;
 import com.example.daocradapi.models.person.Person;
 import jakarta.persistence.EntityManager;

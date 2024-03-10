@@ -16,23 +16,6 @@ public class CartItem
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cartItem_id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "cartItem_gender")
-    private Gender cartItem_gender;
-
-
-    @Column(name = "cartItem_name")
-    private String cartItem_name;
-
-    @Column(name = "cartItem_size")
-    private int cartItem_size;
-
-    @Column(name = "cartItem_color")
-    private String cartItem_color;
-
-    @Column(name = "cartItem_price")
-    private int cartItem_price;
-
     /** указывает количество товаров данного типа в корзине.
      Аннотации:
      @Column(name = "quantity"): Указывает на имя столбца в таблице базы данных,
@@ -63,17 +46,14 @@ public class CartItem
     private Thing thing;
     //endRegion
 
+
+
+
     //region Constructors
-    public CartItem(Integer cartItem_id, Gender cartItem_gender, String cartItem_name,
-                    int cartItem_size, String cartItem_color, int cartItem_price,
+    public CartItem(Integer cartItem_id,
                     int cartItem_quantity, Cart cart, Thing thing)
     {
         this.cartItem_id = cartItem_id;
-        this.cartItem_gender = cartItem_gender;
-        this.cartItem_name = cartItem_name;
-        this.cartItem_size = cartItem_size;
-        this.cartItem_color = cartItem_color;
-        this.cartItem_price = cartItem_price;
         this.cartItem_quantity = cartItem_quantity;
         this.cart = cart;
         this.thing = thing;
@@ -85,7 +65,6 @@ public class CartItem
     //endregion
 
     //region Getters && Setters
-
     public Integer getCartItem_id() {
         return cartItem_id;
     }
@@ -94,45 +73,69 @@ public class CartItem
         this.cartItem_id = cartItem_id;
     }
 
-    public Gender getCartItem_gender() {
-        return cartItem_gender;
-    }
 
-    public void setCartItem_gender(Gender cartItem_gender) {
-        this.cartItem_gender = cartItem_gender;
-    }
 
-    public String getCartItem_name() {
-        return cartItem_name;
-    }
 
-    public void setCartItem_name(String cartItem_name) {
-        this.cartItem_name = cartItem_name;
-    }
 
-    public int getCartItem_size() {
-        return cartItem_size;
-    }
+    //    @Enumerated(EnumType.STRING)
+//    @Column(name = "cartItem_gender")
+//    private Gender cartItem_gender;
+//
+//
+//    @Column(name = "cartItem_name")
+//    private String cartItem_name;
+//
+//    @Column(name = "cartItem_size")
+//    private int cartItem_size;
+//
+//    @Column(name = "cartItem_color")
+//    private String cartItem_color;
+//
+//    @Column(name = "cartItem_price")
+//    private int cartItem_price;
 
-    public void setCartItem_size(int cartItem_size) {
-        this.cartItem_size = cartItem_size;
-    }
 
-    public String getCartItem_color() {
-        return cartItem_color;
-    }
 
-    public void setCartItem_color(String cartItem_color) {
-        this.cartItem_color = cartItem_color;
-    }
 
-    public int getCartItem_price() {
-        return cartItem_price;
-    }
-
-    public void setCartItem_price(int cartItem_price) {
-        this.cartItem_price = cartItem_price;
-    }
+//    public Gender getCartItem_gender() {
+//        return cartItem_gender;
+//    }
+//
+//    public void setCartItem_gender(Gender cartItem_gender) {
+//        this.cartItem_gender = cartItem_gender;
+//    }
+//
+//    public String getCartItem_name() {
+//        return cartItem_name;
+//    }
+//
+//    public void setCartItem_name(String cartItem_name) {
+//        this.cartItem_name = cartItem_name;
+//    }
+//
+//    public int getCartItem_size() {
+//        return cartItem_size;
+//    }
+//
+//    public void setCartItem_size(int cartItem_size) {
+//        this.cartItem_size = cartItem_size;
+//    }
+//
+//    public String getCartItem_color() {
+//        return cartItem_color;
+//    }
+//
+//    public void setCartItem_color(String cartItem_color) {
+//        this.cartItem_color = cartItem_color;
+//    }
+//
+//    public int getCartItem_price() {
+//        return cartItem_price;
+//    }
+//
+//    public void setCartItem_price(int cartItem_price) {
+//        this.cartItem_price = cartItem_price;
+//    }
 
     public int getCartItem_quantity() {
         return cartItem_quantity;
@@ -158,5 +161,16 @@ public class CartItem
         this.thing = thing;
     }
     //endregion
+
+
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "cartItem_id=" + cartItem_id +
+                ", cartItem_quantity=" + cartItem_quantity +
+                ", cart=" + cart.getId() +
+                ", thing=" + thing.getThing_id() +
+                '}';
+    }
 }
 

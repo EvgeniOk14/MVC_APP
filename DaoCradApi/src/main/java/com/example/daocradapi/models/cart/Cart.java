@@ -91,12 +91,22 @@ public class Cart
         return (int) listOfCartItems.stream().count();
     }
 
-    /** получение общей суммы всех товаров в корзине **/
-    public int getTotalCost()
-    {
-        return listOfCartItems.stream().mapToInt(CartItem::getCartItem_price).sum();
-    }
+//    /** получение общей суммы всех товаров в корзине **/
+//    public int getTotalCost()
+//    {
+//        return listOfCartItems.stream().mapToInt(CartItem:: getCartItem_price).sum();
+//    }
     //endregion
+
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "id=" + id +
+                ", person=" + person +
+                ", listOfCartItems=" + listOfCartItems +
+                '}';
+    }
 }
 
 

@@ -112,11 +112,6 @@ public class CartController
                            @RequestParam("currentUserId") Integer currentUserId,
                            Model model)
     {
-        System.out.println("---------------начало метода addThing проверка передачи данных----------------------------");
-        System.out.println("принимаем currentUserId в метод addThing: " + currentUserId);
-        System.out.println("принимаем идентификатор вещи selectedThingId: " + selectedThingId);
-        System.out.println("----------------------------------------------------------------------------------------------");
-
         if (currentUserId != null)                                         // проверяем id текущего пользователя, равно ли оно null?
         {
             Person currentUser = personDAO.getPersonById(currentUserId);  // получаем текущего пользователя
@@ -140,28 +135,24 @@ public class CartController
                     cartDAO.saveCard(userCart);                                              // Сохранение корзины
                 }
 
-            /** Получаем выбранный товар по его id **/
-            NewThing selectedThing = thingDAO.getThingById(selectedThingId);
-            System.out.println("это выбранная вещь для добавления в корзину: " + selectedThing);
+            NewThing selectedThing = thingDAO.getThingById(selectedThingId);              // Получаем выбранный товар по его id
 
-            List<CartItem> listOfCartItemsOfCurrentUser = userCart.getListOfCartItems(); // получаем список вещей в корзине текущего пользователя
-            System.out.println("проверка перед добавлением товара listOfCartItemsOfCurrentUser: " + listOfCartItemsOfCurrentUser);
+            List<CartItem> listOfCartItemsOfCurrentUser = userCart.getListOfCartItems();// получаем список вещей в корзине текущего пользователя
+
+            List<Thing> things = thingDAO.getAllThigs();                              // Получение списка всех товаров из магазина
+
 
             /** Добавляем выбранный товар selectedTing в корзину Cart и сохраняем изменения в корзине **/
             cartDAO.addCartItemToCart(userCart, selectedThing);
 
-            /** Получение списка всех товаров из магазина **/
-            List<Thing> things = thingDAO.getAllThigs();
-
-
             /** считаем общую стоимость товаров в корзине текущего пользователя **/
-            double totalPrice = cartDAO.calculateTotalPrice(currentUserId);         // расчёт общей стоимости товаров в корзине текущего пользователя
+            double totalPrice = cartDAO.calculateTotalPrice(currentUserId);
 
             /** считаем общее количество товаров Quantity в корзине текущего пользователя **/
             int totalQuantity = cartDAO.calculateTotalQuantity(currentUserId);
 
-            /** метод добавление параметров в модель (смотри самый крайний метод в этом классе контроллера updateCartInfo): **/
 
+            /** метод добавление параметров в модель (смотри самый крайний метод в этом классе контроллера updateCartInfo): **/
             updateCartInfo(model, listOfCartItemsOfCurrentUser, userCart, things,  currentUser, currentUserId,  totalPrice, totalQuantity);
 
             /** передаём в модель выбранную вещь **/
@@ -197,7 +188,8 @@ public class CartController
                     List<CartItem> listOfCartItemsOfCurrentUser = userCart.getListOfCartItems(); // получение списка всех товаров в карзине текущего пользователя
 
                     /** считаем общую стоимость товаров в корзине текущего пользователя **/
-                    double totalPrice = cartDAO.calculateTotalPrice(currentUserId); // расчёт общей стоимости товаров в корзине текущего пользователя
+                    double totalPrice = cartDAO.calculateTotalPrice(currentUserId);
+
                     /** считаем общее количество товаров Quantity в корзине текущего пользователя **/
                     int totalQuantity = cartDAO.calculateTotalQuantity(currentUserId);
 
@@ -248,27 +240,5 @@ public class CartController
 
 
 
-
-
-//            int totalQuantity = 0;
-//            double totalPrice = 0.0;
-//            for (Thing thing : listOfThingsOfCurrentUser)
-//            {
-//                int thingQuantity = thing.getQuantity();
-//                totalQuantity = totalQuantity + thingQuantity;
-//                double thingPrice = thing.getThing_price();
-//                totalPrice += thingPrice * thingQuantity;
-//            }
-
-
-//    /** добавление вещей в магазин **/
-//    @GetMapping("/add-product")
-//    public String showAddProductForm(Model model)
-//    {
-//        List<Thing> listOfnewThings = thingDAO.getAllThigs();
-//        model.addAttribute("listOfnewThings", listOfnewThings);
-//        model.addAttribute("newThing", new NewThing());
-//        return "add-product-form";
-//    }
 
 

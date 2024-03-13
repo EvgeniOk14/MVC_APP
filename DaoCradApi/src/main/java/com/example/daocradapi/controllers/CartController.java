@@ -89,14 +89,15 @@ public class CartController
 
             List<CartItem> listOfCartItemsOfCurrentUser = userCart.getListOfCartItems(); // Получаем список всех товаров из корзины текущего пользователя
             List<Thing> things = thingDAO.getAllThigs(); //Получение списка всех товаров магазина
+
             /** считаем общую стоимость товаров в корзине текущего пользователя **/
             double totalPrice = cartDAO.calculateTotalPrice(currentUserId); // расчёт общей стоимости товаров в корзине текущего пользователя
+
             /** считаем общее количество товаров Quantity в корзине текущего пользователя **/
             int totalQuantity = cartDAO.calculateTotalQuantity(currentUserId);
 
             /** метод добавление параметров в модель (смотри самы крайний метод в этом классе контроллера updateCartInfo): **/
             updateCartInfo(model, listOfCartItemsOfCurrentUser, userCart, things,  currentUser, currentUserId, totalPrice, totalQuantity);
-            System.out.println("передаём currentUserId: " + currentUserId);
         }
         else
         {

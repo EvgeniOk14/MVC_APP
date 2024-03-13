@@ -157,3 +157,10 @@ body {
     height: 700px;
 }
 
+.success-message {
+    color: green;
+}
+
+.error-message {
+    color: red;
+}

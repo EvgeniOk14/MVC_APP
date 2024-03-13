@@ -1,5 +1,6 @@
 package com.example.daocradapi.dao.things;
 
+import com.example.daocradapi.models.abstractclases.Gender;
 import com.example.daocradapi.models.abstractclases.Thing;
 import com.example.daocradapi.models.products.*;
 import jakarta.persistence.EntityManager;
@@ -8,6 +9,7 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -70,5 +72,64 @@ public class ThingDAO
     {
         return entityManager.find(NewThing.class, id);
     }
+
+
+
+    /** выборка всех товаров с одинаковым именем, цветом и полом **/
+    @Transactional
+    public List<NewThing> getListThinsWithSameNameColorGender()
+    {
+        TypedQuery<NewThing> query = entityManager.createQuery
+                (
+                "SELECT t FROM NewThing t WHERE t.thing_gender = 'MALE' " +
+                        "AND t.thing_name = 'ManSuit' " +
+                        "AND t.thing_color = 'красный'", NewThing.class
+                ); // выбираем все товары с одинаковым именем, цветом и полом
+        List<NewThing> listOfThingWithSameName = query.getResultList(); // присваиваем данной переменной результат выборки
+
+
+        List<NewThing> availableThings = new ArrayList<>(); // Создаем новый список для товаров с количеством больше нуля
+        for (NewThing thing : listOfThingWithSameName)     // идём по списку
+        {
+            if (thing.getQuantity() > 0)                 // если количество товара больше нуля (т.е. тов есть в наличии), то:
+            {
+                availableThings.add(thing);            // добавляем данный товар в список доступных товаров
+            }
+        }
+        return availableThings;                     // возвращаем список доступных товаров
+    }
+
+    /** метод устанавливает выбранной вещи количество равное на единицу меньше, чем было **/
+    @Transactional
+    public void removeQuantity(Integer selectedThingId)
+    {
+        NewThing thingRemoveQuantity = getThingById(selectedThingId); // находим вещь по её id
+        thingRemoveQuantity.setQuantity(thingRemoveQuantity.getQuantity() - 1); // устанавливаем вещи количество равное на единицу меньше, чем было
+        entityManager.persist(thingRemoveQuantity); // сохраняем эти изменения
+        }
+
+
+    @Transactional
+    public List<NewThing> totalGetListThinsWithSameNameColorGender(String name, String color, Gender gender) {
+        TypedQuery<NewThing> query = entityManager.createQuery
+                (
+                "SELECT t FROM NewThing t WHERE t.thing_gender = :gender " +
+                        "AND t.thing_name = :name AND t.thing_color = :color", NewThing.class
+                );
+        query.setParameter("gender", gender);
+        query.setParameter("name", name);
+        query.setParameter("color", color);
+
+        List<NewThing> listOfThingWithSameName = query.getResultList();
+
+        List<NewThing> availableThings = new ArrayList<>();
+        for (NewThing thing : listOfThingWithSameName) {
+            if (thing.getQuantity() > 0) {
+                availableThings.add(thing);
+            }
+        }
+        return availableThings;
+    }
+
 }
 

@@ -42,11 +42,10 @@
                 <li><a href="/">Главная</a></li>
                 <li><a href="/catalog">Каталог</a></li>
                 <li><a href="/contacts">Контакты</a></li>
-                <li><a href="#">Корзина</a></li>
+                <li><a th:href="@{/checkPerson}" th:method="get">Корзина</a></li>
                 <li><a href="#">Доставка</a></li>
             </ul>
         </nav>
-
 
         <div class="product-container">
             <img class="костюм1"
@@ -57,7 +56,39 @@
                 <p class="item">Цена:3500</p>
                 <br>
                 <p class="item">Размеры:</p>
-                <a class="box" href="">Добавить товар в корзину</a>
+
+                <form th:action="@{/showThingWithSameNameColorGender2/choiseSize}" method="post">
+                    <p class="item">Размеры:</p>
+                    <select name="selectedThingId">
+
+                        <option value="" selected disabled hidden>Выберите размер</option>
+                        <option th:each="thing : ${availableSizes}"
+                                th:value="${thing.thing_id}"
+                                th:text="${'размер: ' + thing.thing_size + ' (в наличии - ' + thing.quantity + ' шт)'}">
+                        </option>
+
+                    </select>
+
+                    <button type="submit">Выбрать</button>
+
+                    <div class="success-message" th:if="${successAdding == true}"> <!-- Проверяем, если товар успешно добавлен в корзину пользователю -->
+                        <p>Товар успешно добавлен в Вашу корзину</p>
+                    </div>
+
+                    <div class="error-message" th:if="${isAvailable == false}"> <!-- Проверяем, если список доступных размеров пуст -->
+                        <p th:text="'Товар с размером ' + ${unavailableSize} + ' закончился! Выберите другой товар или размер.'"></p>
+                    </div>
+
+                    <div class="error-message" th:if="${thingsIsAbsent == true}"> <!-- проверяем, если товар закончился -->
+                        <p th:text="'Товар ' + ${selectedThing} + ' c размером ' + ${unavailableSize} + ' закончился! Выберите другой товар или размер.'"></p>
+                    </div>
+
+                </form>
+
+                <br>
+                <a class="return-cart" th:href="@{/checkPerson}" th:method="get">Переход в Вашу корзину</a>
+                <br>
+
                 <br>
                 <a class="return" th:href="@{/AddedHtmlSites/indexSportSuitMan}">Возврат к каталогу спортивных мужских костюмов</a>
             </div>

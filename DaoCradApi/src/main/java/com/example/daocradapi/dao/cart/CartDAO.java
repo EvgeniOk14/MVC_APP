@@ -1,12 +1,9 @@
 package com.example.daocradapi.dao.cart;
 
-import com.example.daocradapi.dao.person.PersonDAO;
-import com.example.daocradapi.dao.things.ThingDAO;
 import com.example.daocradapi.models.cart.Cart;
 import com.example.daocradapi.models.cartItem.CartItem;
 import com.example.daocradapi.models.products.NewThing;
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +16,6 @@ public class CartDAO
     //region Fields
     @PersistenceContext
     private EntityManager entityManager;
-
-    @Autowired
-    private PersonDAO personDAO;
-
-    @Autowired
-    private ThingDAO thingDAO;
     //endregion
 
     /** сохраняем корзину **/
@@ -182,26 +173,6 @@ public class CartDAO
 //        return totalCost;
 //    }
 
-    /** метод редактирование вещи в корзине **/
-    @Transactional
-    public void editCartThing(Integer id, NewThing editThing)
-    {
-        if(id != null && editThing != null)
-        {
-            NewThing existingCartThing = thingDAO.getThingById(id);
-
-            if(editThing != null)
-            {
-                existingCartThing.setThing_id(editThing.getThing_id());
-                existingCartThing.setThing_gender(editThing.getThing_gender());
-                existingCartThing.setThing_name(editThing.getThing_name());
-                existingCartThing.setThing_size(editThing.getThing_size());
-                existingCartThing.setThing_color(editThing.getThing_color());
-                existingCartThing.setThing_price(editThing.getThing_price());
-            }
-            entityManager.merge(existingCartThing);
-        }
-    }
 
     /** Показ всего списка вещей cartItems из корзины Cart **/
     @Transactional
@@ -225,7 +196,27 @@ public class CartDAO
     {
         return entityManager.find(Cart.class, cartId);
     }
+
 }
 
-
+//    /** метод редактирование вещи в корзине **/
+//    @Transactional
+//    public void editCartThing(Integer id, NewThing editThing)
+//    {
+//        if(id != null && editThing != null)
+//        {
+//            NewThing existingCartThing = thingDAO.getThingById(id);
+//
+//            if(editThing != null)
+//            {
+//                existingCartThing.setThing_id(editThing.getThing_id());
+//                existingCartThing.setThing_gender(editThing.getThing_gender());
+//                existingCartThing.setThing_name(editThing.getThing_name());
+//                existingCartThing.setThing_size(editThing.getThing_size());
+//                existingCartThing.setThing_color(editThing.getThing_color());
+//                existingCartThing.setThing_price(editThing.getThing_price());
+//            }
+//            entityManager.merge(existingCartThing);
+//        }
+//    }
 

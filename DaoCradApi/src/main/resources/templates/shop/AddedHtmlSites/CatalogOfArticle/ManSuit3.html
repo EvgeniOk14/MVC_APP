@@ -53,11 +53,11 @@
                 alt="фото спортивного мужского костюма серого цвета 3">
             <div class="product-details">
                 <h3>Товар 3: Спортивный костюм мужской серый, фирмы: "Nike"</h3>
-                <p class="item">Цена:3500</p>
+                <p class="item">Цена:5300</p>
                 <br>
                 <p class="item">Размеры:</p>
 
-                <form th:action="@{/showThingWithSameNameColorGender/choiseSize}" method="post">
+                <form th:action="@{/showThingWithSameNameColorGender3/choiseSize}" method="post">
                     <p class="item">Размеры:</p>
                     <select name="selectedThingId">
 
@@ -69,7 +69,7 @@
 
                     </select>
 
-                    <button type="submit">Выбрать</button>
+                    <button type="submit">Добавить выбранный товар в корзину</button>
 
                     <div class="success-message" th:if="${successAdding == true}"> <!-- Проверяем, если товар успешно добавлен в корзину пользователю -->
                         <p>Товар успешно добавлен в Вашу корзину</p>

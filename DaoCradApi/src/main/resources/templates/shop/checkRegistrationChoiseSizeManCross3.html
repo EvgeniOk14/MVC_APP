@@ -43,7 +43,7 @@
 </nav>
 
 <h1>Вы уже зарегистрированы?</h1>
-<form action="/checkPerson1" method="post">
+<form action="/checkPersonManCross3" method="post">
     <label for="email">Введите ваш email:</label>
     <input type="email" id="email" name="email" placeholder="Введите email" required>
 
@@ -51,7 +51,6 @@
     <input class="input" type="hidden" name="availableSizes" th:value="${availableSizes}"/>
 
     <button type="submit">Проверить</button>
-
 </form>
 <p>Если вы не зарегистрированы, <a th:href="@{/shop/registration}">зарегистрируйтесь здесь</a>.</p>
 </body>

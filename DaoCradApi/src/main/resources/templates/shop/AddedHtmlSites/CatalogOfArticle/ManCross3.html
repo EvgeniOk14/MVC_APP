@@ -42,8 +42,8 @@
                 <li><a href="/">Главная</a></li>
                 <li><a href="/catalog">Каталог</a></li>
                 <li><a href="/contacts">Контакты</a></li>
-                <li><a href="#">Корзина</a></li>
-                <li><a th:href="@{/checkPerson}" th:method="get">Доставка</a></li>
+                <li><a th:href="@{/checkPerson}" th:method="get">Корзина</a></li>
+                <li><a href="#">Доставка</a></li>
             </ul>
         </nav>
 
@@ -53,11 +53,11 @@
                 alt="фото мужских кросовок красно-чёрного цвета 3">
             <div class="product-details">
                 <h3>Товар 3: Кросовки мужские, цвет красно-чёрный, фирмы: "Nike"</h3>
-                <p class="item">Цена:5900</p>
+                <p class="item">Цена:4300</p>
                 <br>
                 <p class="item">Размеры:</p>
 
-                <form th:action="@{/showThingWithSameNameColorGender/choiseSize}" method="post">
+                <form th:action="@{/showThingWithSameNameColorGenderManCross3/choiseSize}" method="post">
                     <p class="item">Размеры:</p>
                     <select name="selectedThingId">
 
@@ -69,7 +69,7 @@
 
                     </select>
 
-                    <button type="submit">Выбрать</button>
+                    <button type="submit">Добавить выбранный товар в корзину</button>
 
                     <div class="success-message" th:if="${successAdding == true}"> <!-- Проверяем, если товар успешно добавлен в корзину пользователю -->
                         <p>Товар успешно добавлен в Вашу корзину</p>

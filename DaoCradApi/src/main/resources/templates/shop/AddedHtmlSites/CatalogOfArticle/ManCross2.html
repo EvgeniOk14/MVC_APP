@@ -52,11 +52,11 @@
                 alt="фото мужских кросовок голубого цвета 2">
             <div class="product-details">
                 <h3>Товар 2: Кросовки мужские, цвет голубой, фирмы: "Nike"</h3>
-                <p class="item">Цена:5700</p>
+                <p class="item">Цена:4700</p>
                 <br>
                 <p class="item">Размеры:</p>
 
-                <form th:action="@{/showThingWithSameNameColorGender/choiseSize}" method="post">
+                <form th:action="@{/showThingWithSameNameColorGenderManCross2/choiseSize}" method="post">
                     <p class="item">Размеры:</p>
                     <select name="selectedThingId">
 
@@ -68,7 +68,7 @@
 
                     </select>
 
-                    <button type="submit">Выбрать</button>
+                    <button type="submit">Добавить выбранный товар в корзину</button>
 
                     <div class="success-message" th:if="${successAdding == true}"> <!-- Проверяем, если товар успешно добавлен в корзину пользователю -->
                         <p>Товар успешно добавлен в Вашу корзину</p>

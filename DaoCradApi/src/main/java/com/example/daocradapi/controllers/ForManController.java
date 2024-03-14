@@ -91,7 +91,7 @@ public class ForManController
     @GetMapping("/AddedHtmlSites/CatalogOfArticle/ManSuit3")
     public String SuitForMan3(Model model)
     {
-        List<NewThing> availableSizes = thingDAO.getListThinsWithSameNameColorGender(); // находим список вещей с одинаковым именем, цветом и полом
+        List<NewThing> availableSizes = thingDAO.totalGetListThinsWithSameNameColorGender("ManSuit", "серый", Gender.MALE); // находим список вещей с одинаковым именем, цветом и полом
         model.addAttribute("availableSizes", availableSizes); // добавляем найденный список вещей в модель
         return "shop/AddedHtmlSites/CatalogOfArticle/ManSuit3";
     }
@@ -100,21 +100,21 @@ public class ForManController
     @GetMapping("/AddedHtmlSites/CatalogOfArticle/ManCross1")
     public String CrossForMan1(Model model)
     {
-        List<NewThing> availableSizes = thingDAO.getListThinsWithSameNameColorGender(); // находим список вещей с одинаковым именем, цветом и полом
+        List<NewThing> availableSizes = thingDAO.totalGetListThinsWithSameNameColorGender("ManCross", "синий", Gender.MALE); // находим список вещей с одинаковым именем, цветом и полом
         model.addAttribute("availableSizes", availableSizes); // добавляем найденный список вещей в модель
         return "shop/AddedHtmlSites/CatalogOfArticle/ManCross1";
     }
     @GetMapping("/AddedHtmlSites/CatalogOfArticle/ManCross2")
     public String CrossForMan2(Model model)
     {
-        List<NewThing> availableSizes = thingDAO.getListThinsWithSameNameColorGender(); // находим список вещей с одинаковым именем, цветом и полом
+        List<NewThing> availableSizes = thingDAO.totalGetListThinsWithSameNameColorGender("ManCross", "голубой", Gender.MALE); // находим список вещей с одинаковым именем, цветом и полом
         model.addAttribute("availableSizes", availableSizes); // добавляем найденный список вещей в модель
         return "shop/AddedHtmlSites/CatalogOfArticle/ManCross2";
     }
     @GetMapping("/AddedHtmlSites/CatalogOfArticle/ManCross3")
     public String CrossForMan3(Model model)
     {
-        List<NewThing> availableSizes = thingDAO.getListThinsWithSameNameColorGender(); // находим список вещей с одинаковым именем, цветом и полом
+        List<NewThing> availableSizes = thingDAO.totalGetListThinsWithSameNameColorGender("ManCross", "чёрный", Gender.MALE); // находим список вещей с одинаковым именем, цветом и полом
         model.addAttribute("availableSizes", availableSizes); // добавляем найденный список вещей в модель
         return "shop/AddedHtmlSites/CatalogOfArticle/ManCross3";
     }

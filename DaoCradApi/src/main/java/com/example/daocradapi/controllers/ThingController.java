@@ -37,7 +37,7 @@ public class ThingController
     @GetMapping("/things")
     public String getAllThigs(Model model)
     {
-        List<Thing> things = thingDAO.getAllThigs();
+        List<NewThing> things = thingDAO.getAllThigs();
         model.addAttribute("things", things);
         return "things/things";
     }

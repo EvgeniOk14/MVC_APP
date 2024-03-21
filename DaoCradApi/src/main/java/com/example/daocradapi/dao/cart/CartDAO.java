@@ -4,6 +4,7 @@ import com.example.daocradapi.models.cart.Cart;
 import com.example.daocradapi.models.cartItem.CartItem;
 import com.example.daocradapi.models.products.NewThing;
 import jakarta.persistence.*;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,11 @@ public class CartDAO
     {
         entityManager.persist(cart);
     }
+    /** метод обновления корзины **/
+    @Transactional
+    public void updateCard(Cart cart) {
+        entityManager.merge(cart);
+    }
 
     /** метод находит корзину пользователя по его id **/
     @Transactional
@@ -39,6 +45,7 @@ public class CartDAO
             return null; // Возвращаем null, если корзина не найдена
         }
     }
+
 
     /** добавление новой вещи в корзину **/
     @Transactional
@@ -61,6 +68,7 @@ public class CartDAO
                         }
                     }
                 }
+
                 if (flag)  // Если такого товара нет в корзине, добавляем его с количеством 1
                 {
                     CartItem cartItem = new CartItem();                    // создать новую вещь в списке корзины текущего пользователя
@@ -198,25 +206,3 @@ public class CartDAO
     }
 
 }
-
-//    /** метод редактирование вещи в корзине **/
-//    @Transactional
-//    public void editCartThing(Integer id, NewThing editThing)
-//    {
-//        if(id != null && editThing != null)
-//        {
-//            NewThing existingCartThing = thingDAO.getThingById(id);
-//
-//            if(editThing != null)
-//            {
-//                existingCartThing.setThing_id(editThing.getThing_id());
-//                existingCartThing.setThing_gender(editThing.getThing_gender());
-//                existingCartThing.setThing_name(editThing.getThing_name());
-//                existingCartThing.setThing_size(editThing.getThing_size());
-//                existingCartThing.setThing_color(editThing.getThing_color());
-//                existingCartThing.setThing_price(editThing.getThing_price());
-//            }
-//            entityManager.merge(existingCartThing);
-//        }
-//    }
-

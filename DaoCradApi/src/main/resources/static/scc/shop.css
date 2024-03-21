@@ -166,5 +166,8 @@ img {
 }
 
 
-
+.error-message {
+    color: red;
+    font-size: 24px;
+}
 

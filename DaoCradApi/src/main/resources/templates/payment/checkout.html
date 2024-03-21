@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+</head>
+<body>
+<h1>Checkout</h1>
+<div th:if="${error}">
+    <p th:text="${error}"></p>
+</div>
+<a th:href="@{/checkPerson}" th:method="get"></a>
+</body>
+</html>

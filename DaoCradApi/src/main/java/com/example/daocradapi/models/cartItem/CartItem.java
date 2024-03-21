@@ -1,6 +1,5 @@
 package com.example.daocradapi.models.cartItem;
 
-import com.example.daocradapi.models.abstractclases.Gender;
 import com.example.daocradapi.models.abstractclases.Thing;
 import com.example.daocradapi.models.cart.Cart;
 import jakarta.persistence.*;

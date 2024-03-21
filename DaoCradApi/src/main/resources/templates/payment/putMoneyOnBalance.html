@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пополнение счета</title>
+<!--    <link rel="stylesheet" href="styles.css">-->
+</head>
+<body>
+<div class="container">
+
+    <h1>Пополнение счета</h1>
+
+    <p th:text="*{currentUserId}">!!!!!!!</p>
+    <p th:text="*{card_id}">!!!!!!!</p>
+    <p th:text="*{thing_id}">!!!!!!!</p>
+
+    <form th:action="@{/putMoneyOnBalance/money}" method="post">
+        <label for="amount">Введите сумму для пополнения:</label>
+        <input type="number" id="amount" name="amount" required>
+
+        <input class="input-cart-settins" type="hidden" name="currentUserId" th:value="${currentUserId}"/>
+        <input class="input-cart-settins" type="hidden" name="card_id" th:value="${card_id}"/>
+        <input type="hidden" name="thing_id" th:value="${thing_id}"/>
+
+        <input class="input-cart-settins" type="hidden" name="cart_id" th:value="${cart_id}"/>
+
+        <button type="submit">Пополнить счет</button>
+    </form>
+</div>
+</body>
+</html>

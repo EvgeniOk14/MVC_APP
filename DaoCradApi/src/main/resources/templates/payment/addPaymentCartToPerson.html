@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить новую карту оплаты</title>
+<!--    <link href="/scc/addPaymentCartToPerson.css" rel="stylesheet" type="text/css">-->
+</head>
+<body>
+<h2>Добавить новую карту оплаты</h2>
+
+<!-- Форма для добавления новой карты оплаты -->
+<form th:action="@{/inputCartItems}" method="post">
+
+    <label for="cardNumber">Номер карты:</label>
+    <input type="text" id="cardNumber" name="cardNumber" required><br>
+
+    <label for="expirationDate">Дата истечения срока:</label>
+    <input type="text" id="expirationDate" name="expirationDate" placeholder="MM/YY" required><br>
+
+    <label for="securityCode">Код безопасности:</label>
+    <input type="text" id="securityCode" name="securityCode" required><br>
+
+    <!-- Скрытое поле с идентификатором текущего пользователя -->
+    <input type="hidden" name="currentUserId" th:value="${currentUserId}">
+    <!-- Скрытое поле с идентификатором товара (если нужно) -->
+    <input type="hidden" name="thing_id" th:value="${thing_id}">
+
+    <input class="input-cart-settings" type="hidden" name="card_id" th:value="card_id">
+
+    <input class="input-cart-settins" type="hidden" name="cart_id" th:value="${cart_id}"/>
+
+    <!-- Кнопка для добавления новой карты оплаты -->
+    <input type="submit" value="Купить товар">
+</form>
+<a href="/static">На главную</a>
+</body>
+</html>
+
+
+<!-- Форма для выбора карты оплаты из выпадающего списка -->
+<!--<form class="form-cart-settins" th:action="@{/addPaymentCartToPerson}" method="post">-->
+<!--    <select class="select-cart-settins" name="card_id">-->
+<!--        &lt;!&ndash; Перечисляем доступные карты пользователя &ndash;&gt;-->
+<!--        <option class="option-cart-settins" th:each="card : ${listOfCartItemsOfCurrentUser}" th:value="${card.id}">-->
+<!--            <span class="span-cart-settins" th:text="${'номер карты-' + card.getId()}"></span>-->
+<!--        </option>-->
+<!--    </select>-->
+
+<!--    <input class="input-cart-settings" type="hidden" name="listOfCartItemsOfCurrentUser" th:value="listOfCartItemsOfCurrentUser">-->
+
+<!--    &lt;!&ndash; Кнопка для выбора карты оплаты &ndash;&gt;-->
+<!--    <button type="submit">Выбрать карту оплаты</button>-->
+<!--</form>-->
+
+<!-- Ссылка на главную страницу -->
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Добавить новую карту оплаты</title>-->
+<!--    <link href="/static/scc/addPaymentCartToPerson.css" rel="stylesheet" type="text/css">-->
+<!--</head>-->
+<!--<body>-->
+<!--<h2>Добавить новую карту оплаты</h2>-->
+
+
+<!--&lt;!&ndash; Кнопка: Добавить товар в корзину &ndash;&gt;-->
+<!--<form class="form-cart-settins" th:action="@{/buyThing}" method="post">-->
+<!--    &lt;!&ndash; Поле для выбора товара из выпадающего списка товаров &ndash;&gt;-->
+<!--    <select class="select-cart-settins" name="card_id">-->
+<!--        <option class="option-cart-settins" th:each="card : ${listOfCartItemsOfCurrentUser}" th:value="${card.id}">-->
+<!--            <span class="span-cart-settins" th:text="${'номер карты-' + card.cardNumber}"></span>-->
+<!--        </option>-->
+<!--    </select>-->
+<!--    <button type="submit">Выбрать карту оплаты</button>-->
+<!--</form>-->
+
+<!--<form th:action="@{/buyThing}" method="post">-->
+
+<!--    <label for="cardNumber">Номер карты:</label>-->
+<!--    <input type="text" id="cardNumber" name="cardNumber" required><br>-->
+
+<!--    <label for="expirationDate">Дата истечения срока:</label>-->
+<!--    <input type="text" id="expirationDate" name="expirationDate" placeholder="MM/YY" required><br>-->
+
+<!--    <label for="securityCode">Код безопасности:</label>-->
+<!--    <input type="text" id="securityCode" name="securityCode" required><br>-->
+
+
+<!--    <input type="hidden" name="currentUserId" th:value="${currentUserId}">-->
+<!--    <input type="hidden" name="thing_id" th:value="${thing_id}">-->
+<!--    <input class="input-cart-settings" type="hidden" name="listOfCartItemsOfCurrentUser" th:value="listOfCartItemsOfCurrentUser">-->
+
+<!--    <input type="submit" value="Оплатить">-->
+<!--</form>-->
+<!--<a href="/">На главную</a>-->
+<!--</body>-->
+<!--</html>-->

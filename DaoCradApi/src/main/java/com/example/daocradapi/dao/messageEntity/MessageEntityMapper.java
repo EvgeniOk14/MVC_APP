@@ -29,7 +29,7 @@ public class MessageEntityMapper implements RowMapper<MessageEntity>
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
-        Person person = jdbcTemplate.queryForObject("SELECT * FROM person2 WHERE id = ?",
+        Person person = jdbcTemplate.queryForObject("SELECT * FROM person WHERE id = ?",
                 new Object[]{personId},
                 new PersonMapper());
         messageEntity.setPerson(person);  // Получаем связанного человека

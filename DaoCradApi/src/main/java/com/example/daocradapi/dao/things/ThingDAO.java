@@ -6,6 +6,9 @@ import com.example.daocradapi.models.products.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,12 +32,29 @@ public class ThingDAO
         entityManager.persist(newThing);
     }
 
+    @Transactional
+    public void updateThing(NewThing thing)
+    {
+        entityManager.merge(thing);
+    }
+
+    @Transactional
+    public List<NewThing> getAll()
+    {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<NewThing> query = builder.createQuery(NewThing.class);
+        Root<NewThing> root = query.from(NewThing.class);
+        query.select(root);
+        return entityManager.createQuery(query).getResultList();
+    }
+
+
 
     /** Показать все вещи из каталога (БД) **/
     @Transactional
-    public List<Thing> getAllThigs()
+    public List<NewThing> getAllThigs()
     {
-        TypedQuery<Thing> query = entityManager.createQuery("SELECT t FROM Thing t", Thing.class);
+        TypedQuery<NewThing> query = entityManager.createQuery("SELECT t FROM Thing t", NewThing.class);
         return query.getResultList();
     }
 

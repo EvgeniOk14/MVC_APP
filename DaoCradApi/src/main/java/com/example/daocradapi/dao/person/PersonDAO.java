@@ -54,7 +54,7 @@ public class PersonDAO
     @Transactional
     public List<Person> index()
     {
-        String SQL = "SELECT * FROM person2";
+        String SQL = "SELECT * FROM person";
         return jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Person.class));
     }
 
@@ -62,7 +62,7 @@ public class PersonDAO
     @Transactional
     public Person show(Integer id)
     {
-        String SQL = "SELECT * FROM person2 WHERE id=?";
+        String SQL = "SELECT * FROM person WHERE id=?";
         return jdbcTemplate.query(SQL, new Object[]{id}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
     }
 
@@ -70,28 +70,30 @@ public class PersonDAO
     @Transactional
     public void save(Person person)
     {
-        String SQL = "INSERT INTO person2 (name, surname, age, email) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(SQL, person.getName(), person.getSurname(), person.getAge(), person.getEmail());
-    }
+            String SQL = "INSERT INTO person (name, surname, age, email) VALUES (?, ?, ?, ?)";
+            jdbcTemplate.update(SQL, person.getName(), person.getSurname(), person.getAge(), person.getEmail());
 
-    /** метод сохранения пользователя, переданного, или найденного по id,
-     * создан на всякий случай, пока не используеться,
-     *  т.к. в методе addThing()  контроллера CartController
-     * пользователь берётся из базы данных и его сохранение не требуется **/
-    @Transactional
-    public void savePerson(Person person)
-    {
-        entityManager.persist(person);
     }
-
     /** метод обновляет всех пользователей **/
     @Transactional
     public void update(Integer id, Person updatedPerson)
     {
-        String SQL = "UPDATE person2 SET name=?, surname=?, age=?, email=? WHERE id=?";
+        String SQL = "UPDATE person SET name=?, surname=?, age=?, email=? WHERE id=?";
         jdbcTemplate.update(SQL, updatedPerson.getName(), updatedPerson.getSurname(),
                 updatedPerson.getAge(), updatedPerson.getEmail(), id);
     }
+
+
+//    @Transactional
+//    public void saveEntity(Person person) {
+//        entityManager.persist(person); // Сохраняем пользователя и связанный с ним аккаунт, если он был создан
+//    }
+//
+//    @Transactional
+//    public void updateEntity(Person updatedPerson)
+//    {
+//        entityManager.merge(updatedPerson); // Обновляем пользователя
+//    }
 
     /**
      * метод удаляет пользователя по  его id
@@ -99,7 +101,7 @@ public class PersonDAO
     @Transactional
     public void delete(Integer id)
     {
-        String SQL = "DELETE FROM person2 WHERE id=?";
+        String SQL = "DELETE FROM person WHERE id=?";
         jdbcTemplate.update(SQL, id);
     }
 
@@ -107,7 +109,7 @@ public class PersonDAO
     @Transactional
     public Person searchPersonByEmail1(String email)
     {
-        String queryString = "SELECT * FROM person2 WHERE email = ?";
+        String queryString = "SELECT * FROM person WHERE email = ?";
         List<Person> people = jdbcTemplate.query(queryString, new Object[]{email}, new BeanPropertyRowMapper<>(Person.class));
 
         if (!people.isEmpty())
@@ -128,7 +130,7 @@ public class PersonDAO
     {
         System.out.println(id);
 
-        String queryString = "SELECT * FROM person2 WHERE id = ?";
+        String queryString = "SELECT * FROM person WHERE id = ?";
         List<Person> people = jdbcTemplate.query(queryString, new Object[]{id}, new BeanPropertyRowMapper<>(Person.class));
 
         if (!people.isEmpty())
@@ -147,7 +149,7 @@ public class PersonDAO
     @Transactional
     public Person getPersonByEmail(String email)
     {
-        String queryString = "SELECT * FROM person2 WHERE email = ?";
+        String queryString = "SELECT * FROM person WHERE email = ?";
         try {
             System.out.println(jdbcTemplate.queryForObject(queryString, new Object[]{email}, new BeanPropertyRowMapper<>(Person.class)));
             return jdbcTemplate.queryForObject(queryString, new Object[]{email}, new BeanPropertyRowMapper<>(Person.class));
@@ -163,7 +165,7 @@ public class PersonDAO
     @Transactional
     public boolean searchBySername(String surname, String name)
     {
-        String queryString = "SELECT * FROM person2 WHERE surname = ? AND name = ?";
+        String queryString = "SELECT * FROM person WHERE surname = ? AND name = ?";
         List<Person> people = jdbcTemplate.query(queryString, new Object[]{surname, name}, new BeanPropertyRowMapper<>(Person.class));
 
         if (!people.isEmpty())
@@ -177,5 +179,36 @@ public class PersonDAO
 
         return !people.isEmpty();
     }
+
+    /** метод получает id корзины по номеру пользователя **/
+    @Transactional
+    public Integer getCurrentUserCartIdByUserId(Integer userId) {
+        String queryString = "SELECT c.id FROM table_carts c WHERE c.user_id = ?";
+        try {
+            return jdbcTemplate.queryForObject(queryString, Integer.class, userId);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+
+
+    /** метод получает корзину текущего польщователя по номеру пользователя **/
+    @Transactional
+    public Cart getCurrentUserCartByUserId(Integer userId)
+    {
+        String queryString = "SELECT cart FROM Person person JOIN person.cart cart WHERE person.id = ?";
+        try
+        {
+            return jdbcTemplate.queryForObject(queryString, Cart.class, userId);
+        }
+        catch (EmptyResultDataAccessException e)
+        {
+            return null;
+        }
+    }
+
+
+
 }
 

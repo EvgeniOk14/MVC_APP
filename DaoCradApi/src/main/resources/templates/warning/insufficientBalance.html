@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ошибка: Недостаточно средств</title>
+    <link href="/static/scc/putMoneyOnAccount.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="error-message">
+    <h1>На вашем балансе не хватает денежных средств!!!</h1>
+    <p>Пополните Ваш баланс</p>
+
+    <p th:text="*{currentUserId}">!!!!!!!</p>
+    <p th:text="*{card_id}">!!!!!!!</p>
+    <p th:text="*{thing_id}">!!!!!!!</p>
+
+    <form action="/putMoneyOnBalance" method="get">
+        <input type="hidden" name="currentUserId" th:value="${currentUserId}"/>
+        <input type="hidden" name="card_id" th:value="${card_id}"/>
+        <input type="hidden" name="thing_id" th:value="${thing_id}"/>
+        <input class="input-cart-settins" type="hidden" name="cart_id" th:value="${cart_id}"/>
+        <button type="submit">Пополнить баланс здесь...</button>
+    </form>
+
+</div>
+</body>
+</html>

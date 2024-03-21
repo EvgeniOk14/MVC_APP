@@ -2,13 +2,14 @@ package com.example.daocradapi.models.person;
 
 import com.example.daocradapi.models.messageEntity.MessageEntity;
 import com.example.daocradapi.models.cart.Cart;
+import com.example.daocradapi.models.payments.PaymentCart;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.data.relational.core.mapping.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "person2")
+@Table(name = "person")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Person
 {
@@ -50,11 +51,17 @@ public class Person
 
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
     private Cart cart;
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    private List<PaymentCart> paymentCarts;
+
     //endregion
 
     //region Constructors
 
-    public Person(Integer id, String name, String surname, int age, String email, List<MessageEntity> messages, Cart cart)
+    public Person(Integer id, String name, String surname,
+                  int age, String email, List<MessageEntity> messages,
+                  Cart cart, PaymentCart paymentCarts)
     {
         this.id = id;
         this.name = name;
@@ -63,6 +70,7 @@ public class Person
         this.email = email;
         this.messages = messages;
         this.cart = cart;
+        this.paymentCarts = (List<PaymentCart>) paymentCarts;
     }
     public Person()
     {
@@ -70,8 +78,8 @@ public class Person
     }
     //endregion
 
-    //region Getters && Setters
 
+    //region Getters && Setters
     public Integer getId() {
         return id;
     }
@@ -127,6 +135,16 @@ public class Person
     public void setCart(Cart cart) {
         this.cart = cart;
     }
+
+
+    public List<PaymentCart> getPaymentCarts() {
+        return paymentCarts;
+    }
+
+    public void setPaymentCarts(List<PaymentCart> paymentCarts) {
+        this.paymentCarts = paymentCarts;
+    }
+
     //endregion
 
     @Override
@@ -137,96 +155,7 @@ public class Person
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
+                ", paymentCarts " + paymentCarts + '\'' +
                 '}';
     }
 }
-
-
-
-
-
-
-
-//    //region constructor
-//    public Person(Integer id, String name, String surname, int age, String email, List<MessageEntity> messages, Cart cart)
-//    {
-//        this.id = id;
-//        this.name = name;
-//        this.surname =  surname;
-//        this.age = age;
-//        this.email = email;
-//        this.messages = messages;
-//        this.cart = cart;
-//    }
-//
-//    public Person()
-//    {
-//        //default constructor
-//    }
-//    //endregion
-
-
-//    //region Getter Setter
-//    public Integer getId()
-//    {
-//        return id;
-//    }
-//    public void setId(Integer id)
-//    {
-//        this.id = id;
-//    }
-//    public String getName()
-//    {
-//        return name;
-//    }
-//    public void setName(String name)
-//    {
-//        this.name = name;
-//    }
-//    public String getSurname()
-//    {
-//        return surname;
-//    }
-//    public void setSurname(String surname)
-//    {
-//        this.surname = surname;
-//    }
-//    public int getAge()
-//    {
-//        return age;
-//    }
-//    public void setAge(int age)
-//    {
-//        this.age = age;
-//    }
-//    public String getEmail()
-//    {
-//        return email;
-//    }
-//    public void setEmail(String email)
-//    {
-//        this.email = email;
-//    }
-//    public Cart getCart()
-//    {
-//        return cart;
-//    }
-//
-//    public void setCart(Cart cart)
-//    {
-//        this.cart = cart;
-//    }
-//
-//    public List<MessageEntity> getMessages()
-//    {
-//        return messages;
-//    }
-//
-//    public void setMessages(List<MessageEntity> messages)
-//    {
-//        this.messages = (messages != null) ? messages : new ArrayList<>();
-//    }
-//    //endregion
-//
-
-

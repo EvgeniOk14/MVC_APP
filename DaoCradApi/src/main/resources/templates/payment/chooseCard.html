@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <link href="/static/scc/addPaymentCartToPerson.css" rel="stylesheet" type="text/css">-->
+    <title>Выбор карты</title>
+    <!-- Ваши стили и скрипты -->
+</head>
+<body>
+<h1>Выбор карты для оплаты</h1>
+
+
+    <form class="form-cart-settins" th:action="@{/payThing}" method="post">
+
+
+    <select class="select-cart-settins" name="card_id">
+        <!-- Перечисляем доступные карты пользователя -->
+        <option class="option-cart-settins" th:each="card : ${listOfPaymentCards}" th:value="${card.id}">
+            <span class="span-cart-settins" th:text="${card.cardNumber + ' , собственник карты: ' + card.person.id}"></span>
+        </option>
+    </select>
+
+    <input class="input-cart-settins" type="hidden" name="thing_id" th:value="${thing_id}"/>
+
+    <input class="input-cart-settins" type="hidden" name="currentUserId" th:value="${currentUserId}"/>
+
+    <input class="input-cart-settins" type="hidden" name="card_id" th:value="${card_id}"/>
+
+    <input class="input-cart-settins" type="hidden" name="cart_id" th:value="${cart_id}"/>
+
+
+        <!--    <input class="input-cart-settins" type="hidden" name="listOfPaymentCards" th:value="${listOfPaymentCards}"/>-->
+
+
+    <br>
+    <br>
+    <!-- Кнопка для выбора карты оплаты -->
+    <button type="submit">оплатить</button>
+</form>
+<br>
+<br>
+<a th:href="@{/addCard}" th:method="get">Добавить карту</a>
+</body>
+</html>
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <link href="/static/scc/addPaymentCartToPerson.css" rel="stylesheet" type="text/css">-->
+<!--    <title>Выбор карты</title>-->
+<!--    &lt;!&ndash; Ваши стили и скрипты &ndash;&gt;-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Выбор карты для оплаты</h1>-->
+
+<!--<form class="form-cart-settins" th:action="@{/buyThing}" method="post">-->
+<!--    <select class="select-cart-settins" name="card_id">-->
+<!--        &lt;!&ndash; Перечисляем доступные карты пользователя &ndash;&gt;-->
+<!--        <option class="option-cart-settins" th:each="card : ${listOfCartItemsOfCurrentUser}" th:value="${card.id}">-->
+<!--            <span class="span-cart-settins" th:text="${'номер карты-' + card.id + ' , собственник карты: ' + card.person}"></span>-->
+<!--        </option>-->
+<!--    </select>-->
+
+<!--    <input class="input-cart-settins" type="hidden" name="thing_id" th:value="${thing_id}"/>-->
+
+<!--    <input class="input-cart-settins" type="hidden" name="currentUserId" th:value="${currentUserId}"/>-->
+
+
+<!--    <br>-->
+<!--    <br>-->
+<!--    &lt;!&ndash; Кнопка для выбора карты оплаты &ndash;&gt;-->
+<!--    <button type="submit">Выбрать карту оплаты</button>-->
+<!--</form>-->
+<!--<br>-->
+<!--<br>-->
+<!--    <a th:href="@{/addCard}" th:method="get">Добавить карту</a>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!--<form th:action="@{/buyThing}" method="post">-->
+
+<!--    <label for="cardNumber">Номер карты</label>-->
+<!--    <input type="text" id="cardNumber" name="cardNumber" required>-->
+<!--    <br>-->
+<!--    <label for="expirationDate">Срок действия</label>-->
+<!--    <input type="text" id="expirationDate" name="expirationDate" required>-->
+<!--    <br>-->
+<!--    <label for="securityCode">Код безопасности</label>-->
+<!--    <input type="text" id="securityCode" name="securityCode" required>-->
+<!--    <br>-->
+
+<!--    <input type="hidden" name="thing_id" th:value="${thing_id}">-->
+<!--    <input type="hidden" name="currentUserId" th:value="${currentUserId}">-->
+<!--    <br>-->
+
+<!--    <button type="submit">Оплатить</button>-->
+
+<!--    <div class="success-message" th:if="${paymentResult == true}"> &lt;!&ndash; Проверяем, платёж прошёл, есл да, то: &ndash;&gt;-->
+<!--        <p th:text="${message}"></p>-->
+<!--    </div>-->
+<!--    <div class="error-message" th:if="${paymentResult == false}"> &lt;!&ndash; Проверяем, платёж не прошёл, если да, то: &ndash;&gt;-->
+<!--        <p th:text="${error}"></p>-->
+<!--    </div>-->
+<!--</form>-->
+

@@ -49,7 +49,7 @@ public class ContactController
         try
         {
             // поиск поля person_id т.е. внешнего ключа, свзязанного с полем id в таблице person2
-            Integer person_Id = jdbcTemplate.queryForObject("SELECT id FROM person2 WHERE email = ?", new Object[]{messageEntity.getEmail()}, Integer.class);
+            Integer person_Id = jdbcTemplate.queryForObject("SELECT id FROM person WHERE email = ?", new Object[]{messageEntity.getEmail()}, Integer.class);
             System.out.println("Found personId: " + person_Id); // Вывести personId в консоль для отладки
 
             // персона найдена и происходит процесс сохранения сообщения с формы в таблицу message

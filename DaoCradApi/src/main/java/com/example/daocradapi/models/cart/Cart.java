@@ -38,16 +38,16 @@ public class Cart
      * **/
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartItem> listOfCartItems;
+
     //endregion
 
 
     //region Constructors
-
-
     public Cart(Integer id, Person person, List<CartItem> listOfCartItems) {
         this.id = id;
         this.person = person;
         this.listOfCartItems = listOfCartItems;
+
     }
 
     public Cart()
@@ -56,8 +56,8 @@ public class Cart
     }
     //endregion
 
-    //region Getters && Setters
 
+    //region Getters && Setters
     public Integer getId() {
         return id;
     }

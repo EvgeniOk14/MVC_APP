@@ -67,7 +67,7 @@ public class RegistrationController
             model.addAttribute("message", "Такой адрес электронной почты уже используется.");
             return "shop/registration"; // возвращаем страницу с формой, чтобы пользователь мог внести коррективы.
         }
-        personDAO.save(person);
-        return "redirect:/"; // возвращает на главную страницу магазина
+        personDAO.save(person); // сохраняем пользователя в БД
+        return "shop/shop"; // возвращает на главную страницу магазина
     }
 }

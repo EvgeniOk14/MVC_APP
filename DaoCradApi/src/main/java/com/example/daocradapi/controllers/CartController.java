@@ -487,46 +487,6 @@ public class CartController {
     }
 
 
-//        for (CartItem thingItem: cartItemList)  // идём по списку купленных вещей в карте оплаты текущего пользователя
-//        {
-//            if(thingItem.getThing().getThing_id().equals(thing_id) && thingItem.getCartItem_quantity() >= 1) // если id в списке купленных вещей совпадает с id покупаемой вещи и её количество >=1, то:
-//            {
-//                System.out.println(thing_id + " <--- это номер выбранной (покупаемой вещи)");
-//                System.out.println(thingItem.getThing().getThing_id() + " <---  id вещи");
-//                System.out.println(thingItem.getCartItem_quantity() + " <--- количество товара до вычета");
-//
-//                thingItem.setCartItem_quantity(thingItem.getCartItem_quantity() - 1);  // от количества вычитаем единицу
-//                cartItemDAO.updateCartItem(thingItem);                                // обновляем вещь в БД
-//
-//                if(thingItem.getCartItem_quantity() == 0)                              // если количество вещи в корзине равно нулю, то:
-//                {
-//                    cartItemList.remove(thingItem);                                  // удаляем последнюю вещь из списка купленных вещей в корзине текущего пользователя
-//                    currentUserCart.setListOfCartItems(cartItemList);               // карте устанавливаем новый список с купленными вещами
-//                    cartDAO.updateCard(currentUserCart);                           // обновляем карту
-//                }
-//                cartItemDAO.updateCartItem(thingItem);                           // обновляем вещь в БД
-//
-//                cartItemDAO.updateCartItem(thingItem);                    // обновляем карту в БД
-//
-//                currentUserCart.setListOfCartItems(cartItemList);      // карте устанавливаем новый список с купленными вещами
-//                cartDAO.updateCard(currentUserCart);                  // обновляем карту
-//                System.out.println(thingItem.getCartItem_quantity() + " <--- количество уменьшилось на 1");
-//                System.out.println(currentUserCart.getListOfCartItems() + " <-- список с вещами после уменьшения на 1");
-//                break;
-
-//            else if(thingItem.getThing().getThing_id().equals(thing_id) && thingItem.getCartItem_quantity() == 0) // если id в списке купленных вещей совпадает с id покупаемой вещи и её количество равно 0, то:
-//            {
-//                cartItemList.remove(thingItem); //  удаляем последнюю вещь из списка купленных вещей в корзине текущего пользователя
-//
-//                currentUserCart.setListOfCartItems(cartItemList);               // карте устанавливаем новый список с купленными вещами
-//                cartDAO.updateCard(currentUserCart);                           // обновляем карту
-//                break;
-//            }
-//        }
-
-
-
-
     /** метод покупки товара по зарегистрированной карте (переход с формы представления chooseCart.html) **/
     @PostMapping("/payThing")
     public String buyThing(@RequestParam("thing_id") Integer thing_id,
@@ -732,26 +692,3 @@ public class CartController {
         return "payment/chooseCard";
     }
 }
-
-
-
-
-//        if (paymentDAO.checkMoneyInCurrentUserAccount(validCard, selectedThing)) // если денег на карте хватает balance>0 balance>selectedThing.getPrize, то:
-//        {
-//            System.out.println("проверка на баланс прошла успешно!");
-//
-//            Integer balance = validCard.getBalance();  // количество денег на счёте (денежный баланс пользователя)
-//
-//            System.out.println("balance " + balance); // баланс
-//
-//            int selectedThingPrize = selectedThing.getThing_price();    // цена выбранной вещи
-//
-//            System.out.println("selectedThingPrize = " + selectedThingPrize); // вывод цены вещи
-//
-//
-//            int restOfPrizeAfterBuying = balance - selectedThingPrize; //  остаток денег после покупки
-//            System.out.println("остаток на счёте после покупки = " + restOfPrizeAfterBuying); // вывод остатка на счёте
-//            validCard.setBalance(restOfPrizeAfterBuying);  // устанавливаем новый баланс за вычетом купленной вещи (вещь куплена, деньги списались)
-//
-//            System.out.println("это новый баланс на карте после покупки = " + validCard.getBalance());
-//        }

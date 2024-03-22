@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -184,14 +185,14 @@ public class CartController {
     public String removeThing(@RequestParam("thing_id") Integer thing_id,
                               @RequestParam("currentUserId") Integer currentUserId,
                               @RequestParam("cart_id") Integer cart_id,
-                              Model model) {
+                              Model model)
+    {
         {
             Person currentUser = personDAO.getPersonById(currentUserId); // находим текущего пользователя по его id
             Cart userCart = cartDAO.getCartByUserId(currentUserId);     // находим корзину текущего пользователя
 
             if (currentUser != null && userCart != null)              // проверяем условие: текущий пользователь не равен нулю и его корзина не равна нулю
             {
-                //int cart_id = userCart.getId();                     // находим id корзины текущего пользователя
                 try {
                     cartDAO.removeCartItemFromCartIf(thing_id, cart_id); // удаление товара из корзины
 
@@ -238,9 +239,7 @@ public class CartController {
 
 /**------------------------------------блок карта оплаты-------------------------------------------------------------**/
 
-    /**
-     * метод отображения представление addPaymentCartToPerson.html (ввод карты и покупка товара)
-     **/
+    /** метод отображения представление addPaymentCartToPerson.html (ввод карты и покупка товара) **/
     @GetMapping("/getFormInputCartItems")
     public String getFormInputCartItems(@RequestParam("currentUserId") Integer currentUserId,
                                         @RequestParam("thing_id") Integer thing_id,
@@ -266,127 +265,107 @@ public class CartController {
         NewThing selectedThing = thingDAO.getThingById(thing_id);  // находим выбранную для покупки вещь
 
         Cart currentUserCart = cartDAO.getCartByUserId(currentUserId); // находим корзину с товарами текущего пользователя
-        // Cart cart = cartDAO.getCartById(cart_id);
-        System.out.println("вывод карты текущего пользователя = " + currentUserCart);
-
 
         List<PaymentCart> listOfPaymentCards = paymentDAO.getPaymentsByUserId(currentUserId);     // получаем список карт
-        System.out.println("список карт у пользователя: " + listOfPaymentCards);                  // выводим список карт
 
-
-/**----------------------------блок проверка карты на валидность, если карта есть то true----------------------------------------------------**/
+        /**-------------------блок проверка карты на валидность, если карта есть то true---------------------------------**/
         if (paymentDAO.valid(cardNumber, expirationDate, securityCode, listOfPaymentCards) != null) // т.е. находит карту card, то покупаем товар данной картой:
         {
             PaymentCart foundPaymentCart = paymentDAO.valid(cardNumber, expirationDate, securityCode, listOfPaymentCards); // находим нужную карту
-            System.out.println("валидация прошла успешно! найдена карта: " + foundPaymentCart);
 
             /**------------------------------------------действия с балансом-------------------------------------------------------------------**/
 
             if (paymentDAO.checkMoneyInCurrentUserAccount(foundPaymentCart, selectedThing)) // true если денег на карте хватает balance>0 balance>selectedThing.getPrize, то:
             {
-                System.out.println("проверка на баланс прошла успешно!");
 
                 Integer balance = foundPaymentCart.getBalance();  // количество денег на счёте (денежный баланс пользователя)
 
-                System.out.println("balance " + balance); // баланс
-
-                int selectedThingPrize = selectedThing.getThing_price();    // цена выбранной вещи
-
-                System.out.println("selectedThingPrize = " + selectedThingPrize); // вывод цены вещи
-
+                int selectedThingPrize = selectedThing.getThing_price();     // цена выбранной вещи
 
                 int restOfPrizeAfterBuying = balance - selectedThingPrize; //  остаток денег после покупки
-                System.out.println("остаток на счёте после покупки = " + restOfPrizeAfterBuying); // вывод остатка на счёте
-                foundPaymentCart.setBalance(restOfPrizeAfterBuying);  // устанавливаем новый баланс за вычетом купленной вещи (вещь куплена, деньги списались)
 
+                foundPaymentCart.setBalance(restOfPrizeAfterBuying);     // устанавливаем новый баланс за вычетом купленной вещи (вещь куплена, деньги списались)
 
-                paymentDAO.updatePayment(foundPaymentCart);         // обновление данных о платёжной карте
-                personDAO.update(currentUserId, currentUser);      // обновление пользователя
-                cartDAO.updateCard(currentUserCart);              // обновляем корзину
-
-                System.out.println("это новый баланс на карте после покупки = " + foundPaymentCart.getBalance());
+                paymentDAO.updatePayment(foundPaymentCart);            // обновление данных о платёжной карте
+                personDAO.update(currentUserId, currentUser);         // обновление пользователя
+                cartDAO.updateCard(currentUserCart);                 // обновляем корзину
 
                 /**-----------------------блок удаление вещи из корзины текущего пользователя-------------------------------------------------------**/
 
-                System.out.println("!!!!!!!!!!!---находимся в блоке удаления вещи из корзины метод InputCart--!!!!!!!!!!!!!!!");
-                //PaymentCart foundPaymentCart = paymentDAO.valid(cardNumber,expirationDate, securityCode, currentUserId); // находим нужную карту
-                Integer card_id = foundPaymentCart.getId(); // получаем card_id
+                Integer card_id = foundPaymentCart.getId();                          // получаем card_id
 
-                System.out.println(" находим номер карты card_id = " + card_id);
-                Cart currentCart = cartDAO.getCartById(cart_id);
+                Cart currentCart = cartDAO.getCartById(cart_id);                   // получаем корзину текущего пользователя
 
-                List<CartItem> cartItemList  = currentCart.getListOfCartItems();
-                System.out.println("текущая корзина пользоавателя: " + currentCart);
+                List<CartItem> cartItemList  = currentCart.getListOfCartItems(); // получаем список вещей в корзине
 
-                System.out.println("список вещей в корзине у пользователя: " + cartItemList);
-                //List<CartItem> cartItemList = cartItemDAO.getCartItemsByCartId(card_id); // получаем список всех вещей в корзине текущего пользователя
-                System.out.println("!!!!!!!!!----------список товаров в корзине у пользователя---------!!!!!! " + cartItemList);
-                for (CartItem thingItem: cartItemList)  // идём по спску купленных вещей в карте оплаты текущего пользователя
+                if(cartItemList != null)                                       //  проверяем если список пуст, то:
                 {
-                    System.out.println("находимся в цикле !!!!");
-                    if (thingItem.getThing().getThing_id().equals(thing_id) && thingItem.getCartItem_quantity() >= 1) // если id в списке купленных вещей совпадает с id покупаемой вещи и её количество >=1, то:
+                    for (CartItem thingItem : cartItemList)  // идём по списку купленных вещей в карте оплаты текущего пользователя
                     {
-                        System.out.println("Количестово до: " + thingItem.getCartItem_quantity());
-                        thingItem.setCartItem_quantity(thingItem.getCartItem_quantity() - 1);      // от количества вычитаем единицу
-                        cartItemDAO.updateCartItem(thingItem);                                   // обновляем купленную вещь
-                        System.out.println("Количестово после: " + thingItem.getCartItem_quantity());
-                        if (thingItem.getCartItem_quantity() == 0)                              // если количество вещи в корзине равно нулю, то:
+                        if(thingItem.getCartItem_quantity() == 0)         // если количество вещи равно нулю, то:
                         {
-                            System.out.println("находимся в if количество равно 0 !!!!!");
-                            cartItemList.remove(thingItem);                                  // удаляем последнюю вещь из списка купленных вещей в корзине текущего пользователя
-                            currentUserCart.setListOfCartItems(cartItemList);               // карте устанавливаем новый список с купленными вещами
-                            cartDAO.updateCard(currentUserCart);                           // обновляем карту
+                            model.addAttribute("error", "Количество выбранного вами товара в Вашей корзине равно нулю! Перейдите в корзину и добавьте в неё товар! ");
+                            return "/error";                          //  переход на страницу уведомлений
                         }
-                        cartItemDAO.updateCartItem(thingItem);                           // обновляем вещь в БД
+                        if (thingItem.getThing().getThing_id().equals(thing_id) && thingItem.getCartItem_quantity() >= 1) // если id в списке купленных вещей совпадает с id покупаемой вещи и её количество >=1, то:
+                        {
+                            thingItem.setCartItem_quantity(thingItem.getCartItem_quantity() - 1);// от количества вычитаем единицу
+                            cartItemDAO.updateCartItem(thingItem);                              // обновляем купленную вещь
 
+                            if (thingItem.getCartItem_quantity() == 0)                        // если количество вещи в корзине равно нулю, то:
+                            {
+                                cartItemList.remove(thingItem);                            // удаляем последнюю вещь из списка купленных вещей в корзине текущего пользователя
+                                currentUserCart.setListOfCartItems(cartItemList);         // карте устанавливаем новый список с купленными вещами
+                                cartDAO.updateCard(currentUserCart);                     // обновляем карту
+                            }
+                            cartItemDAO.updateCartItem(thingItem);                     // обновляем вещь в БД
 
-                        cartItemDAO.updateCartItem(thingItem);                    // обновляем карту в БД
+                            cartItemDAO.updateCartItem(thingItem);                   // обновляем карту в БД
 
-                        currentUserCart.setListOfCartItems(cartItemList);      // карте устанавливаем новый список с купленными вещами
-                        cartDAO.updateCard(currentUserCart);                  // обновляем карту
-                        System.out.println(thingItem.getCartItem_quantity() + " <--- количество уменьшилось на 1");
-                        System.out.println(currentUserCart.getListOfCartItems() + " <-- список с вещами после уменьшения на 1");
-                        break;
+                            currentUserCart.setListOfCartItems(cartItemList);      // карте устанавливаем новый список с купленными вещами
+                            cartDAO.updateCard(currentUserCart);                  // обновляем карту
+
+                            break;                                              // выход из цикла
+                        }
                     }
+                }
+                else                                                        // если список вещей в корзине пуст, то:
+                {
+                    model.addAttribute("error", "В вашей корзине нет товаров! Перейдите в корзину и добавьте товар! ");
+                    return "/error";                                     // переход на страницу уведомлений
                 }
 
                 /**--------------------------блок удаление вещи из магазина------------------------------------------**/
 
-                System.out.println("находимся в блоке удаления вещи из магазина");
-                List<NewThing> listThingsInShop = thingDAO.getAllThigs();
-                System.out.println("список всех товаров в магазине: " + listThingsInShop);
+                List<NewThing> listThingsInShop = thingDAO.getAllThigs();          // получаем список всех вещей в магазине
 
-                for (NewThing shopThing: listThingsInShop)
+                for (NewThing shopThing: listThingsInShop)                       // идём по списку вещей
                 {
-                    if(shopThing.getThing_id().equals(thing_id) && shopThing.getQuantity() >=1)
+                    if(shopThing.getThing_id().equals(thing_id) && shopThing.getQuantity() >=1) // если id ещи в корзине и покупаемой вещи совпадают и количество вещи >=1, то:
                     {
-                        shopThing.setQuantity(shopThing.getQuantity() -1);
-                        thingDAO.updateThing(shopThing);
-                        break;
+                        shopThing.setQuantity(shopThing.getQuantity() -1);  // уменьшаем количество вещи вкорзине на 1
+                        thingDAO.updateThing(shopThing);                   // сохраняем вещь
+                        break;                                            // выход из цикла
                     }
-                    else if (shopThing.getThing_id().equals(thing_id) && shopThing.getQuantity() == 0)
+                    else if (shopThing.getThing_id().equals(thing_id) && shopThing.getQuantity() == 0) // если количество вещи равно 0, то:
                     {
                         System.out.println("данная вещь закончилась на складе!!!");
-                        break;
+                        model.addAttribute("error", "данная вещь закончилась на складе!!! ");
+                        return "/error";                           // переход на страницу уведомлений
                     }
                 }
-                //model.addAttribute("card_id", card_id);              // добавляем в модель card_id
                 model.addAttribute("currentUserId", currentUserId); // добавляем в модель currentUserId
                 model.addAttribute("thing_id", thing_id);          // добавляем в модель thing_id
-                model.addAttribute("cart_id", cart_id);
+                model.addAttribute("cart_id", cart_id);           // добавляем в модель cart_id
                 return "cart/cart"; // переходим к оплате, на представленме chooseCard.tml (выбор карты и оплата)
             }
 
             else  // null, денег на карте меньше чем покупаемая вещь, добавляем в модель параметры и переходим на страницу сообщения о том что нужно пополнить баланс
             {
-                System.out.println("денег на карте меньше чем покупаемая вещь!!!!!!");
-                System.out.println("проверяем card_id = " + foundPaymentCart.getId());  // печатаем для проверки card_id
-
                 model.addAttribute("card_id", foundPaymentCart.getId());  // добавляем в модель card_id
                 model.addAttribute("currentUserId", currentUserId);      // добавляем в модель currentUserId
                 model.addAttribute("thing_id", thing_id);               // добавляем в модель thing_id
                 model.addAttribute("cart_id", cart_id);
-                System.out.println("сумма меньше покупаемой вещи! перед warning/insufficientBalance");
                 return "warning/insufficientBalance"; // переход на страницу с сообщением о пополнении баланса
             }
 
@@ -395,13 +374,10 @@ public class CartController {
         else // null, список есть но карту не нашёл, либо и список пустой и карты нет:
         {
 
-            System.out.println("находимся в методе в блоке else foundPaymentCart == null, либо нет списка, либо нет нужной карты");
-
             /**------------------------------------- логика добавления новой карты: ----------------------------------------------------**/
 
             if (listOfPaymentCards != null) // если список карт существует, т.е. он не равен нулю, но искомой карты в нём нет
             {
-                System.out.println("!!!ЭТО СПИСОК КОТОРЫЙ НЕ ДОЛЖЕН БЫТЬ РАВЕН НУЛЮ!!!!!" + listOfPaymentCards);
                 PaymentCart newPaymentCard = new PaymentCart();                    // создаём экземпляр новой карты
 
                 newPaymentCard.setCardNumber(cardNumber);                        // устанавливаем новой карте cardNumber
@@ -426,29 +402,21 @@ public class CartController {
                 currentUser.setPaymentCarts(listOfPaymentCards);//  устанавливаем текущему пользователю обновлённый список карт
                 personDAO.update(currentUserId, currentUser);  //  обновляем  текущего пользователя в БД
 
-                Integer card_id = newPaymentCard.getId();
+                Integer card_id = newPaymentCard.getId();    // получаем номер карты
 
-                model.addAttribute("card_id", card_id);
-                model.addAttribute("currentUserId", currentUserId);
-                model.addAttribute("thing_id", thing_id);
-                model.addAttribute("cart_id", cart_id);
-                model.addAttribute("listOfPaymentCards", listOfPaymentCards);
+                model.addAttribute("card_id", card_id);                           // добавляем в модель card_id
+                model.addAttribute("currentUserId", currentUserId);              // добавляем в модель currentUserId
+                model.addAttribute("thing_id", thing_id);                       // добавляем в модель thing_id
+                model.addAttribute("cart_id", cart_id);                        // добавляем в модель cart_id
+                model.addAttribute("listOfPaymentCards", listOfPaymentCards); // добавляем в модель listOfPaymentCards
 
-                System.out.println(boughtThing);
-                System.out.println(boughtThingList);
-                System.out.println(newPaymentCard);
-                System.out.println(listOfPaymentCards);
-                System.out.println(currentUser);
-
-                System.out.println("прошли весь блок !!!   переброска на выбор карты!!!!");
-                //return "payment/chooseCard";  // возврат на представление корзина
                 return "warning/insufficientBalance";  // возврат на представление пополнить баланс
             }
             else  // listOfPaymentCards == null, список пустой
             {
-                List<PaymentCart> newPaymentCartList = new ArrayList<>();
+                List<PaymentCart> newPaymentCartList = new ArrayList<>();                // создаём новый список карт
 
-                PaymentCart newPaymentCard = new PaymentCart();                    // создаём экземпляр новой карты
+                PaymentCart newPaymentCard = new PaymentCart();                        // создаём экземпляр новой карты
 
                 newPaymentCard.setCardNumber(cardNumber);                            // устанавливаем новой карте cardNumber
                 newPaymentCard.setExpirationDate(expirationDate);                   // устанавливаем новой карте expirationDate
@@ -474,18 +442,17 @@ public class CartController {
                 currentUser.setPaymentCarts(newPaymentCartList); // устанавливаем текущему пользователю новый список с купленной вещью
                 personDAO.update(currentUserId, currentUser);   // обновляем текущего пользователя в БД
 
-                Integer card_id = newPaymentCard.getId();
+                Integer card_id = newPaymentCard.getId();     // находим номер карты
 
-                model.addAttribute("card_id", card_id);
-                model.addAttribute("listOfPaymentCards", newPaymentCartList);
-                model.addAttribute("currentUserId", currentUserId);
-                model.addAttribute("thing_id", thing_id);
-                model.addAttribute("cart_id", cart_id);
-                return "payment/chooseCard";  // возврат на представление корзина
+                model.addAttribute("card_id", card_id);                        // добавляем в модель  card_id
+                model.addAttribute("listOfPaymentCards", newPaymentCartList); // добавляем в модель newPaymentCartList
+                model.addAttribute("currentUserId", currentUserId);          // добавляем в модель currentUserId
+                model.addAttribute("thing_id", thing_id);                   // добавляем в модель thing_id
+                model.addAttribute("cart_id", cart_id);                    // добавляем в модель cart_id
+                return "payment/chooseCard";                                          // возврат на представление корзина
             }
         }
     }
-
 
     /** метод покупки товара по зарегистрированной карте (переход с формы представления chooseCart.html) **/
     @PostMapping("/payThing")
@@ -493,15 +460,11 @@ public class CartController {
                            @RequestParam("currentUserId") Integer currentUserId,
                            @RequestParam("card_id") Integer card_id,
                            @RequestParam("cart_id") Integer cart_id,
-                           Model model) {
-        System.out.println("!!!!!!!!!!!!---------------ЗАШЛИ В МЕТОД   @PostMapping(/buyThing)------------_--!!!!!!!!");
-
+                           Model model)
+    {
         Person currentUser = personDAO.getPersonById(currentUserId); //получаем текущего пользователя по его id
 
-        //List<PaymentCart> listOfPaymentCards = currentUser.getPaymentCarts(); //лист с картами оплаты
         List<PaymentCart> listOfPaymentCards = paymentDAO.getPaymentsByUserId(currentUserId);     // получаем список карт
-
-        System.out.println("вывод списка  карт текущего пользователя: " + listOfPaymentCards); //!!!!!!!!!!!!
 
         NewThing selectedThing = thingDAO.getThingById(thing_id);   // получаем выбранную вещь
 
@@ -509,83 +472,58 @@ public class CartController {
 
         Cart currentUserCart = cartDAO.getCartByUserId(currentUserId); // находим корзину с товарами текущего пользователя, по её номеру
 
-        System.out.println("вывод карты текущего пользователя = " + currentUserCart);
-
         List<CartItem> cartItemList = cartItemDAO.getCartItemsByCartId(cart_id); // получаем список всех вещей в корзине текущего пользователя
-        System.out.println("!!!!!!!!!----------список товаров в корзине у пользователя---------!!!!!! " + cartItemList);
 
-        System.out.println("----------------------------------------------------------------------------------------------------------");
-        System.out.println("!!!!!!!!ПРОВЕРКА ПЕРЕДАЧИ ДАННЫХ-----!!! номер выбранной вещи thing_id = " + thing_id);
-        System.out.println("!!!!!!!!ПРОВЕРКА ПЕРЕДАЧИ ДАННЫХ-----!!! номер текущего пользователя currentUserId = " + currentUserId);
-        System.out.println("!!!!!!!!ПРОВЕРКА ПОЛУЧЕНИЯ ДАННЫХ-----!!! список карт карт card_id = " + card_id);
-        System.out.println("!!!!ПРОВЕРКА ПОЛУЧЕНИЯ ДАННЫХ КАРТЫ-----!!!! " + validCard);
-        System.out.println("!!!!!!!!ПРОВЕРКА ПОЛУЧЕНИЯ ДАННЫХ-----!!! выбранная вещь selectedThing = " + selectedThing);
-        System.out.println("---------------------------------------------------------------------------------------------------------------");
 
-        if(validCard.getBalance() >= 0 && validCard.getBalance() >= selectedThing.getThing_price())
+        if(validCard.getBalance() >= 0 && validCard.getBalance() >= selectedThing.getThing_price()) // если баланс больше нуля и больше цены покупаемой вещи, то:
         {
-            System.out.println("проверка на баланс прошла успешно!");
+            Integer balance = validCard.getBalance();                                             // количество денег на счёте (денежный баланс пользователя)
 
-            Integer balance = validCard.getBalance();  // количество денег на счёте (денежный баланс пользователя)
+            int selectedThingPrize = selectedThing.getThing_price();                           // цена выбранной вещи
 
-            System.out.println("balance " + balance); // баланс
+            int restOfPrizeAfterBuying = balance - selectedThingPrize;                       //  остаток денег после покупки
 
-            int selectedThingPrize = selectedThing.getThing_price();    // цена выбранной вещи
-
-            System.out.println("selectedThingPrize = " + selectedThingPrize); // вывод цены вещи
-
-
-            int restOfPrizeAfterBuying = balance - selectedThingPrize; //  остаток денег после покупки
-            System.out.println("остаток на счёте после покупки = " + restOfPrizeAfterBuying); // вывод остатка на счёте
-            validCard.setBalance(restOfPrizeAfterBuying);  // устанавливаем новый баланс за вычетом купленной вещи (вещь куплена, деньги списались)
-
-            System.out.println("это новый баланс на карте после покупки = " + validCard.getBalance());
+            validCard.setBalance(restOfPrizeAfterBuying);                                 // устанавливаем новый баланс за вычетом купленной вещи (вещь куплена, деньги списались)
         }
 
         else  // денег на карте меньше чем покупаемая вещь, добавляем в модель параметры и переходим на страницу сообщения о том что нужно пополнить баланс
         {
-            System.out.println("денег на карте меньше чем покупаемая вещь!!!!!!");
-            System.out.println("проверяем card_id = " + card_id);              // печатаем для проверки card_id
-
             model.addAttribute("card_id", card_id);              // добавляем в модель card_id
             model.addAttribute("currentUserId", currentUserId); // добавляем в модель currentUserId
             model.addAttribute("thing_id", thing_id);          // добавляем в модель thing_id
-            model.addAttribute("cart_id", cart_id);
-            System.out.println("сумма меньше покупаемой вещи! перед warning/insufficientBalance смотрим hing_id = " + thing_id);
+            model.addAttribute("cart_id", cart_id);           // добавляем в модель cart_id
             return "warning/insufficientBalance"; // переход на страницу с сообщением о пополнении баланса
         }
 
         /**-----------------------блок удаление вещи из корзины текущего пользователя--------------------------------------**/
 
-        System.out.println("находимся в блоке удаления вещи из козины метода /payThing");
-        System.out.println("Список вещей в корзине: " + cartItemList);
-        for (CartItem thingItem: cartItemList)  // идём по спску купленных вещей в карте оплаты текущего пользователя
+        if(cartItemList != null) //если список товаров в корзине не равен нулю, то:
         {
-            if(thingItem.getThing().getThing_id().equals(thing_id) && thingItem.getCartItem_quantity() >= 2) // если id в списке купленных вещей совпадает с id покупаемой вещи и её количество >=1, то:
+            Iterator<CartItem> iterator = cartItemList.iterator(); // создаём итератор
+            while (iterator.hasNext())                            // пока будет следующий элемент в списке, выполняем:
             {
-                System.out.println("номер покупаемой вещи thing_id = " + thing_id);
-                System.out.println("номер вещи в списке вещей в корзине: = " + thingItem.getThing().getThing_id());
-                System.out.println("Количество вещи до: " + thingItem.getCartItem_quantity());
-                thingItem.setCartItem_quantity(thingItem.getCartItem_quantity() -1);      // от количества вычитаем единицу
-                System.out.println("Количество вещи после: " + thingItem.getCartItem_quantity());
-                cartItemDAO.updateCartItem(thingItem);                                   // обновляем купленную вещь
-
-                if(thingItem.getCartItem_quantity() == 0)                              // если количество вещи в корзине равно нулю, то:
+                CartItem thingItem = iterator.next();           // присваеваем вещи в списке следующий элемент итератора
+                if(thingItem.getCartItem_quantity() == 0)      // если количество вещи равно нулю, то:
                 {
-                    System.out.println("находимся в if количество равно 0");
-                    cartItemList.remove(thingItem);                                  // удаляем последнюю вещь из списка купленных вещей в корзине текущего пользователя
-                    currentUserCart.setListOfCartItems(cartItemList);               // карте устанавливаем новый список с купленными вещами
-                    cartDAO.updateCard(currentUserCart);                           // обновляем карту
+                    model.addAttribute("error", "Количество выбранного вами товара в Вашей корзине равно нулю! Перейдите в корзину и добавьте в неё товар! ");
+                    return "/error";                        //  переход на страницу уведомлений
                 }
-                cartItemDAO.updateCartItem(thingItem);                           // обновляем вещь в БД
-
-
-                currentUserCart.setListOfCartItems(cartItemList);             // карте устанавливаем новый список с купленными вещами
-                cartDAO.updateCard(currentUserCart);                         // обновляем карту
-
-                System.out.println(thingItem.getCartItem_quantity() + " <--- количество уменьшилось на 1");
-                System.out.println(currentUserCart.getListOfCartItems() + " <-- список с вещами после уменьшения на 1");
+                if (thingItem.getThing().getThing_id().equals(thing_id) && thingItem.getCartItem_quantity() >= 1) // если id вещи в списке совпало с id покупаемой вещи и количество >= 1, то:
+                {
+                    thingItem.setCartItem_quantity(thingItem.getCartItem_quantity() - 1); // уменьшмем количество вещи в корзине, на 1
+                    cartItemDAO.updateCartItem(thingItem);                               // Обновляем элемент в БД
+                    if (thingItem.getCartItem_quantity() == 0)                          // если количество вещи равно нулю, то:
+                    {
+                        iterator.remove();                                            // Удаляем элемент из списка
+                    }
+                    break;                                                          // выход из цикла
+                }
             }
+        }
+        else // в случае, если список вещей в корзине равен нулю, то:
+        {
+            model.addAttribute("error", "В вашей корзине нет товаров! Перейдите в корзину и добавьте товар! ");
+            return "/error";   // переход на страницу уведомлений
         }
         /**-----------------------------------------блок удаление вещи из магазина-------------------------------------------------------**/
 
@@ -600,18 +538,17 @@ public class CartController {
             }
             else if (shopThing.getThing_id().equals(thing_id) && shopThing.getQuantity() == 0) // если вещь совпала и её количество равно 0, то:
             {
-                System.out.println("данная вещь закончилась на складе!!!");      // пишем комментарий, что вещь закончилась
-                break;                                                          //  выход из цикла
+                model.addAttribute("error", "данная вещь закончилась на складе!!! ");
+                return "/error";                                               // переход на страницу уведомлений
+                //break;
             }
         }
-        model.addAttribute("card_id", card_id);                  // добавляем в модель card_id
-        model.addAttribute("currentUserId", currentUserId);     // добавляем в модель currentUserId
-        model.addAttribute("thing_id", thing_id);              // добавляем в модель thing_id
-        model.addAttribute("cart_id", cart_id);               //  добавляем в модель cart_id
-        return "cart/cart";                                              // возврат на представление корзина
+        model.addAttribute("card_id", card_id);                // добавляем в модель card_id
+        model.addAttribute("currentUserId", currentUserId);   // добавляем в модель currentUserId
+        model.addAttribute("thing_id", thing_id);            // добавляем в модель thing_id
+        model.addAttribute("cart_id", cart_id);             //  добавляем в модель cart_id
+        return "cart/cart";                                            // возврат на представление корзина
     }
-
-
 
     /** метод показа представления putMoneyOnBalance.html и передача на него параметров **/
     @GetMapping("/putMoneyOnBalance")
@@ -621,19 +558,14 @@ public class CartController {
                                     @RequestParam("cart_id") Integer cart_id,
                                     Model model)
     {
-        System.out.println("thing_id = " + thing_id);
-        System.out.println("находимся в методе putMoneyOnBalance,проверяем передачу в него currentUserId = " + currentUserId);
-        System.out.println("проверка передачи в метод card_id = " + card_id);
-        model.addAttribute("thing_id", thing_id);
-        model.addAttribute("card_id", card_id);
-        model.addAttribute("currentUserId", currentUserId);
-        model.addAttribute("cart_id", cart_id);
-        return "/payment/putMoneyOnBalance";
+        model.addAttribute("thing_id", thing_id);                // передаём в модель thing_id
+        model.addAttribute("card_id", card_id);                 // передаём в модель card_id
+        model.addAttribute("currentUserId", currentUserId);    // передаём в модель currentUserId
+        model.addAttribute("cart_id", cart_id);               // передаём в модель cart_id
+        return "/payment/putMoneyOnBalance";                             // переход на страницу пополнения счёта putMoneyOnBalance.html
     }
 
-    /**
-     * метод позволяет положить деньги на счет карты (пополнить баланс, ввести с формы сумму на счёт карты)
-     **/
+    /** метод позволяет положить деньги на счет карты (пополнить баланс, ввести с формы сумму на счёт карты) **/
     @Transactional
     @PostMapping("/putMoneyOnBalance/money")
     public String putMoneyOnBalanceForm(@RequestParam("currentUserId") Integer currentUserId,
@@ -643,52 +575,36 @@ public class CartController {
                                         @RequestParam("cart_id") Integer cart_id,
                                         Model model)
     {
-        System.out.println("находимся в методе putMoneyOnBalance/money ");
-        Person currentUser = personDAO.getPersonById(currentUserId);
+        Person currentUser = personDAO.getPersonById(currentUserId);                      // получаем текущего пользователя
 
-        System.out.println("thing_id = " + thing_id);
-        List<PaymentCart> paymentCarts = paymentDAO.getPaymentsByUserId(currentUserId);
-        System.out.println("currentUserId = " + currentUserId);
-        System.out.println("paymentCarts = " + paymentCarts);
-        System.out.println("amount = " + amount);
-        System.out.println("card_id = " + card_id);
+        List<PaymentCart> paymentCarts = paymentDAO.getPaymentsByUserId(currentUserId); // получаем список карт текущего пользователя
 
-        PaymentCart currentUserPaymentCart = paymentDAO.getPaymentById(card_id);
-        System.out.println("currentUserPaymentCart = " + currentUserPaymentCart);
+        PaymentCart currentUserPaymentCart = paymentDAO.getPaymentById(card_id);      // получаем карту текущего пользователя
 
-        if (currentUserPaymentCart.getBalance() == null)
+        if (currentUserPaymentCart.getBalance() == null)                            // если на карте баланс равен нулю, то:
         {
-            System.out.println("баланс равен нулю");
+            currentUserPaymentCart.setBalance(amount);                            // кладём деньги на счёт карты
 
-            currentUserPaymentCart.setBalance(amount); // кладём на счёт деньги
+            paymentDAO.updatePayment(currentUserPaymentCart);                   // обновляем карту
 
-            Integer newbalance = currentUserPaymentCart.getBalance();
-            System.out.println("показ баланса newBalance = " + newbalance);
-
-            paymentDAO.updatePayment(currentUserPaymentCart);
-
-            model.addAttribute("thing_id", thing_id);
-            model.addAttribute("card_id", card_id);
-            model.addAttribute("currentUserId", currentUserId);
-            model.addAttribute("cart_id", cart_id);
-            return "payment/chooseCard";
+            model.addAttribute("thing_id", thing_id);             // передаём в модель thing_id
+            model.addAttribute("card_id", card_id);              // передаём в модель card_id
+            model.addAttribute("currentUserId", currentUserId); // передаём в модель currentUserId
+            model.addAttribute("cart_id", cart_id);            // передаём в модель cart_id
+            model.addAttribute("listOfPaymentCards", paymentCarts);  // передаём в модель listOfPaymentCards
+            return "payment/chooseCard";                                // переход на представление chooseCard.html выбор карты
         }
-        else
+        else                                                                                   // если баланс не равен нулю, то:
         {
-            Integer oldBalance = currentUserPaymentCart.getBalance();
-            System.out.println("старый баланс = " + oldBalance);
-            System.out.println("денежная сумма в размере = " + amount);
-            currentUserPaymentCart.setBalance(currentUserPaymentCart.getBalance() + amount);
-            Integer newBalance = currentUserPaymentCart.getBalance();
-            System.out.println("новый баланс = " + newBalance);
-            paymentDAO.updatePayment(currentUserPaymentCart);
+            currentUserPaymentCart.setBalance(currentUserPaymentCart.getBalance() + amount); // добавляем денег к текущему балансу
 
+            paymentDAO.updatePayment(currentUserPaymentCart);                              // обновляем карту
         }
-
-        model.addAttribute("thing_id", thing_id);
-        model.addAttribute("card_id", card_id);
-        model.addAttribute("currentUserId", currentUserId);
-        model.addAttribute("cart_id", cart_id);
-        return "payment/chooseCard";
+        model.addAttribute("thing_id", thing_id);                    // передаём в модель thing_id
+        model.addAttribute("card_id", card_id);                     // передаём в модель card_id
+        model.addAttribute("currentUserId", currentUserId);        // передаём в модель currentUserId
+        model.addAttribute("cart_id", cart_id);                   // передаём в модель cart_id
+        model.addAttribute("listOfPaymentCards", paymentCarts);  // передаём в модель listOfPaymentCards
+        return "payment/chooseCard";                                        // переход на представление chooseCard.html выбор карты
     }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--    <link href="/static/scc/addPaymentCartToPerson.css" rel="stylesheet" type="text/css">-->
+    <link href="../../static/scc/addPaymentCartToPerson.css" rel="stylesheet" type="text/css">
     <title>Выбор карты</title>
     <!-- Ваши стили и скрипты -->
 </head>
@@ -29,10 +29,6 @@
 
     <input class="input-cart-settins" type="hidden" name="cart_id" th:value="${cart_id}"/>
 
-
-        <!--    <input class="input-cart-settins" type="hidden" name="listOfPaymentCards" th:value="${listOfPaymentCards}"/>-->
-
-
     <br>
     <br>
     <!-- Кнопка для выбора карты оплаты -->
@@ -40,7 +36,7 @@
 </form>
 <br>
 <br>
-<a th:href="@{/addCard}" th:method="get">Добавить карту</a>
+<a th:href="@{/getFormInputCartItems}" th:method="get">Добавить карту</a>
 </body>
 </html>
 

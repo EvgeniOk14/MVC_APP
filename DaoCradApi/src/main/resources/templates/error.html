@@ -6,7 +6,15 @@
     <title>Error Page</title>
 </head>
 <body>
-<h1>Error Occurred</h1>
+<h1>Страница уведомлений:</h1>
 <p th:text="${error}"></p>
+<br>
+<br>
+
+<a href="/">Переход на страницу Главная</a>
+<br>
+<br>
+<a th:href="@{/checkPerson}" th:method="get">переход на страницу Корзина</a>
+
 </body>
 </html>

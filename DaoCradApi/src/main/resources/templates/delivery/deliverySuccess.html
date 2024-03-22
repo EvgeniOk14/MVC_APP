@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Success</title>
+    <link rel="stylesheet" type="text/css" href="../../static/scc/delivery.css">
+</head>
+<body>
+<div class="container">
+    <h1>Доставка оформлена! Товары Вам доставят по адресу в течении дня! Благодарим за покупку!</h1>
+    <div class="card">
+        <div class="card-body">
+            <p><strong>Фамилия и имя:</strong> <span th:text="${deliveryForm.recipientName}"></span></p>
+            <p><strong>Адрес:</strong> <span th:text="${deliveryForm.address}"></span></p>
+            <p><strong>Адрес:</strong> <span th:text="${deliveryForm.city}"></span></p>
+            <p><strong>Почтовый индекс:</strong> <span th:text="${deliveryForm.postIndex}"></span></p>
+            <p><strong>Страна:</strong> <span th:text="${deliveryForm.country}"></span></p>
+            <p><strong>Телефон для связи с клиентом:</strong> <span th:text="${deliveryForm.phone}"></span></p>
+        </div>
+    </div>
+</div>
+<a href="/">Переход на страницу Главная</a>
+<br>
+<br>
+<a th:href="@{/checkPerson}" th:method="get">переход на страницу Корзина</a>
+</body>
+</html>

@@ -25,7 +25,7 @@
             </div>
 
             <div class="registration">
-                <a th:href="@{shop/registration}">войти</a>
+                <a th:href="@{shop/registration}">зарегистрируйтесь здесь...</a>
                 <p th:text="${message}"></p>
             </div>
         </header>
@@ -36,7 +36,7 @@
                 <li><a href="/catalog">Каталог</a></li>
                 <li><a href="/contacts">Контакты</a></li>
                 <li><a th:href="@{/checkPerson}" th:method="get">Корзина</a></li>
-                 <li><a href="#">Доставка</a></li>
+                <li><a th:href="@{/deliveryForm}" th:method="get">Доставка</a></li>
             </ul>
         </nav>
 

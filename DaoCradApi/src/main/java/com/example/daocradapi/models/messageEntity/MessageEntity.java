@@ -12,24 +12,18 @@ public class MessageEntity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @Column(name = "person_id", nullable = false)
     private Integer person_id;
-
     @Column(name = "name")
     private String name;
     @Column(name = "email")
     private String email;
-
     @Column(name = "theme")
     private String theme;
-
     @Column(name = "messageDate")
     private LocalDate messageDate;
-
     @Column(name = "messageContent")
     private String messageContent;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Person person;

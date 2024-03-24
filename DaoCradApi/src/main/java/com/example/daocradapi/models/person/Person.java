@@ -25,21 +25,18 @@ public class Person
     //@Pattern(regexp = "^[a-zA-Z]+$", message = "Имя должно содержать только буквы, только латинские буквы!")
     @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Имя должно содержать только буквы, как русские, так и латинские!")
     private String name;
-
     @Column(name = "surname")
     @NotEmpty(message = "Поле не должно быть пустым! ")
     @Size(min = 2, max = 30, message = "имя должно содержать от 2 до 30 символов! ")
     //@Pattern(regexp = "^[a-zA-Z]+$", message = "Имя должно содержать только буквы!")
     @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Имя должно содержать только буквы как русские, так и латинские!")
     private String surname;
-
     @Column(name = "age")
     @NotNull(message = "Графу возраст необходмо заполнить! ") // для типа int применяеться @NotNull
     @Max(value = 300, message = "Возраст не может быть более 300 лет!")
     @Min(value = 0, message = "возраст должен быть больше 0! ")
     //@Pattern(regexp = "^[0-9]+$", message = "Возраст должен содержать только цифры!") подходит для поля типа String
     private int age;
-
     @Column(name = "email")
     @NotEmpty(message = "Поле не должно быть пустым! ")
     @Email(message = "почта должна соответствовать требованиям email! ")

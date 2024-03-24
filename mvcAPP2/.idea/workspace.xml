@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c14317c1-0a03-455e-9864-eb6073cc3da2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../DaoCradApi/src/main/java/com/example/daocradapi/config/SpringConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../DaoCradApi/src/main/java/com/example/daocradapi/config/SpringConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DaoCradApi/src/main/java/com/example/daocradapi/controllers/PeopleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../DaoCradApi/src/main/java/com/example/daocradapi/controllers/PeopleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DaoCradApi/src/main/resources/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../DaoCradApi/src/main/resources/static/css/show.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DaoCradApi/src/main/resources/templates/people/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/../DaoCradApi/src/main/resources/templates/people/edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DaoCradApi/src/main/resources/templates/people/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../DaoCradApi/src/main/resources/templates/people/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DaoCradApi/src/main/resources/templates/people/new.html" beforeDir="false" afterPath="$PROJECT_DIR$/../DaoCradApi/src/main/resources/templates/people/new.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DaoCradApi/src/main/resources/templates/people/show.html" beforeDir="false" afterPath="$PROJECT_DIR$/../DaoCradApi/src/main/resources/templates/people/show.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app1/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/../app1/src/main/resources/templates/home.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2aLuIwQvvzt6aEk5rzS0YcgjMAc" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/geek brains/MVCApp/mvcAPP2",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c14317c1-0a03-455e-9864-eb6073cc3da2" name="Changes" comment="" />
+      <created>1704110103576</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1704110103576</updated>
+      <workItem from="1704110104658" duration="67000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

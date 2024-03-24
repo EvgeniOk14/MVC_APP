@@ -1,0 +1,81 @@
+Точто было раньше:
+
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Proxima Nova', Roboto, system-ui, Tahoma, sans-serif;
+    background-color: #ffdf8c;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header-title {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.registration-form {
+    width: 30%; /* Уменьшаем форму в три раза */
+    float: right;
+    background-color: #f3f3f3;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.registration-form fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.registration-form legend {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.registration-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.registration-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.registration-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #fe5f1e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.registration-form a.registration-link {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #fe5f1e;
+    margin-top: 10px;
+}
+
+.registration-form button:hover {
+    background-color: #f24701;
+}
+
+.registration-form button:active {
+    background-color: #de4101;
+    transform: translateY(1px);
+}

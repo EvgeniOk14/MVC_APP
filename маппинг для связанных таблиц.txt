@@ -1,0 +1,39 @@
+package com.example.daocradapi.dao.cart;
+
+import com.example.daocradapi.models.abstractclases.Thing;
+import com.example.daocradapi.models.cart.Cart;
+import com.example.daocradapi.models.cart.CartItem;
+import com.example.daocradapi.models.products.NewThing;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+@Repository
+@Component
+public class CartItemMapper implements RowMapper<CartItem>
+{
+
+    @Override
+    public CartItem mapRow(ResultSet resultSet, int rowNum) throws SQLException
+    {
+        CartItem cartItem = new CartItem();
+        cartItem.setItem_id(resultSet.getInt("item_id"));
+
+        // Маппинг NewThing
+        Thing newThing = new NewThing();
+        newThing.setThing_id(resultSet.getInt("thing_id"));
+        cartItem.setThing(newThing);
+
+        cartItem.setQuantity(resultSet.getInt("quantity"));
+
+        // Маппинг Cart
+        Cart cart = new Cart();  // создём объект Cart и устанавливаем его свойства из resultSet
+        cart.setId(resultSet.getInt("cart_id"));
+        cartItem.setCart(cart);
+
+        return cartItem;
+    }
+}

@@ -1,0 +1,75 @@
+поля:
+
+@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+@ManyToOne(cascade = CascadeType.ALL) //  указывает на отношение "многие к одному" с классом Person.
+    @JoinColumn(name = "person_id") // указывает на поле в базе данных, которое используется для хранения связи с Person.
+    @JsonIgnore //  используется для игнорирования поля person при сериализации в JSON (для избежания циклических ссылок)
+    private Person person;
+
+
+
+
+ @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+/** Эта аннотация (@ManyToOne) указывает,
+     *  что множество записей в столбце person_id таблицы сообщений (messages)
+     *  ссылается на одну запись в таблице людей (people).
+     *  Таким образом, устанавливаем отношение "многие ко одному" между таблицами. **/
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "person_id", nullable = false)
+    private Person person;
+
+
+
+
+/** addContactForm  предназначен для управления связями между классами Person и ContactForm в контексте JPA (Java Persistence API) и Hibernate. **/
+
+    /**
+     * Этот метод используется для добавления экземпляра ContactForm к списку контактных форм (contactForms) в классе Person.
+     *  При этом также устанавливается обратная связь,
+     *  устанавливая текущий экземпляр Person как владельца (или родителя) для данной контактной формы.
+     *  Это важно для правильного маппинга в базе данных, особенно если используется двунаправленная связь.
+     *  **/
+    public void addContactForm(ContactForm contactForm)
+    {
+        this.contactForms.add(contactForm);
+        contactForm.setPerson(this);
+    }
+    /** removeContactForm предназначен для управления связями между классами Person и ContactForm в контексте JPA (Java Persistence API) и Hibernate. **/
+
+    /**
+     * Этот метод используется для удаления экземпляра ContactForm из списка контактных форм.
+     * Также он устанавливает null в поле person для данной контактной формы, указывая на то,
+     * что эта форма больше не привязана к какому-либо человеку. Подобно addContactForm,
+     * это важно для правильного маппинга и предотвращения циклических ссылок при удалении.
+     * **/
+    public void removeContactForm(ContactForm contactForm)
+    {
+        this.contactForms.remove(contactForm);
+        contactForm.setPerson(null);
+    }
+
+
+
+
+@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true) // указывает на отношение "один ко многим" с классом ContactForm.
+    @JsonIgnore // используется для игнорирования поля contactForms при сериализации в JSON, чтобы избежать циклической зависимости.
+    private List<ContactForm> contactForms = new ArrayList<>(); // инициализируем поле contactForms пустым списком, чтобы избежать NullPointerException
+
+
+
+public List<ContactForm> getContactForms()
+    {
+        return contactForms;
+    }
+
+    public void setContactForms(List<ContactForm> contactForms)
+    {
+        this.contactForms = contactForms;
+    }
+

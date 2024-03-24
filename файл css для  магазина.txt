@@ -1,0 +1,205 @@
+ <br>
+
+    <hr>
+
+        <h3 class="Каталог наших товаров по категориям">
+            Каталог наших товаров по категориям:
+        </h3>
+
+        <div class="main">
+            <br>
+            <br>
+            <br>
+            <img class="кросовки мужские"
+                src="img/ветрина/ветрина%20кросовки/ветрина%20кросовки%20мужские/ветрина%20мужские%20кросовки.jpg"
+                alt="фото мужских кросовок">
+            <h4 class="Товар 1">
+                <i>
+                    Товар 1:
+                    <br>
+                    Кросовки мужские, различных размеров и брендов:
+                </i>
+            </h4>
+
+            <a class="кросовки мужские"
+                href="AddedHtmlSites/indexCrossMan.html"
+                target="_self">Преход по ссылке в раздел - "Кросовки мужские"
+            </a>
+                <br>
+                <br>
+                <br>
+
+            <img class="кросовки женские"
+                src="img/ветрина/ветрина%20кросовки/ветрина%20кросовки%20женские/ветрина%20кросовки%20женские.jpg"
+                alt="фото женских кросовок">
+
+            <h4>
+                <i>
+                    Товар 2:
+                    <br>
+                    Кросовки женские, различных размеров и брендов:
+                </i>
+            </h4>
+
+            <a class="кросовки женские" href="AddedHtmlSites/indexCrossWoman.html"
+               target="_self">Преход по ссылке в раздел - "Кросовки женские"</a>
+
+                <br>
+                <br>
+                <br>
+
+            <img class="спортивные костюмы мужские"
+                src="img/ветрина/ветрина%20спортивные%20костюмы/ветрина%20спортивные%20костюмы%20мужские/ветрина%20спортивные%20костюмы%20мужские.jpg"
+                alt="фото мужских спортивных уостюмов">
+
+            <h4>
+                <i>
+                    Товар 3:
+                    <br>
+                    Спортивные костюмы мужские, различных размеров и брендов:
+                </i>
+            </h4>
+
+            <a class="спортивные костюмы мужские"
+               href="AddedHtmlSites/indexSportSuitMan.html"
+               target="_self">Преход по ссылке в раздел - "Спортивные костюмы мужские"
+            </a>
+                <br>
+                <br>
+                <br>
+
+             <img class="спортивные костюмы женские"
+                src="img/ветрина/ветрина%20спортивные%20костюмы/ветрина%20спортивные%20костюмы%20женские/ветрина%20%20спортивные%20костюмы%20женские.jpg"
+                alt="фото женских спортивных уостюмов">
+
+            <h4>
+                <i>
+                    Товар 4:
+                    <br>
+                    Спортивные костюмы женские, различных размеров и брендов:
+                </i>
+            </h4>
+
+            <a class="спортивные костюмы женские"
+               href="AddedHtmlSites/indexSportSuitWoman.html"
+               target="_self">Преход по ссылке в раздел - "Спортивные костюмы женские"
+            </a>
+                <br>
+                <br>
+                <br>
+        </div>
+</body>
+
+    <br>
+    <hr>
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.body-catalog
+{
+    background-color: #00ffd2;
+}
+
+.block-catalog
+{
+    margin: 0;
+    padding: 0;
+    /*display: flex;*/
+
+}
+
+.container {
+    margin-right: 20px; /* Дополнительный отступ справа */
+    margin: auto;
+    padding: 0;
+    display: flex;
+    background-color: white;
+}
+
+.block {
+    background-color: #14494154;
+    border: 100px solid white;
+    border-radius: 150px;
+    padding: 100px;
+    /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+    width: 50%;
+    margin-bottom: 0; /* Добавим отступ между блоками */
+}
+
+.close-catalog {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.catalog {
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'arial_bolditalicmt', sans-serif;
+}
+
+.close-catalog {
+    color: #007BFF;
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-family: 'arial_bolditalicmt', sans-serif;
+}
+
+.i-catalog {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+
+}
+
+.a-catalog
+{
+    color: #007BFF;
+    text-decoration: none;
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.a-catalog:hover
+{
+    text-decoration: underline;
+}
+.footer-catalog
+{
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    bottom: 0;
+    width: 100%;
+    margin-top: auto;
+    /* position: fixed;  устанавливает подвал фиксированно */
+    left: 0;          /* устанавливает подвал фиксированно */
+}
+ hr{
+     border-bottom-width: 10px;
+     border-color: #8dff00;

@@ -1,0 +1,327 @@
+класс Person:
+
+@Entity
+@Table(name = "person2")
+public class Person
+{
+
+    //region fields
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @NotEmpty(message = "Поле не должно быть пустым! ")
+    @Size(min = 2, max = 30, message = "имя должно содержать от 2 до 30 символов! ")
+    //@Pattern(regexp = "^[A-ZА-Я][a-zа-я]+$", message = "Имя должно начинаться с заглавной буквы!") для первой заглавной буквы
+    //@Pattern(regexp = "^[a-zA-Z]+$", message = "Имя должно содержать только буквы!")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Имя должно содержать только буквы!")
+    private String name;
+
+    @NotEmpty(message = "Поле не должно быть пустым! ")
+    @Size(min = 2, max = 30, message = "имя должно содержать от 2 до 30 символов! ")
+    //@Pattern(regexp = "^[a-zA-Z]+$", message = "Имя должно содержать только буквы!")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Имя должно содержать только буквы!")
+    private String surname;
+
+    @NotNull(message = "Графу возраст необходмо заполнить! ") // для типа int применяеться @NotNull
+    @Max(value = 300, message = "Возраст не может быть более 300 лет!")
+    @Min(value = 0, message = "возраст должен быть больше 0! ")
+    //@Pattern(regexp = "^[0-9]+$", message = "Возраст должен содержать только цифры!") подходит для поля типа String
+    private int age;
+
+    @NotEmpty(message = "Поле не должно быть пустым! ")
+    @Email(message = "почта должна соответствовать требованиям email! ")
+    private String email;
+
+
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true) // указывает на отношение "один ко многим" с классом ContactForm.
+    @JsonIgnore // используется для игнорирования поля contactForms при сериализации в JSON, чтобы избежать циклической зависимости.
+    private List<ContactForm> contactForms = new ArrayList<>(); // инициализируем поле contactForms пустым списком, чтобы избежать NullPointerException
+
+    //endregion
+
+
+    //region Getter Setter
+    public List<ContactForm> getContactForms()
+    {
+        return contactForms;
+    }
+
+    public void setContactForms(List<ContactForm> contactForms)
+    {
+        this.contactForms = contactForms;
+    }
+    public Integer getId()
+    {
+        return id;
+    }
+    public void setId(Integer id)
+    {
+        this.id = id;
+    }
+    public String getName()
+    {
+        return name;
+    }
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+    public String getSurname()
+    {
+        return surname;
+    }
+    public void setSurname(String surname)
+    {
+        this.surname = surname;
+    }
+    public int getAge()
+    {
+        return age;
+    }
+    public void setAge(int age)
+    {
+        this.age = age;
+    }
+    public String getEmail()
+    {
+        return email;
+    }
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+    //endregion
+
+    //region constructor
+    public Person(Integer id, String name, String surname, int age, String email)
+    {
+        this.id = id;
+        this.name = name;
+        this.surname =  surname;
+        this.age = age;
+        this.email = email;
+    }
+
+    public Person()
+    {
+
+    }
+    //endregion
+
+    /** addContactForm  предназначен для управления связями между классами Person и ContactForm в контексте JPA (Java Persistence API) и Hibernate. **/
+
+    /**
+     * Этот метод используется для добавления экземпляра ContactForm к списку контактных форм (contactForms) в классе Person.
+     *  При этом также устанавливается обратная связь,
+     *  устанавливая текущий экземпляр Person как владельца (или родителя) для данной контактной формы.
+     *  Это важно для правильного маппинга в базе данных, особенно если используется двунаправленная связь.
+     *  **/
+    public void addContactForm(ContactForm contactForm)
+    {
+        this.contactForms.add(contactForm);
+        contactForm.setPerson(this);
+    }
+    /** removeContactForm предназначен для управления связями между классами Person и ContactForm в контексте JPA (Java Persistence API) и Hibernate. **/
+
+    /**
+     * Этот метод используется для удаления экземпляра ContactForm из списка контактных форм.
+     * Также он устанавливает null в поле person для данной контактной формы, указывая на то,
+     * что эта форма больше не привязана к какому-либо человеку. Подобно addContactForm,
+     * это важно для правильного маппинга и предотвращения циклических ссылок при удалении.
+     * **/
+    public void removeContactForm(ContactForm contactForm)
+    {
+        this.contactForms.remove(contactForm);
+        contactForm.setPerson(null);
+    }
+
+}
+
+
+
+класс ContactForm
+
+@Entity
+public class ContactForm
+{
+    //region Fields
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String name;
+    private String email;
+    private String phone;
+    private String theme;
+    private String message_date;
+    private String message_content;
+    @ManyToOne(cascade = CascadeType.ALL) //  указывает на отношение "многие к одному" с классом Person.
+    @JoinColumn(name = "person_id") // указывает на поле в базе данных, которое используется для хранения связи с Person.
+    @JsonIgnore //  используется для игнорирования поля person при сериализации в JSON (для избежания циклических ссылок)
+    private Person person;
+    //endregion
+
+
+
+
+    //region Constructor
+    public ContactForm(Integer id, String name, String email,
+                       String phone, String theme, String message_date,
+                       String message_content)
+    {
+        this.id= id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.theme = theme;
+        this.message_date = message_date;
+        this.message_content = message_content;
+    }
+
+    public ContactForm()
+    {
+        // Default constructor
+    }
+    //endregion
+
+
+    //region Getter & Setter
+    public Person getPerson()
+    {
+        return person;
+    }
+
+    public void setPerson(Person person)
+    {
+        this.person = person;
+    }
+
+    public Integer getId()
+    {
+        return id;
+    }
+
+    public void setId(Integer id)
+    {
+        this.id = id;
+    }
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    public String getPhone()
+    {
+        return phone;
+    }
+
+    public void setPhone(String phone)
+    {
+        this.phone = phone;
+    }
+
+    public String getTheme()
+    {
+        return theme;
+    }
+
+    public void setTheme(String theme)
+    {
+        this.theme = theme;
+    }
+
+    public String getMessage_date()
+    {
+        return message_date;
+    }
+
+    public void setMessage_date(String message_date)
+    {
+        this.message_date = message_date;
+    }
+
+    public String getMessage_content()
+    {
+        return message_content;
+    }
+
+    public void setMessage_content(String message_content)
+    {
+        this.message_content = message_content;
+    }
+    //endregion
+}
+
+
+Проверь на соответствие данных классов их полей и зависимостей, а так же правильности ContactForm с самой формой из представления Contact.html:
+
+<form action="/contacts" method="post" th:action="@{/contacts/getform}" th:object="${contactForm}">
+        <fieldset>
+            <legend>Напишите нам:</legend>
+            <P>
+                <label for="name">Введите Ваше имя:</label><br>
+                <input type="text" th:field="*{name}" id="name">
+            </p>
+            <br>
+            <p>
+                <label for="email">Введите ваш email:</label><br>
+                <input required type="email" th:field="*{email}" id="email">
+            </P>
+            <br>
+            <p>
+                <label for="item">Введите тему сообщения:</label><br>
+                <input name="theme" type="text" th:field="*{theme}" id="item">
+            </P>
+            <br>
+            <p>
+                <label for="date">Введите дату:</label><br>
+                <input name="message_data" type="date" th:field="*{message_date}" id="date">
+            </P>
+            <br>
+            <label for="point">Суть Вашего письма:</label><br>
+            <textarea cols="30" rows="5" th:field="*{message_content}" maxlength="30" id="point"></textarea>
+
+            <button type="submit">отправить</button>
+        </fieldset>
+    </form>
+
+и сама таблица была создана в базе данных PostrgreSQL следующим скриптом:
+
+CREATE TABLE messages (
+                          id SERIAL PRIMARY KEY,
+                          person_id INTEGER REFERENCES person2(id) NOT NULL,
+                          theme VARCHAR(255) NOT NULL,
+                          message_date DATE NOT NULL,
+                          message_content TEXT
+);
+
+
+
+в классе Perwson  используеться таблица person2:                                                                                        create table person2(
+  id SERIAL PRIMARY KEY,
+  name varchar(30) NOT NULL,
+  surname varchar(30) NOT NULL,
+  age int NOT NULL,
+  email varchar(50) NOT NULL
+); 
+
+
+                                                  
+вопрос: 
+
